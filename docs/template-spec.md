@@ -21,7 +21,11 @@ src/app/mau-thiep-cuoi/<slug>/
 - **PHẢI** đặt `slug` dạng `kebab-case`, kết thúc bằng loại công nghệ: `sakura-2d`, `galaxy-3d`.
 - **PHẢI** đặt `slug` trong `meta.ts` = tên thư mục.
 - **PHẢI** thêm `meta` vào [`src/templates/registry.ts`](../src/templates/registry.ts).
-- **KHÔNG** import từ thư mục template khác. Chỉ import từ `@/wedding`, `@/try-it`, `@/components`.
+- **KHÔNG** import từ thư mục template khác. Chỉ import từ `@/wedding`, `@/try-it`, `@/components`, `@/kit`.
+- **PHẢI** import gsap + plugins **chỉ** qua `@/kit/gsap` (đăng ký 1 lần duy nhất).
+- **PHẢI** dùng animation qua `@/kit/presets` (A1–A12, xem [todo-list §2.2](./todo-list-wedding-page.md)) — không viết timeline thô khi đã có preset.
+- **PHẢI** dùng card mở thiệp từ `@/kit/open-gate`; smooth scroll `@/kit/smooth-scroll`; nhạc `@/kit/music`; đếm ngược `@/kit/countdown`.
+- **PHẢI** lấy ngày cưới qua `weddingDate(data)` từ `@/kit/dates`. **KHÔNG** dùng raw `data.date` (có thể thiếu → fallback `FALLBACK_DATE`).
 - **KHÔNG** sửa layout chung để phục vụ riêng 1 mẫu. Với `globals.css`, chỉ được thêm keyframes theo §5.
 
 ## 2. `meta.ts`
@@ -106,6 +110,11 @@ Layout chung đã có nút nổi **"← Quay lại"** (góc trên trái) và **"
 - **PHẢI** chừa 2 góc này, không đặt nội dung quan trọng hay nút bấm ở đó.
 - **KHÔNG** dùng `z-index` ≥ 50.
 
+### 4.3 Thứ tự ảnh cố định
+`images[0]` ảnh bìa · `images[1]` chú rể · `images[2]` cô dâu · `images[3..]` album (theo [todo-list §2.1](./todo-list-wedding-page.md)).
+- Form "Dùng thử" tự hiển thị nhãn cho từng vị trí theo đúng thứ tự này.
+- **PHẢI** render `data.images` đúng thứ tự và dùng đúng vai trò từng ảnh (bìa cho card mở, ảnh 1–2 cho chân dung chú rể/cô dâu, phần còn lại cho chuyện tình/album).
+
 ## 5. Style
 
 - **PHẢI** chỉ dùng **Tailwind utility class**. **KHÔNG** viết CSS thuần: không file `.css` / `.module.css` riêng, không `style={{…}}` (trừ giá trị động tính lúc chạy, vd toạ độ particle).
@@ -149,11 +158,14 @@ Thiệp chủ yếu được mở trên điện thoại.
 - **PHẢI** giữ chữ quan trọng (tên, địa chỉ) là **HTML**, không vẽ trong canvas (SEO + accessibility).
 - **NÊN** texture ≤ 2048px, định dạng nén (`.webp` / `.ktx2`); model `.glb` ≤ 2MB.
 
-## 8. Âm thanh
+## 8. Âm thanh — **BẮT BUỘC CÓ NHẠC** (theo [todo-list §2.4](./todo-list-wedding-page.md))
 
-- **PHẢI** tắt mặc định; chỉ phát sau khi người dùng bấm.
-- **PHẢI** có nút bật/tắt luôn nhìn thấy (không đè §4.2).
-- **NÊN** file ≤ 2MB, `.mp3` hoặc `.m4a`.
+- **PHẢI** có `public/templates/<slug>/music.mp3` (hoặc `.wav`), ≤ 3MB.
+- **PHẢI** dùng `useMusic` + `<MusicToggle>` từ `@/kit/music` — không tự chế `<audio>` riêng.
+- **PHẢI** bắt đầu phát **bên trong click handler của card C1 OpenGate** (Chrome autoplay policy: phát ngoài user gesture sẽ bị chặn).
+- **PHẢI** có nút bật/tắt luôn nhìn thấy (không đè §4.2); chưa bấm mở thiệp thì chưa phát.
+- Placeholder tạm khi chờ track Pixabay: `bun scripts/gen-music.ts <slug> --bpm N --mode pad|pluck|folk|jazz`, kèm ghi chú "nhạc placeholder — chờ track Pixabay" trong `public/templates/<slug>/CREDITS.md`.
+- **NÊN** track chính thức từ Pixabay, MP3 96–128 kbps, dài 2–3 phút.
 
 ## 9. Tài nguyên
 

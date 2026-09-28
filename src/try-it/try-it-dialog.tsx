@@ -10,6 +10,7 @@ import {
 import { MapEmbed } from "@/components/map-embed";
 import { useWedding } from "@/wedding/wedding-data-provider";
 import { parseMapsUrl } from "./parse-maps-url";
+import { imageSlotLabel, videoSlotLabel } from "./slot-label";
 import { saveTrial } from "./trial-store";
 
 const MAX_IMAGE = 10 * 1024 * 1024;
@@ -46,6 +47,7 @@ export function TryItDialog() {
       const videos = files(fd, "videos");
       const groom = person(fd, "groom");
       const bride = person(fd, "bride");
+      const ceremonyDate = String(fd.get("ceremonyDate") ?? "").trim();
       for (const p of [groom, bride])
         if (p.birthYear < MIN_YEAR || p.birthYear > MAX_YEAR)
           return {
@@ -76,6 +78,9 @@ export function TryItDialog() {
           venue,
           images,
           videos,
+          ...(ceremonyDate
+            ? { ceremonyDate: new Date(ceremonyDate).toISOString() }
+            : {}),
         });
       } catch (e) {
         if (e instanceof DOMException && e.name === "QuotaExceededError")
@@ -176,6 +181,12 @@ export function TryItDialog() {
               multiple
               required
             />
+            <span className="text-xs text-zinc-500">
+              Theo thứ tự:{" "}
+              {Array.from({ length: needImages }, (_, i) =>
+                imageSlotLabel(i),
+              ).join(" · ")}
+            </span>
           </label>
           {needVideos > 0 && (
             <label className="grid gap-1">
@@ -187,6 +198,12 @@ export function TryItDialog() {
                 multiple
                 required
               />
+              <span className="text-xs text-zinc-500">
+                Theo thứ tự:{" "}
+                {Array.from({ length: needVideos }, (_, i) =>
+                  videoSlotLabel(i),
+                ).join(" · ")}
+              </span>
             </label>
           )}
 
@@ -202,6 +219,15 @@ export function TryItDialog() {
             />
           </label>
           {venue && <MapEmbed venue={venue} className="h-48 w-full rounded" />}
+
+          <label className="grid gap-1">
+            Ngày cưới & giờ tiệc (không bắt buộc)
+            <input
+              name="ceremonyDate"
+              type="datetime-local"
+              className="rounded border px-3 py-2"
+            />
+          </label>
 
           {state.error && (
             <p role="alert" className="text-red-600">

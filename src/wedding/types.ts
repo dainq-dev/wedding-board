@@ -4,7 +4,7 @@ export type WeddingData = {
   groom: Person;
   bride: Person;
   venue: { lat: number; lng: number; name?: string };
-  date?: string; // ISO; ⚠️ chưa có trong form "Dùng thử" → dùng FALLBACK_DATE của @/kit/dates
+  date?: string; // ISO; tuỳ chọn — thiếu thì template dùng FALLBACK_DATE của @/kit/dates
   images: string[]; // /public path hoặc blob: URL từ "Dùng thử"
   videos: string[];
 };

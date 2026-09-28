@@ -11,6 +11,7 @@ export type TrialRecord = {
   venue: Venue;
   images: File[];
   videos: File[];
+  ceremonyDate?: string; // ISO; bản ghi cũ không có → template dùng FALLBACK_DATE
 };
 
 const DB = "wedding-trial";
@@ -64,6 +65,7 @@ export const toWeddingData = (r: TrialRecord): WeddingData => ({
   groom: r.groom,
   bride: r.bride,
   venue: r.venue,
+  date: r.ceremonyDate,
   images: r.images.map((f) => URL.createObjectURL(f)),
   videos: r.videos.map((f) => URL.createObjectURL(f)),
 });
