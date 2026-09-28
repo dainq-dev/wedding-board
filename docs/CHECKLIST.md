@@ -22,7 +22,7 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 
 | ✓ | # | Mẫu | Spec | Trạng thái | Người làm | Branch / PR | Ghi chú |
 |---|---|---|---|---|---|---|---|
-| [ ] | 3D-01 | **Hai Vì Sao** `galaxy-3d` | [spec](./templates/galaxy-3d.md) | 🟡 Đang làm | Claude agent | | |
+| [ ] | 3D-01 | **Hai Vì Sao** `galaxy-3d` | [spec](./templates/galaxy-3d.md) | 🔵 Chờ review | Claude agent | | |
 | [ ] | 2D-01 | **Sakura (làm lại)** `sakura-2d` | [spec](./templates/sakura-2d.md) | ⬜ Chưa làm | | | |
 | [ ] | 2D-02 | **Phong Thư Sáp** `letter-2d` | [spec](./templates/letter-2d.md) | ⬜ Chưa làm | | | |
 
