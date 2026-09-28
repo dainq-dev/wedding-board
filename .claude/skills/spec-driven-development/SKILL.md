@@ -1,0 +1,1 @@
+../../../.agents/ship/define/spec-driven-development.md

@@ -1,0 +1,1 @@
+../../../.agents/skills/gsap/gsap-performance/SKILL.md
