@@ -24,7 +24,7 @@ src/app/mau-thiep-cuoi/<slug>/
 - **KHÔNG** import từ thư mục template khác. Chỉ import từ `@/wedding`, `@/try-it`, `@/components`, `@/kit`.
 - **PHẢI** import gsap + plugins **chỉ** qua `@/kit/gsap` (đăng ký 1 lần duy nhất).
 - **PHẢI** dùng animation qua `@/kit/presets` (A1–A12, xem [todo-list §2.2](./todo-list-wedding-page.md)) — không viết timeline thô khi đã có preset.
-- **PHẢI** dùng card mở thiệp từ `@/kit/open-gate`; smooth scroll `@/kit/smooth-scroll`; nhạc `@/kit/music`; đếm ngược `@/kit/countdown`.
+- **PHẢI** dùng card mở thiệp từ `@/kit/open-gate`; smooth scroll `@/kit/smooth-scroll`; nhạc `@/kit/music`; đếm ngược `<Countdown>` từ `@/kit/countdown-ui` (logic thô: `@/kit/countdown`).
 - **PHẢI** lấy ngày cưới qua `weddingDate(data)` từ `@/kit/dates`. **KHÔNG** dùng raw `data.date` (có thể thiếu → fallback `FALLBACK_DATE`).
 - **KHÔNG** sửa layout chung để phục vụ riêng 1 mẫu. Với `globals.css`, chỉ được thêm keyframes theo §5.
 

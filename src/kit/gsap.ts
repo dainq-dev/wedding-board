@@ -6,6 +6,7 @@ import { Draggable } from "gsap/Draggable";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { Flip } from "gsap/Flip";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { TextPlugin } from "gsap/TextPlugin";
@@ -14,6 +15,7 @@ import { TextPlugin } from "gsap/TextPlugin";
 gsap.registerPlugin(
   useGSAP,
   ScrollTrigger,
+  ScrollSmoother,
   SplitText,
   DrawSVGPlugin,
   Flip,
@@ -28,6 +30,7 @@ export {
   Flip,
   gsap,
   MotionPathPlugin,
+  ScrollSmoother,
   ScrollTrigger,
   SplitText,
   useGSAP,
