@@ -69,7 +69,7 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | ✓ | # | Mẫu | Spec | Trạng thái | Người làm | Branch / PR | Ghi chú |
 |---|---|---|---|---|---|---|---|
 | [ ] | 3D-06 | **Chuyến Tàu Thống Nhất** `train-3d` | [spec](./templates/train-3d.md) | ⬜ Chưa làm | | | |
-| [ ] | 3D-07 | **Bốn Mùa Yêu** `seasons-3d` | [spec](./templates/seasons-3d.md) | 🟡 Đang làm | Claude agent | | |
+| [ ] | 3D-07 | **Bốn Mùa Yêu** `seasons-3d` | [spec](./templates/seasons-3d.md) | 🔵 Chờ review | Claude agent | | |
 | [ ] | 3D-08 | **Bảo Tàng Kỷ Niệm** `museum-3d` | [spec](./templates/museum-3d.md) | ⬜ Chưa làm | | | |
 | [ ] | 3D-09 | **Khinh Khí Cầu** `balloon-3d` | [spec](./templates/balloon-3d.md) | 🟡 Đang làm | Claude agent | | |
 | [ ] | 3D-10 | **Đầm Sen** `lotus-3d` | [spec](./templates/lotus-3d.md) | 🟡 Đang làm | Claude agent | | |
