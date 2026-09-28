@@ -5,7 +5,7 @@ export const meta: TemplateMeta = {
   name: "Khinh Khí Cầu",
   description:
     "Cùng bước lên khinh khí cầu: cuộn trang là bay lên qua phố, xuyên mây, ngắm hoàng hôn trên biển mây rồi chạm tới trời sao.",
-  thumbnail: "/sample/photo-1.svg",
+  thumbnail: "/templates/balloon-3d/thumb.png",
   tech: "3d",
   styles: ["playful", "cinematic"],
   colors: ["blue", "pink"],

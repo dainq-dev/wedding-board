@@ -5,7 +5,7 @@ export const meta: TemplateMeta = {
   name: "Rừng Đom Đóm",
   description:
     "Theo bầy đom đóm đi bộ xuyên rừng đêm, qua ảnh treo trên cành tới khoảng trống giăng đèn.",
-  thumbnail: "/sample/photo-1.svg",
+  thumbnail: "/templates/firefly-3d/thumb.png",
   tech: "3d",
   styles: ["cinematic", "floral"],
   colors: ["green", "gold"],

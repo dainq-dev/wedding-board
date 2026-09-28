@@ -5,7 +5,7 @@ export const meta: TemplateMeta = {
   name: "Hai Vì Sao",
   description:
     "Hai ngôi sao ở hai đầu ngân hà tiến lại gần nhau theo từng lần cuộn, rồi hợp làm một.",
-  thumbnail: "/sample/photo-1.svg",
+  thumbnail: "/templates/galaxy-3d/thumb.png",
   tech: "3d",
   styles: ["cinematic", "modern"],
   colors: ["black", "purple", "gold"],

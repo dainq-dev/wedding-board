@@ -5,7 +5,7 @@ export const meta: TemplateMeta = {
   name: "Bốn Mùa Yêu",
   description:
     "Camera xoay quanh một cây qua bốn mùa, mỗi mùa là một chương của chuyện tình.",
-  thumbnail: "/sample/photo-1.svg",
+  thumbnail: "/templates/seasons-3d/thumb.png",
   tech: "3d",
   styles: ["floral", "cinematic"],
   colors: ["pink", "green"],

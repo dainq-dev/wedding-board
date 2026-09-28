@@ -5,7 +5,7 @@ export const meta: TemplateMeta = {
   name: "Đầm Sen",
   description:
     "Bình minh trên đầm sen quê, mỗi nụ sen nở ra là một trang thư mời.",
-  thumbnail: "/sample/photo-1.svg",
+  thumbnail: "/templates/lotus-3d/thumb.png",
   tech: "3d",
   styles: ["traditional", "floral"],
   colors: ["pink", "green"],
