@@ -47,7 +47,7 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | [ ] | 3D-02 | **Thư Trong Chai** `ocean-3d` | [spec](./templates/ocean-3d.md) | ⬜ Chưa làm | | | |
 | [ ] | 3D-03 | **Phố Hội Đèn Lồng** `lantern-3d` | [spec](./templates/lantern-3d.md) | ⬜ Chưa làm | | | |
 | [ ] | 3D-04 | **Ngàn Hạc Giấy** `paper-crane-3d` | [spec](./templates/paper-crane-3d.md) | ⬜ Chưa làm | | | |
-| [ ] | 3D-05 | **Rừng Đom Đóm** `firefly-3d` | [spec](./templates/firefly-3d.md) | 🟡 Đang làm | Claude agent | | |
+| [ ] | 3D-05 | **Rừng Đom Đóm** `firefly-3d` | [spec](./templates/firefly-3d.md) | 🔵 Chờ review | Claude agent | | |
 
 ## P4 — 2D đợt B
 
