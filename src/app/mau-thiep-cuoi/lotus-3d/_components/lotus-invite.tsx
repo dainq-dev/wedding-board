@@ -227,16 +227,15 @@ export function LotusInvite() {
               Mở thiệp
             </button>
           </div>
-          {phase === "intro" && (
-            <button
-              type="button"
-              data-skip
-              onClick={skip}
-              className="invisible absolute bottom-24 left-1/2 min-h-11 -translate-x-1/2 rounded-full px-6 text-sm text-[#6B5E53] underline"
-            >
-              Bỏ qua
-            </button>
-          )}
+          {/* Luôn render (ẩn bằng `invisible`) để timeline mở thiệp tìm được target; GSAP autoAlpha hiện nó ở 0.5s. */}
+          <button
+            type="button"
+            data-skip
+            onClick={skip}
+            className="invisible absolute bottom-24 left-1/2 min-h-11 -translate-x-1/2 rounded-full px-6 text-sm text-[#6B5E53] underline"
+          >
+            Bỏ qua
+          </button>
         </div>
       )}
 

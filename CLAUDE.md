@@ -63,3 +63,23 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+
+
+### Quy ước tách logic và UI (bắt buộc)
+
+Mỗi feature có interactive UI phải bắt đầu bằng hai file cùng cấp:
+
+```text
+app/<feature>/
+  index.logic.ts    # lifecycle, subscriptions, query/mutation, controller, view model
+  type.d.ts         # declare type | interface strict follow typesafe
+  page.tsx          # render view model và UI event adapter tối thiểu
+```
+
+> Không dùng đồng thời `index.ts` và `index.tsx` cho public import — Next.js resolver có thể chọn nhầm entrypoint và làm production build fail. `index.ts` là barrel duy nhất; UI đặt ở `screen.tsx`.
+
+`index.logic.ts` là feature controller hook. File này được phép gọi TanStack Query, Zustand, `useEffect`, controller, mapping DTO/state thành **view model** và expose callback có ý nghĩa nghiệp vụ (`onPublish`, `setTitle`, `removeSection`). File này **không được** có JSX, Tailwind class hoặc import primitive UI.
+
+`screen.tsx` là presentation boundary. File này chỉ gọi hook logic, render các trạng thái `loading/error/empty/content`, chuyển browser event tối thiểu (`event.target.value`) vào callback của view model và compose `components/ui`. Nó **không được** import API client, query key, store, controller hay tự tạo `useEffect`/network request. (File UI đặt tên `screen.tsx` để tránh xung đột với barrel `index.ts`.)
+
+Lifecycle vẫn thuộc `index.logic.ts`: subscription được đăng ký/cleanup tại đó; UI unmount thì cleanup được React gọi qua hook. Không đưa state remote vào props drill qua nhiều layer chỉ để “dumb UI”, và không tách một static one-line component một cách máy móc. Với feature lớn, `screen.tsx` có thể compose các leaf presentational component trong `ui/`, nhưng không đảo dependency ngược vào logic.
