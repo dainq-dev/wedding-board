@@ -8,7 +8,7 @@ import type { WeddingData } from "@/wedding/types";
 import { t } from "../tokens";
 
 const FRAMES = [
-  { label: "Chuyện tình · 5 khung hình", caption: "Cuộn 01 — 35mm", year: "" },
+  { label: "Chuyện tình · 5 khung hình", caption: "Cuộn 01, 35mm", year: "" },
   {
     label: "Lần đầu gặp",
     caption: "Một quán cà phê, một cái cúi nhầm bàn",

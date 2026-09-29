@@ -28,7 +28,7 @@ function ActorCard({
           {/* biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử" */}
           <img
             src={img}
-            alt={`Chân dung ${person.name} — ${side}`}
+            alt={`Chân dung ${person.name}, ${side}`}
             className={`aspect-3/4 w-full ${t.photo}`}
           />
         </div>

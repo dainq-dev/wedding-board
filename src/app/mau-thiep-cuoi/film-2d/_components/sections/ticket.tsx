@@ -57,7 +57,7 @@ export function Ticket({ data }: { data: WeddingData }) {
       data-lb="open"
       className="flex min-h-[140svh] flex-col items-center justify-center px-4"
     >
-      <h2 className={`${t.heading} text-center`}>★ Công chiếu ★</h2>
+      <h2 className={`${t.heading} text-center`}>Công chiếu</h2>
       <div className="mt-8 overflow-hidden">
         <div
           ref={ticket}

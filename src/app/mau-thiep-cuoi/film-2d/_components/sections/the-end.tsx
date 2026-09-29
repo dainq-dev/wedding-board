@@ -41,7 +41,7 @@ export function TheEnd({ data }: { data: WeddingData }) {
     ["Đạo diễn", "Tình yêu"],
     ["Chú rể", data.groom.name],
     ["Cô dâu", data.bride.name],
-    ["Khách mời", "Bạn ♥"],
+    ["Khách mời", "Bạn"],
   ];
 
   return (
