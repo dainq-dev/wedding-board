@@ -2,11 +2,11 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/kit/gsap";
-import { useReducedMotion } from "@/kit/use-reduced-motion";
 import { clipReveal, fadeUp } from "@/kit/presets";
+import { useReducedMotion } from "@/kit/use-reduced-motion";
 import type { Person, WeddingData } from "@/wedding/types";
-import { t } from "../tokens";
 import { Clapper } from "../svg/clapper";
+import { t } from "../tokens";
 
 function ActorCard({
   role,
@@ -36,7 +36,9 @@ function ActorCard({
       <div className="min-w-0 flex-1">
         <p className={`${t.label} tracking-[0.3em]`}>Trong vai</p>
         <p className={`${t.scene} mt-0.5 !text-[#F5F5F0]`}>{role}</p>
-        <p className={`${t.display} mt-2 text-[28px] leading-[1.15] text-[#F5F5F0] break-words`}>
+        <p
+          className={`${t.display} mt-2 text-[28px] leading-[1.15] text-[#F5F5F0] break-words`}
+        >
           {person.name}
         </p>
         <p className={`${t.label} mt-1 break-words line-clamp-3`}>

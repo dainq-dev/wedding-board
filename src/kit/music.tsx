@@ -233,13 +233,7 @@ export function useMusic(src: string = DEFAULT_MUSIC, maxVolume = 0.6) {
         // Lần click tiếp theo sẽ play bình thường.
       }
     },
-    [
-      fadeTo,
-      muted,
-      setupAnalyser,
-      startVisualizer,
-      volume,
-    ],
+    [fadeTo, muted, setupAnalyser, startVisualizer, volume],
   );
 
   const pause = useCallback(() => {
@@ -349,15 +343,8 @@ export function MusicToggle({
 }) {
   const [expanded, setExpanded] = useState(false);
 
-  const {
-    playing,
-    muted,
-    volume,
-    levels,
-    toggle,
-    toggleMute,
-    changeVolume,
-  } = music;
+  const { playing, muted, volume, levels, toggle, toggleMute, changeVolume } =
+    music;
 
   const displayVolume = muted ? 0 : volume;
 
@@ -433,9 +420,7 @@ export function MusicToggle({
             max="1"
             step="0.01"
             value={displayVolume}
-            onChange={(event) =>
-              changeVolume(Number(event.target.value))
-            }
+            onChange={(event) => changeVolume(Number(event.target.value))}
             aria-label="Âm lượng"
             className="music-volume-slider w-full cursor-pointer"
           />
@@ -486,9 +471,7 @@ export function MusicToggle({
             // Chỉ hiển thị 9 bar giữa để tạo cảm giác gọn như waveform
             if (index < 4 || index > 13) return null;
 
-            const height = playing
-              ? Math.max(3, 4 + level * 15)
-              : 3;
+            const height = playing ? Math.max(3, 4 + level * 15) : 3;
 
             return (
               <span
@@ -496,9 +479,7 @@ export function MusicToggle({
                 className="w-[2px] rounded-full bg-black/70 transition-[height,opacity] duration-75"
                 style={{
                   height,
-                  opacity: playing
-                    ? 0.45 + level * 0.55
-                    : 0.35,
+                  opacity: playing ? 0.45 + level * 0.55 : 0.35,
                 }}
               />
             );

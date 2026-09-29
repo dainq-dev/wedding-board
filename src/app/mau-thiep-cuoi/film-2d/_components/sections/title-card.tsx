@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/kit/gsap";
 import { formatDate, weddingDate } from "@/kit/dates";
+import { gsap, useGSAP } from "@/kit/gsap";
 import { splitReveal } from "@/kit/presets";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
 import type { WeddingData } from "@/wedding/types";
@@ -38,7 +38,12 @@ export function TitleCard({ data }: { data: WeddingData }) {
       });
       // 0–30%: tên A2 theo dòng; 30–80% Ken Burns; 80–100% cắt cảnh (autoAlpha).
       tl.add(splitReveal(names.current, { by: "lines", stagger: 0.12 }), 0);
-      tl.fromTo(bg.current, { scale: 1.15 }, { scale: 1, ease: "none", duration: 0.5 }, 0.3);
+      tl.fromTo(
+        bg.current,
+        { scale: 1.15 },
+        { scale: 1, ease: "none", duration: 0.5 },
+        0.3,
+      );
       tl.to(sec.current, { autoAlpha: 0, duration: 0.15 }, 1.45);
     },
     { dependencies: [reduced] },
@@ -61,11 +66,7 @@ export function TitleCard({ data }: { data: WeddingData }) {
       {data.images[0] && (
         <div ref={bg} className="absolute inset-0 origin-center">
           {/* biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử" */}
-          <img
-            src={data.images[0]}
-            alt=""
-            className={`size-full ${t.photo}`}
-          />
+          <img src={data.images[0]} alt="" className={`size-full ${t.photo}`} />
           <div aria-hidden className="absolute inset-0 bg-black/55" />
         </div>
       )}

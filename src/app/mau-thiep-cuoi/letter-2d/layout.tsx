@@ -4,6 +4,7 @@ import { meta } from "./meta";
 
 const script = Pinyon_Script({
   subsets: ["vietnamese"],
+  weight: "400",
   variable: "--font-script",
 });
 const body = Cormorant_Garamond({

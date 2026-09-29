@@ -2,8 +2,8 @@ import { useRef } from "react";
 import { gsap, useGSAP } from "@/kit/gsap";
 import { clipReveal, fadeUp } from "@/kit/presets";
 import { onceEnter } from "../reveal";
-import { t } from "../tokens";
 import { Flower } from "../svg/decor";
+import { t } from "../tokens";
 
 function PortraitColumn({
   img,
@@ -57,17 +57,20 @@ export function FamiliesSection({
 }) {
   const section = useRef<HTMLElement>(null);
 
-  useGSAP(() => {
-    onceEnter(section.current, () => {
-      const tl = gsap.timeline();
-      const cols = gsap.utils.toArray<HTMLElement>(".c3-col");
-      cols.forEach((col, i) => {
-        const img = col.querySelector(".c3-img");
-        if (img) tl.add(clipReveal(img), i * 0.2);
-        tl.add(fadeUp(col, { stagger: 0 }), i * 0.2);
+  useGSAP(
+    () => {
+      onceEnter(section.current, () => {
+        const tl = gsap.timeline();
+        const cols = gsap.utils.toArray<HTMLElement>(".c3-col");
+        cols.forEach((col, i) => {
+          const img = col.querySelector(".c3-img");
+          if (img) tl.add(clipReveal(img), i * 0.2);
+          tl.add(fadeUp(col, { stagger: 0 }), i * 0.2);
+        });
       });
-    });
-  }, { scope: section });
+    },
+    { scope: section },
+  );
 
   return (
     <section
@@ -76,7 +79,9 @@ export function FamiliesSection({
       className="relative flex min-h-[100svh] items-center justify-center py-24"
     >
       <Flower size={30} className="absolute top-14 left-0 lg:left-[7vw]" />
-      <div className={`${t.col} grid grid-cols-2 gap-5 max-[340px]:grid-cols-1`}>
+      <div
+        className={`${t.col} grid grid-cols-2 gap-5 max-[340px]:grid-cols-1`}
+      >
         <PortraitColumn
           img={groomImg}
           role="Nhà trai"

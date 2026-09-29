@@ -14,8 +14,7 @@ const partsOf = (date: Date) => {
   }).formatToParts(date);
   const get = (type: Intl.DateTimeFormatPartTypes) =>
     Number(p.find((x) => x.type === type)?.value ?? 0);
-  const weekdayShort =
-    p.find((x) => x.type === "weekday")?.value ?? "Mon";
+  const weekdayShort = p.find((x) => x.type === "weekday")?.value ?? "Mon";
   // en-GB: Mon/Tue/... → chỉ số tuần, Thứ Hai = 0.
   const WEEK = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   return {
@@ -52,7 +51,11 @@ export const dottedDate = (date: Date) => {
   return `${pad(day)}.${pad(month)}.${year}`;
 };
 
-export type MonthGrid = { year: number; month: number; cells: (number | null)[] };
+export type MonthGrid = {
+  year: number;
+  month: number;
+  cells: (number | null)[];
+};
 
 // Lưới tháng, tuần bắt đầu Thứ Hai; ô trống đầu tháng = null.
 export const buildMonthGrid = (date: Date): MonthGrid => {
@@ -72,7 +75,11 @@ const minus = (date: Date, minutes: number) =>
 const plus = (date: Date, minutes: number) =>
   new Date(date.getTime() + minutes * 60_000);
 
-export type ScheduleTime = { icon: "glass" | "rings" | "plate" | "music"; label: string; time: string };
+export type ScheduleTime = {
+  icon: "glass" | "rings" | "plate" | "music";
+  label: string;
+  time: string;
+};
 
 // 4 mốc C12, giờ suy từ date: đón khách = tiệc − 1h, làm lễ = giờ tiệc,
 // khai tiệc = +30′, giao lưu = +2h.

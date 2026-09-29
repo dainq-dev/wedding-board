@@ -24,7 +24,11 @@ describe("monthGrid", () => {
   });
 
   test("mọi tuần đủ 7 cột (trừ tuần cuối có thể ngắn)", () => {
-    for (const g of [monthGrid(2026, 11), monthGrid(2026, 2), monthGrid(2027, 5)]) {
+    for (const g of [
+      monthGrid(2026, 11),
+      monthGrid(2026, 2),
+      monthGrid(2027, 5),
+    ]) {
       for (const w of g.slice(0, -1)) expect(w).toHaveLength(7);
     }
   });

@@ -16,7 +16,11 @@ export function barFraction(vw: number, vh: number, r: number): number {
 }
 
 // scaleY của mỗi dải (dải cao 50svh cố định) cho tỉ lệ letterbox.
-export function barScale(vw: number, vh: number, ratio: LetterboxRatio): number {
+export function barScale(
+  vw: number,
+  vh: number,
+  ratio: LetterboxRatio,
+): number {
   if (ratio === "open") return 0;
   return Math.min(1, barFraction(vw, vh, RATIOS[ratio]) * 2);
 }

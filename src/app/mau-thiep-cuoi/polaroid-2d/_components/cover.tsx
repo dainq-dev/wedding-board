@@ -60,7 +60,11 @@ export function Cover({ onOpened }: { onOpened: () => void }) {
     gsap
       .timeline()
       .to(book.current, { rotate: 0, duration: 0.15, ease: "power2.out" })
-      .to(cover.current, { rotateY: -180, duration: 0.6, ease: "power2.inOut" }, 0.15);
+      .to(
+        cover.current,
+        { rotateY: -180, duration: 0.6, ease: "power2.inOut" },
+        0.15,
+      );
   });
 
   return (

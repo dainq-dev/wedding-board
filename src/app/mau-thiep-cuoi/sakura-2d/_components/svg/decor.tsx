@@ -109,15 +109,7 @@ export function HeartRing({ className = "" }: { className?: string }) {
 }
 
 // Bông hoa vẽ trong cùng hệ toạ độ SVG (đặt bằng translate/scale để GSAP scale-in từng bông).
-function BlossomGlyph({
-  x,
-  y,
-  s = 1,
-}: {
-  x: number;
-  y: number;
-  s?: number;
-}) {
+function BlossomGlyph({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
   return (
     <g className="gate-blossom" transform={`translate(${x} ${y}) scale(${s})`}>
       <g fill="#F4B6C2">
