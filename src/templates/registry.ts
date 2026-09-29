@@ -16,6 +16,7 @@ import { meta as seasons3d } from "@/app/mau-thiep-cuoi/seasons-3d/meta";
 import { meta as songHy2d } from "@/app/mau-thiep-cuoi/song-hy-2d/meta";
 import { meta as swiss2d } from "@/app/mau-thiep-cuoi/swiss-2d/meta";
 import { meta as tropical2d } from "@/app/mau-thiep-cuoi/tropical-2d/meta";
+import { meta as vinyl2d } from "@/app/mau-thiep-cuoi/vinyl-2d/meta";
 import type { TemplateMeta } from "@/wedding/types";
 
 // Thêm template mới: import meta.ts của nó và thêm vào mảng.
@@ -38,6 +39,7 @@ export const templates: TemplateMeta[] = [
   picnic2d,
   tropical2d,
   gatsby2d,
+  vinyl2d,
 ];
 
 export const getTemplate = (slug: string) =>

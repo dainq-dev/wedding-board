@@ -1,5 +1,9 @@
 # 2D-14 · `vinyl-2d` · Đĩa Than 70s
 
+> **Design Read:** Đọc là thiệp cưới dạng album đĩa than cho cặp đôi mê nhạc retro, ngôn ngữ bìa giấy kem, cam đất cháy và đĩa vinyl, nghiêng về mỹ học 70s warm-analog, nhịp chậm có chủ đích.
+>
+> **Dials:** `DESIGN_VARIANCE 7/10` · `MOTION_INTENSITY 5/10` · `VISUAL_DENSITY 3/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md).
 
