@@ -53,7 +53,7 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 
 | ✓ | # | Mẫu | Spec | Trạng thái | Người làm | Branch / PR | Ghi chú |
 |---|---|---|---|---|---|---|---|
-| [ ] | 2D-12 | **Tiệc Vườn Picnic** `picnic-2d` | [spec](./templates/picnic-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-2 | master | |
+| [ ] | 2D-12 | **Tiệc Vườn Picnic** `picnic-2d` | [spec](./templates/picnic-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | agent chết ở skeleton → orchestrator implement toàn bộ (gate khăn caro, couple, menu lịch trình, album); verify DOM chốt ở batch integration |
 | [ ] | 2D-13 | **Gatsby** `gatsby-2d` | [spec](./templates/gatsby-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-2 | master | |
 | [ ] | 2D-14 | **Đĩa Than 70s** `vinyl-2d` | [spec](./templates/vinyl-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-2 | master | |
 | [ ] | 2D-15 | **Truyện Tranh** `comic-2d` | [spec](./templates/comic-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-2 | master | |
