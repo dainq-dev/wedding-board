@@ -1,52 +1,80 @@
 "use client";
 
-import { MapEmbed } from "@/components/map-embed";
-import { GiftButton } from "@/kit/gift";
+import { formatDate, weddingDate } from "@/kit/dates";
 import { MusicToggle, useMusic } from "@/kit/music";
+import { OpenGate } from "@/kit/open-gate";
+import { SmoothScroll } from "@/kit/smooth-scroll";
 import { useWedding } from "@/wedding/wedding-data-provider";
+import { Petals } from "./petals";
+import { AlbumSection } from "./sections/album";
+import { EventsSection } from "./sections/events";
+import { FamiliesSection } from "./sections/families";
+import { NamesSection } from "./sections/names";
+import { StorySection } from "./sections/story";
+import { WhenSection } from "./sections/when";
+import { CornerBranch, Flower } from "./svg/decor";
+import { t } from "./tokens";
 
+// Sakura 2D (spec docs/templates/sakura-2d.md): C1 mở thiệp → C2 tên → C3 nhà trai/gái
+// → C4 chuyện tình → C5+C11 ngày và lịch → C6+C7 lễ, tiệc, bản đồ → C8+C14+C10 album,
+// QR mừng cưới, cảm ơn. Nhạc dùng mặc định chung /music-wedding.mp3.
 export function SakuraInvite() {
   const { data } = useWedding();
   const { groom, bride, venue, images } = data;
+  const date = weddingDate(data);
   const music = useMusic();
 
   return (
-    <main className="min-h-screen bg-pink-50 px-4 py-20 text-center font-serif text-rose-900">
-      <MusicToggle music={music} />
-      <p className="tracking-[0.3em] text-sm uppercase">Trân trọng kính mời</p>
-      <h1 className="mt-6 font-(family-name:--font-script) text-5xl sm:text-7xl">
-        {groom.name} <span className="text-rose-400">&</span> {bride.name}
-      </h1>
+    <div className={t.root}>
+      <MusicToggle music={music} className="bg-[#FFF7F8]/90 text-[#5B3A44]" />
 
-      <section className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
-        {images.map((src) => (
-          // biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
-          <img
-            key={src}
-            src={src}
-            alt=""
-            className="aspect-3/4 w-full rounded-lg object-cover"
+      {/* C1 · bấm để mở thiệp: onOpen gọi play() đồng bộ trong click (autoplay policy). */}
+      <OpenGate
+        onOpen={() => void music.play()}
+        className="bg-[#FFF7F8] text-[#5B3A44]"
+      >
+        <CornerBranch className="absolute top-0 right-0 w-[46vw] max-w-[320px] opacity-80" />
+        <div className="flex flex-col items-center">
+          <Flower size={52} />
+          <button
+            type="button"
+            className={`${t.btn} mt-6 size-28 rounded-full text-[15px] tracking-[0.15em] uppercase`}
+          >
+            Mở thiệp
+          </button>
+          <p className={`${t.caption} ${t.soft} mt-4`}>
+            Chạm để mở thiệp và bật nhạc
+          </p>
+        </div>
+      </OpenGate>
+
+      <SmoothScroll>
+        <main>
+          <Petals />
+          <NamesSection
+            groom={groom.name}
+            bride={bride.name}
+            cover={images[0]}
+            dateLabel={formatDate(date)}
           />
-        ))}
-      </section>
-
-      <section className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-2">
-        <div>
-          <h2 className="text-xl">Nhà trai</h2>
-          <p>{groom.address}</p>
-        </div>
-        <div>
-          <h2 className="text-xl">Nhà gái</h2>
-          <p>{bride.address}</p>
-        </div>
-      </section>
-
-      <section className="mx-auto mt-12 max-w-3xl">
-        <h2 className="mb-4 text-xl">{venue.name ?? "Địa điểm tổ chức"}</h2>
-        <MapEmbed venue={venue} className="h-72 w-full rounded-lg" />
-      </section>
-
-      <GiftButton className="mt-12 inline-flex min-h-12 items-center gap-2.5 rounded-full bg-[#B4475F] py-2 pr-6 pl-2 text-white transition-[filter] hover:brightness-110" />
-    </main>
+          <FamiliesSection
+            groom={groom.name}
+            groomAddress={groom.address}
+            groomImg={images[1]}
+            bride={bride.name}
+            brideAddress={bride.address}
+            brideImg={images[2]}
+          />
+          <StorySection images={images} />
+          <WhenSection date={date} />
+          <EventsSection
+            groomAddress={groom.address}
+            brideAddress={bride.address}
+            venue={venue}
+          />
+          <AlbumSection images={images} />
+        </main>
+      </SmoothScroll>
+    </div>
   );
 }
