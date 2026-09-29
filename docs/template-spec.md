@@ -7,8 +7,14 @@ Từ khoá: **PHẢI** = bắt buộc, review sẽ chặn. **NÊN** = mặc đ�
 
 ---
 
-## 0. Chất lượng hình ảnh đi trước mọi thứ
+## 0. Đẹp và có gu là điều kiện tiên quyết
 
+> Giao diện **đẹp mắt và có gu** là điều kiện tiên quyết của dự án, đứng trên tính năng, số lượng mẫu và tiến độ. Người nhận thiệp là khách mời thật của một đám cưới thật; một giao diện "cho có" là thất lễ với họ và không cặp đôi nào chọn.
+
+- **PHẢI** đọc [visual-quality.md §8 (Gu thiết kế)](./visual-quality.md) và các skill `taste-skill` / `soft-skill` / `redesign-skill` trong `.claude/skills/taste-skill/` **trước khi** thiết kế hoặc code giao diện.
+- **PHẢI** mở đầu spec mẫu (`docs/templates/<slug>.md`) bằng **Design Read + 3 dial** (§8.2) và, với 3D, mục **Art direction** (§3.1). Không có hai mục này thì không bắt đầu code.
+- **PHẢI** qua **pre-flight gu** (§8.5): có cá tính riêng, không AI tell, mỗi màn có điểm nhìn chính, nổi bật hơn thiệp cao cấp trên thị trường, dám gửi cho ông bà và sếp.
+- Đạt đủ checklist mà giao diện vẫn rập khuôn, vô hồn → **chưa xong**. Checklist chỉ bắt lỗi, không thay được gu.
 - **PHẢI** đạt [visual-quality.md](./visual-quality.md): không vi phạm điều kiện chặn §2, rubric §5 mọi mục ≥ 4/5, nộp bộ screenshot §6.
 - Build / lint / test pass **không** có nghĩa là xong. Mẫu chỉ `✅ Xong` khi chủ dự án duyệt bằng mắt.
 - Không đạt chất lượng ở một phần nào → bỏ phần đó hoặc làm lại, **không** merge bản thô "để sửa sau".
@@ -228,7 +234,10 @@ Thiệp chủ yếu được mở trên điện thoại.
 - [ ] Không đè nút "Quay lại" / "Dùng thử"
 - [ ] Ảnh có nguồn trong `CREDITS.md`
 
-**Thẩm mỹ** ([visual-quality.md](./visual-quality.md)) — chặn merge
+**Thẩm mỹ & gu** ([visual-quality.md](./visual-quality.md)) — điều kiện tiên quyết, chặn merge
+- [ ] Spec mẫu có Design Read + 3 dial (§8.2); giao diện thực tế khớp với nó
+- [ ] Pre-flight gu §8.5 đạt hết; không AI tell nào của taste-skill §9
+- [ ] Văn phong trang trọng, đúng nghi thức; không emoji trên nút / tiêu đề; không dấu `—` trong chữ hiển thị (§8.4)
 - [ ] Không vi phạm mục nào ở §2 (điều kiện chặn) trên cả 3 kích thước
 - [ ] (3D) Mục *Art direction* có trong spec mẫu: tham chiếu, 3 hero shot, phong cách hình khối, chất liệu
 - [ ] Trưng bày ảnh đẹp với cả 8 và 24 ảnh
