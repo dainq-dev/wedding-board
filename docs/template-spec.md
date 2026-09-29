@@ -7,6 +7,14 @@ Từ khoá: **PHẢI** = bắt buộc, review sẽ chặn. **NÊN** = mặc đ�
 
 ---
 
+## 0. Chất lượng hình ảnh đi trước mọi thứ
+
+- **PHẢI** đạt [visual-quality.md](./visual-quality.md): không vi phạm điều kiện chặn §2, rubric §5 mọi mục ≥ 4/5, nộp bộ screenshot §6.
+- Build / lint / test pass **không** có nghĩa là xong. Mẫu chỉ `✅ Xong` khi chủ dự án duyệt bằng mắt.
+- Không đạt chất lượng ở một phần nào → bỏ phần đó hoặc làm lại, **không** merge bản thô "để sửa sau".
+
+---
+
 ## 1. Cấu trúc file
 
 ```
@@ -156,7 +164,11 @@ Thiệp chủ yếu được mở trên điện thoại.
 - **PHẢI** giới hạn `devicePixelRatio` ≤ 2, dừng render loop khi tab ẩn / scene ra khỏi viewport.
 - **PHẢI** giải phóng geometry, material, texture, renderer khi unmount.
 - **PHẢI** giữ chữ quan trọng (tên, địa chỉ) là **HTML**, không vẽ trong canvas (SEO + accessibility).
-- **NÊN** texture ≤ 2048px, định dạng nén (`.webp` / `.ktx2`); model `.glb` ≤ 2MB.
+- **PHẢI** đạt [visual-quality.md §3](./visual-quality.md): art direction viết trước khi code, vật thể hero là model `.glb` hoặc procedural đạt chất lượng model (không primitive thô / flat-shading không chủ đích), HDRI environment + key light + bóng mềm, hậu kỳ (`@react-three/postprocessing`: bloom chọn lọc, vignette, khử răng cưa), ảnh cưới có khung vật liệu.
+- **PHẢI** canvas `fixed -z-10` nằm trong phần tử gốc có `isolate` (stacking context), nếu không nền của gốc sẽ che mất toàn bộ cảnh.
+- **PHẢI** camera nhìn về phía nội dung sắp tới. Không chép quaternion của `Object3D.lookAt` sang camera (Object3D nhìn +z, camera nhìn −z).
+- **PHẢI** material có `map` tải bất đồng bộ được tạo lại khi texture về (`key={tex?.uuid}`), nếu không shader không bật map → khối trắng/đen.
+- **NÊN** texture ≤ 2048px, định dạng nén (`.webp` / `.ktx2`); model `.glb` ≤ 2MB, nén Draco/Meshopt bằng `gltf-transform`.
 
 ## 8. Âm thanh — **BẮT BUỘC CÓ NHẠC** (theo [todo-list §2.4](./todo-list-wedding-page.md))
 
@@ -181,7 +193,8 @@ Thiệp chủ yếu được mở trên điện thoại.
 | Performance | ≥ 90 | ≥ 75 |
 | LCP | ≤ 2.5s | ≤ 3.5s |
 | CLS | ≤ 0.1 | ≤ 0.1 |
-| JS riêng của mẫu (gzip) | ≤ 100KB | ≤ 350KB |
+| JS riêng của mẫu (gzip) | ≤ 100KB | ≤ 420KB (gồm hậu kỳ ~60KB) |
+| FPS khi cuộn (iPhone 12 / Pixel 6) | ≥ 55 | ≥ 50, tự hạ tầng bằng `PerformanceMonitor` |
 
 - **PHẢI** không làm tăng JS của trang chủ `/`. So sánh output `bun run build` trước/sau.
 - **PHẢI** đặt `width`/`height` hoặc `aspect-*` cho mọi ảnh/video (chống CLS).
@@ -215,7 +228,15 @@ Thiệp chủ yếu được mở trên điện thoại.
 - [ ] Không đè nút "Quay lại" / "Dùng thử"
 - [ ] Ảnh có nguồn trong `CREDITS.md`
 
-**Build**
+**Thẩm mỹ** ([visual-quality.md](./visual-quality.md)) — chặn merge
+- [ ] Không vi phạm mục nào ở §2 (điều kiện chặn) trên cả 3 kích thước
+- [ ] (3D) Mục *Art direction* có trong spec mẫu: tham chiếu, 3 hero shot, phong cách hình khối, chất liệu
+- [ ] Trưng bày ảnh đẹp với cả 8 và 24 ảnh
+- [ ] Tự chấm rubric §5: mọi mục ≥ 4/5, ghi điểm vào PR
+- [ ] Bộ screenshot §6 đính kèm PR
+- [ ] Chủ dự án đã duyệt trên điện thoại thật (chỉ sau bước này mới `✅ Xong`)
+
+**Build** — điều kiện cần, không phải điều kiện đủ
 - [ ] `bun run build`: route mới hiện `○ (Static)`, JS của `/` không tăng
 - [ ] `bunx biome check src` sạch
 - [ ] `bun test` pass

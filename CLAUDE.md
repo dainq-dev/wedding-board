@@ -65,6 +65,13 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
 
 
+### Chuẩn chất lượng hình ảnh (bắt buộc)
+
+Đầu ra là thiệp cưới cho khách thật — phải **đẹp, hiện đại, tinh tế**, không phải bản demo. Trước khi code hoặc báo "xong" một trang/mẫu:
+- Đọc và tuân thủ [`docs/visual-quality.md`](docs/visual-quality.md). Vi phạm bất kỳ điều kiện chặn nào ở §2 = chưa xong, dù build/lint/test pass.
+- Luôn tự chụp screenshot bằng trình duyệt thật (390 / 768 / 1440px) và **tự nhìn** trước khi báo kết quả; tự chấm rubric §5.
+- Không tự đánh `✅ Xong`; tối đa `🔵 Chờ review` kèm screenshot. Không đạt thì nói thẳng phần nào chưa đạt.
+
 ### Quy ước tách logic và UI (bắt buộc)
 
 Mỗi feature có interactive UI phải bắt đầu bằng hai file cùng cấp:
