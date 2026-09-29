@@ -31,7 +31,7 @@ import {
 import { t } from "./tokens";
 
 const STORY = [
-  "Gặp nhau ở quán cà phê quen — cả hai cùng gọi một món.",
+  "Gặp nhau ở quán cà phê quen, cả hai cùng gọi một món.",
   "Buổi hẹn đầu tiên, mưa to, ướt hết mà vẫn cười.",
   "Và anh hỏi: “Mình về chung một nhà nhé?”",
 ];
@@ -100,7 +100,7 @@ export function PolaroidInvite() {
   const status = !left
     ? " "
     : left.done
-      ? "Tụi mình cưới rồi ♥"
+      ? "Tụi mình cưới rồi"
       : left.days === 0
         ? "Hôm nay nè!"
         : `Còn ${left.days} ngày nữa!`;
@@ -115,7 +115,7 @@ export function PolaroidInvite() {
           {/* C2 */}
           <section className={`${t.frame} relative bg-white/60 p-6 shadow-sm`}>
             <p className={`${t.hand} text-[22px]`}>
-              Hôm nay tụi mình cưới nhau rồi! ✎
+              Hôm nay tụi mình cưới nhau rồi!
             </p>
             <h1
               className={`${t.hand} mt-6 text-center text-[44px] leading-[1.1] break-words lg:text-[68px]`}
@@ -156,7 +156,7 @@ export function PolaroidInvite() {
                     <Polaroid
                       src={src}
                       alt={`${role} ${p.name}`}
-                      caption={`${role} — ${p.name}`}
+                      caption={`${role}, ${p.name}`}
                     />
                   </div>
                   <p className={`mt-3 line-clamp-3 text-sm ${t.soft}`}>
@@ -194,19 +194,18 @@ export function PolaroidInvite() {
           <section className="pl-pop mx-auto w-[min(86vw,360px)]">
             <div className={`relative rotate-2 p-6 ${t.note}`}>
               <RedPushpin className="absolute -top-4 left-1/2 size-8 -translate-x-1/2" />
-              <p className={`${t.hand} text-[26px]`}>Hẹn nhau nhé! ✓</p>
+              <p className={`${t.hand} text-[26px]`}>Hẹn nhau nhé!</p>
               <p className="mt-2 font-bold capitalize">{formatWeekday(date)}</p>
               <p className={`${t.hand} text-[34px] leading-tight`}>
                 {formatDate(date).replaceAll("/", " . ")}
               </p>
               <ul className="mt-3 flex flex-col gap-2">
                 <li>
-                  <span className="text-[#81B29A]">✓</span> <b>10:00</b> Lễ cưới
-                  — tại nhà trai
+                  <b>10:00</b> Lễ cưới tại nhà trai
                 </li>
                 <li>
-                  <span className="text-[#81B29A]">✓</span>{" "}
-                  <b>{formatTime(date)}</b> Tiệc —{" "}
+                  {" "}
+                  <b>{formatTime(date)}</b> Tiệc,{" "}
                   <span className="break-words">
                     {venue.name ?? "Nhà hàng tiệc cưới"}
                   </span>
@@ -301,7 +300,7 @@ export function PolaroidInvite() {
                 <p
                   className={`${t.hand} py-10 text-center text-[28px] text-[#B85A42] break-words`}
                 >
-                  Cảm ơn {rsvp.name}! Hẹn gặp nhé ♥
+                  Cảm ơn {rsvp.name}! Hẹn gặp nhé
                 </p>
               ) : (
                 <form
@@ -311,7 +310,7 @@ export function PolaroidInvite() {
                   }}
                   className="flex flex-col gap-4"
                 >
-                  <p className={`${t.hand} text-[26px]`}>Bạn có đến không? ✎</p>
+                  <p className={`${t.hand} text-[26px]`}>Bạn có đến không?</p>
                   <label className="flex items-center gap-2">
                     Tên:
                     <input
@@ -361,7 +360,7 @@ export function PolaroidInvite() {
                     Gửi tụi mình
                   </button>
                   <p className={`text-xs ${t.soft}`}>
-                    Bản xem thử — không gửi đi đâu cả.
+                    Bản xem thử, không gửi đi đâu cả.
                   </p>
                 </form>
               )}
@@ -379,7 +378,7 @@ export function PolaroidInvite() {
             <div className="pl-stamp -rotate-12 border-4 border-double border-[#E07A5F] px-6 py-3 font-extrabold text-[#E07A5F] uppercase">
               <p className="tracking-[0.2em]">Just married</p>
               <p className="normal-case">
-                {nickname(groom.name)} ♥ {nickname(bride.name)}
+                {nickname(groom.name)} &amp; {nickname(bride.name)}
               </p>
             </div>
             <GiftButton className={`${t.btn} mt-4 gap-2.5 pl-2`} />

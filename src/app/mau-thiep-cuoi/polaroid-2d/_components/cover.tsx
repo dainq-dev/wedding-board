@@ -98,13 +98,13 @@ export function Cover({ onOpened }: { onOpened: () => void }) {
                     <Heart className="size-10" />
                   </div>
                   <button ref={btn} type="button" className={t.btn}>
-                    Mở sổ ra xem ✎
+                    Mở sổ ra xem
                   </button>
                 </div>
               </div>
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-[0.125rem] bg-[#F4EFE6] p-5 [backface-visibility:hidden] [transform:rotateY(180deg)]">
                 <p className={`${t.hand} text-center text-[22px]`}>
-                  Sổ này của hai đứa mình ♥
+                  Sổ này của hai đứa mình
                 </p>
                 <div className="relative">
                   <Washi className="absolute -top-2 left-1/2 z-10 h-6 w-20 -translate-x-1/2 -rotate-6" />
