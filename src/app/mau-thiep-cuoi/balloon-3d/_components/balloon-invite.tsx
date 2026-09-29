@@ -1,564 +1,516 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ArrowUpRightIcon, ImagesIcon } from "@phosphor-icons/react";
+import { useRef, useState } from "react";
 import { MapEmbed } from "@/components/map-embed";
+import { PhotoSlot, PhotoSlotsProvider } from "@/kit/3d/photo-slots";
 import { useScrollProgress } from "@/kit/3d/use-scroll-progress";
 import { useCountdown } from "@/kit/countdown";
-import { formatTime, weddingDate } from "@/kit/dates";
-import { gsap, ScrollTrigger, useGSAP } from "@/kit/gsap";
+import { formatTime, formatWeekday, weddingDate } from "@/kit/dates";
+import { GiftButton } from "@/kit/gift";
+import { gsap, useGSAP } from "@/kit/gsap";
+import { AlbumSheet, Lightbox } from "@/kit/lightbox";
 import { MusicToggle, useMusic } from "@/kit/music";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
 import { useScrollLock } from "@/kit/use-scroll-lock";
-import type { Person } from "@/wedding/types";
 import { useWedding } from "@/wedding/wedding-data-provider";
 import { BalloonCanvas } from "./balloon-canvas";
-import { altitudeLabel, skyColors } from "./flight";
-import type { Fx } from "./scene";
 
-const ASSETS = "/templates/balloon-3d";
-
-export const t = {
-  root: "relative isolate min-h-screen text-[#23303F] font-(family-name:--font-sans) font-medium text-base leading-[1.7] lg:text-[17px] bg-[linear-gradient(#8FD0F2,#BFE3F7)]",
-  name: "font-(family-name:--font-script) text-[#EF6F6C] leading-[1.2] text-balance break-words",
-  title:
-    "font-(family-name:--font-script) text-2xl lg:text-[30px] text-[#EF6F6C]",
-  label: "text-xs font-bold uppercase tracking-[0.15em] text-[#C8433F]",
-  card: "relative rounded-[1.5rem] bg-white/85 backdrop-blur-sm shadow-[0_10px_40px_rgb(35_48_63/0.12)] p-6 max-w-[380px] origin-top pointer-events-auto",
-  btn: "pointer-events-auto min-h-11 rounded-full bg-[#EF6F6C] px-7 text-white font-bold",
-  soft: "text-sm text-[#52606D]",
-} as const;
-
-const nameSize = (n: string) =>
-  n.length > 22 ? "text-[30px] lg:text-[56px]" : "text-[40px] lg:text-[72px]";
-
-// Card treo trên 2 dải ruy băng: thả xuống khi vào, kéo lên khi ra, đung đưa A12.
-function RibbonCard({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
-  useGSAP(
-    () => {
-      const el = ref.current;
-      if (!el) return;
-      if (reduced) {
-        gsap.from(el, {
-          opacity: 0,
-          duration: 0.3,
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        });
-        return;
-      }
-      gsap.fromTo(
-        el,
-        { y: -120, rotation: -4, opacity: 0 },
-        {
-          y: 0,
-          rotation: 0,
-          opacity: 1,
-          duration: 0.9,
-          ease: "back.out(1.4)",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 80%",
-            end: "bottom 15%",
-            // Ra phía trên = kéo về giỏ (y -80, mờ dần) — reverse gần tương đương.
-            toggleActions: "play reverse play reverse",
-          },
-        },
-      );
-      gsap.to(el, {
-        rotation: 2,
-        duration: 4,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-        delay: 0.9,
-      });
-    },
-    { dependencies: [reduced] },
-  );
-  return (
-    <div ref={ref} className={`${t.card} ${className}`}>
-      {/* Ruy băng chạy từ đỉnh card lên mép trên màn hình */}
-      <span
-        className="absolute bottom-full left-[18%] h-[100svh] w-0.5 bg-[#3D84A8]"
-        aria-hidden
-      />
-      <span
-        className="absolute bottom-full right-[18%] h-[100svh] w-0.5 bg-[#3D84A8]"
-        aria-hidden
-      />
-      <svg
-        viewBox="0 0 40 16"
-        className="absolute -top-2 left-1/2 w-10 -translate-x-1/2"
-        aria-hidden="true"
-      >
-        <path d="M20 8 4 1v14Zm0 0 16-7v14Z" fill="#3D84A8" />
-        <circle cx="20" cy="8" r="3" fill="#2D6B8A" />
-      </svg>
-      {children}
-    </div>
-  );
-}
-
-function Address({
-  label,
-  person,
-  img,
-}: {
-  label: string;
-  person: Person;
-  img?: string;
-}) {
-  const [open, setOpen] = useState(false);
-  return (
-    <RibbonCard className="p-4 text-center">
-      {img && (
-        // biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
-        <img
-          src={img}
-          alt={person.name}
-          className="mx-auto size-24 rounded-full object-cover"
-        />
-      )}
-      <p className={`mt-3 ${t.label}`}>{label}</p>
-      <p className="font-bold break-words">{person.name}</p>
-      <p className={`${t.soft} break-words ${open ? "" : "line-clamp-3"}`}>
-        {label}: {person.address}
-      </p>
-      {person.address.length > 60 && (
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          className="min-h-11 text-sm font-bold text-[#C8433F]"
-        >
-          {open ? "thu gọn" : "xem thêm"}
-        </button>
-      )}
-    </RibbonCard>
-  );
-}
+// Tokens (art direction v2, docs/templates/balloon-3d.md §0)
+const INK = "text-[#1F2433]";
+const IVORY = "text-[#FFF8F0]";
+const SCRIPT = "font-(family-name:--font-script) font-normal leading-[0.9]";
+const EASE = "ease-[cubic-bezier(0.32,0.72,0,1)]";
+const BTN = `inline-flex min-h-12 items-center gap-2 rounded-full px-6 text-[15px] font-medium transition-transform duration-500 ${EASE} active:scale-[0.98]`;
 
 const STORY = [
   {
-    alt: "1.000 M",
-    title: "Cất cánh",
-    text: "Lần đầu gặp nhau, tim đập như tiếng lửa phụt, chẳng biết sẽ bay tới đâu.",
+    year: "2019",
+    title: "Ngày đầu gặp gỡ",
+    text: "Một chuyến đi tình cờ, hai người lạ ngồi cạnh nhau suốt mười tiếng bay.",
   },
   {
-    alt: "1.400 M",
-    title: "Vượt mây",
-    text: "Có những ngày mây mù, nhưng tụi mình vẫn nắm tay bay tiếp.",
+    year: "2022",
+    title: "Cùng nhau xê dịch",
+    text: "Mười hai thành phố, một chiếc vali chung và vô số buổi hoàng hôn.",
   },
   {
-    alt: "1.800 M",
-    title: "Trời quang",
-    text: "Và rồi anh ngỏ lời, em gật đầu. Phía trước là cả bầu trời.",
+    year: "2025",
+    title: "Lời hứa trên mây",
+    text: "Anh ngỏ lời khi khinh khí cầu vừa chạm đỉnh trời. Em đã nói có.",
   },
-];
+] as const;
+
+// Nhịp album: 4 kiểu hàng lặp lại, mỗi họ bố cục khác nhau (spec §8.3).
+type Row = { kind: "hero" | "pair" | "offset" | "trio"; idx: number[] };
+function albumRows(from: number, to: number): Row[] {
+  const kinds: Row["kind"][] = ["hero", "pair", "offset", "trio"];
+  const size = { hero: 1, pair: 2, offset: 1, trio: 3 };
+  const rows: Row[] = [];
+  let i = from;
+  let k = 0;
+  while (i < to) {
+    const kind = kinds[k % kinds.length];
+    const n = Math.min(size[kind], to - i);
+    rows.push({ kind: n === size[kind] ? kind : "pair", idx: range(i, i + n) });
+    i += n;
+    k++;
+  }
+  return rows;
+}
+const range = (a: number, b: number) =>
+  Array.from({ length: b - a }, (_, i) => a + i);
+
+const ROW_CLASS: Record<Row["kind"], string[]> = {
+  hero: ["col-span-6 aspect-[4/5] lg:col-span-7 lg:aspect-[3/4]"],
+  pair: [
+    "col-span-3 aspect-[2/3] lg:col-span-4 lg:col-start-2",
+    "col-span-3 mt-16 aspect-[2/3] lg:col-span-4 lg:col-start-8 lg:mt-32",
+  ],
+  offset: ["col-span-5 col-start-2 aspect-[3/4] lg:col-span-5 lg:col-start-7"],
+  trio: [
+    "col-span-2 aspect-[2/3] lg:col-span-3 lg:col-start-2",
+    "col-span-2 mt-10 aspect-[2/3] lg:col-span-3 lg:mt-20",
+    "col-span-2 aspect-[2/3] lg:col-span-3",
+  ],
+};
 
 const pad = (n: number) => String(n).padStart(2, "0");
-const STARS = Array.from({ length: 40 }, (_, i) => ({
-  left: `${(i * 37) % 100}%`,
-  top: `${(i * 53) % 100}%`,
-}));
 
 export function BalloonInvite() {
+  return (
+    <PhotoSlotsProvider>
+      <Invite />
+    </PhotoSlotsProvider>
+  );
+}
+
+function Invite() {
   const { data } = useWedding();
   const { groom, bride, venue, images } = data;
   const music = useMusic();
   const reduced = useReducedMotion();
-  const [opened, setOpened] = useState(false);
-  const [intro, setIntro] = useState<gsap.core.Timeline | null>(null);
-  const [skip, setSkip] = useState(false);
-  const [shown, setShown] = useState<number | "all" | null>(null);
-  const [fallback, setFallback] = useState(false);
-  const onFallback = useCallback(() => setFallback(true), []);
-  useScrollLock(!opened);
-
-  const main = useRef<HTMLElement>(null);
-  const gate = useRef<HTMLDivElement>(null);
-  const flash = useRef<HTMLDivElement>(null);
-  const altText = useRef<HTMLSpanElement>(null);
-  const altDot = useRef<HTMLSpanElement>(null);
-  const progress = useScrollProgress(main);
-  const fx = useRef<Fx>({ burst: -1e9, intro: 0, opened: false });
-
   const date = weddingDate(data);
   const left = useCountdown(date);
-  const d = useMemo(
-    () =>
-      new Intl.DateTimeFormat("vi-VN", {
-        timeZone: "Asia/Ho_Chi_Minh",
-        day: "numeric",
-        month: "numeric",
-        year: "numeric",
-      }).formatToParts(date),
-    [date],
+
+  const [opened, setOpened] = useState(false);
+  const [photo, setPhoto] = useState<number | null>(null);
+  const [album, setAlbum] = useState(false);
+  useScrollLock(!opened);
+
+  const root = useRef<HTMLDivElement>(null);
+  const gate = useRef<HTMLDivElement>(null);
+  const progress = useScrollProgress(root);
+  const intro = useRef(0);
+
+  useGSAP(
+    () => {
+      // Màn mở: chữ hiện dần từng lớp.
+      gsap.from("[data-gate] > *", {
+        y: 24,
+        opacity: 0,
+        filter: "blur(8px)",
+        duration: 1.4,
+        stagger: 0.12,
+        ease: "expo.out",
+        delay: 0.3,
+      });
+    },
+    { scope: gate },
   );
-  const part = (k: string) => d.find((x) => x.type === k)?.value;
 
-  // Đồng hồ độ cao + nền phần tử gốc theo độ cao + giảm nhạc khi vào trời sao.
-  useGSAP(() => {
-    const cols = skyColors(0);
-    let night = false;
-    ScrollTrigger.create({
-      trigger: main.current,
-      start: "top top",
-      end: "bottom bottom",
-      onUpdate: (s) => {
-        const p = s.progress;
-        if (altText.current) altText.current.textContent = altitudeLabel(p);
-        if (altDot.current)
-          altDot.current.style.transform = `translateY(${(1 - p) * 112}px)`;
-        skyColors(p, cols);
-        if (main.current)
-          main.current.style.background = `linear-gradient(#${cols.top.getHexString()}, #${cols.horizon.getHexString()})`;
-        if (p >= 0.85 !== night) {
-          night = p >= 0.85;
-          if (music.audio.current && !music.audio.current.paused)
-            music.fadeTo(night ? 0.35 : 0.6, 2000);
-        }
-      },
-    });
-  });
+  useGSAP(
+    () => {
+      if (!opened) return;
+      for (const el of gsap.utils.toArray<HTMLElement>("[data-rise]")) {
+        gsap.from(el, {
+          y: reduced ? 0 : 48,
+          opacity: 0,
+          filter: reduced ? "none" : "blur(6px)",
+          duration: 1.2,
+          ease: "expo.out",
+          scrollTrigger: { trigger: el, start: "top 88%", once: true },
+        });
+      }
+    },
+    { scope: root, dependencies: [opened, reduced] },
+  );
 
-  const burner = () => {
-    const a = new Audio(`${ASSETS}/burner.mp3`);
-    a.volume = 0.4;
-    a.play().catch(() => {});
-    fx.current.burst = performance.now();
-  };
-
-  const finish = () => {
-    fx.current.intro = 8;
-    fx.current.opened = true;
+  const open = () => {
+    music.play(2000);
     setOpened(true);
-    setIntro(null);
+    if (reduced) {
+      intro.current = 1;
+      return;
+    }
+    gsap.to(intro, { current: 1, duration: 2.6, ease: "power2.inOut" });
+    if (gate.current)
+      gsap.to(gate.current, {
+        opacity: 0,
+        y: -20,
+        filter: "blur(10px)",
+        duration: 1,
+        ease: "power2.in",
+      });
   };
 
-  const takeOff = () => {
-    music.play();
-    burner();
-    fx.current.opened = true;
-    if (reduced) return finish();
-    const tl = gsap.timeline({ onComplete: finish });
-    tl.to(flash.current, { opacity: 0.6, duration: 0.15 })
-      .to(flash.current, { opacity: 0, duration: 0.15 })
-      .to(fx.current, { intro: 8, duration: 1.6, ease: "sine.inOut" }, 0.6)
-      .to(gate.current, { y: 20, opacity: 0, duration: 0.6 }, 1.0);
-    setIntro(tl);
-    setTimeout(() => setSkip(true), 500);
-  };
-
-  useEffect(() => {
-    if (shown === null) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setShown(null);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [shown]);
-
+  const day = new Intl.DateTimeFormat("vi-VN", {
+    timeZone: "Asia/Ho_Chi_Minh",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
+    .format(date)
+    .split("/");
   const couple = `${groom.name} & ${bride.name}`;
-  const hasDate = !!data.date;
-  const past = left?.done;
+  const gallery = albumRows(6, images.length);
+  const view = (i: number) => () => setPhoto(i);
 
   return (
-    <main ref={main} className={`${t.root} pointer-events-none`}>
-      <BalloonCanvas
-        progress={progress}
-        fx={fx}
-        images={images}
-        onPick={setShown}
-        onFallback={onFallback}
-      />
-      <MusicToggle music={music} className="pointer-events-auto" />
+    <div
+      ref={root}
+      className={`relative isolate min-h-screen font-(family-name:--font-sans) text-[16px] leading-[1.7] ${INK} lg:text-[17px]`}
+    >
+      <BalloonCanvas progress={progress} intro={intro} cover={images[0]} />
+      <MusicToggle music={music} />
 
-      {/* C1 · Sân thượng */}
-      {!opened && (
+      {/* ---------- Màn mở ---------- */}
+      {!opened || !reduced ? (
         <div
           ref={gate}
-          className="pointer-events-auto fixed inset-0 z-30 flex flex-col items-center justify-end px-6 pb-28 text-center"
+          className={`fixed inset-0 z-30 flex items-end justify-center px-6 pb-[12svh] text-center transition-[visibility] ${opened ? "pointer-events-none invisible delay-1000" : ""}`}
         >
-          <p className={t.soft}>Cùng chúng mình bay lên nhé!</p>
-          <p className={`${t.name} mt-2 max-w-[20ch] text-[32px] lg:text-5xl`}>
-            {couple}
-          </p>
-          <button
-            type="button"
-            onClick={takeOff}
-            disabled={!!intro}
-            className={`${t.btn} mt-6`}
-          >
-            🔥 Cất cánh
-          </button>
-          {skip && intro && (
+          <div data-gate className="flex max-w-xl flex-col items-center">
+            <p className="text-[15px] tracking-[0.04em] text-[#1F2433]/75">
+              Trân trọng kính mời
+            </p>
+            <h1
+              className={`${SCRIPT} mt-3 text-[clamp(4rem,19vw,8.5rem)] break-words`}
+            >
+              <span className="block">{groom.name}</span>
+              <span className="block text-[0.55em] text-[#E8735A]">&amp;</span>
+              <span className="block">{bride.name}</span>
+            </h1>
+            <p className="mt-4 text-[15px] tabular-nums text-[#1F2433]/75">
+              {formatWeekday(date)}, {day.join(" . ")}
+            </p>
             <button
               type="button"
-              onClick={() => intro.progress(1)}
-              className="mt-3 min-h-11 px-4 text-sm font-bold text-[#23303F] underline"
+              onClick={open}
+              disabled={opened}
+              className={`${BTN} mt-8 bg-[#1F2433] px-8 text-[#FFF8F0] shadow-[0_18px_40px_-18px_rgba(31,36,51,0.7)] hover:-translate-y-0.5`}
             >
-              Bỏ qua
+              Mở thiệp
             </button>
-          )}
-        </div>
-      )}
-      <div
-        ref={flash}
-        className="fixed inset-0 z-30 bg-[#FFD9A0] opacity-0"
-        aria-hidden
-      />
-
-      {/* Đồng hồ độ cao */}
-      <div
-        className="fixed right-2 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-2 sm:right-4"
-        aria-hidden
-      >
-        <span className="relative h-[120px] w-1 rounded-full bg-[repeating-linear-gradient(#3D84A8_0_2px,transparent_2px_12px)] bg-white/60">
-          <span
-            ref={altDot}
-            className="absolute -left-1 top-0 size-3 translate-y-[112px] rounded-full bg-[#EF6F6C] shadow"
-          />
-        </span>
-        <span
-          ref={altText}
-          className="rounded-full bg-white/80 px-2 py-0.5 text-xs font-bold tracking-[0.15em] text-[#23303F] lg:text-[13px]"
-        >
-          0 M
-        </span>
-      </div>
-
-      {/* C2 + C3 · Đi lên */}
-      <section
-        id="rise"
-        // Màn mở trong suốt → ẩn card tên tới khi cất cánh, tránh 2 lớp tên chồng nhau.
-        className={`min-h-[255svh] pr-12 pl-4 pt-[55svh] transition-opacity duration-700 sm:pr-16 ${opened ? "" : "opacity-0"}`}
-      >
-        <RibbonCard className="mx-auto text-center">
-          <p className={t.soft}>Trân trọng kính mời</p>
-          <h1 className={`${t.name} ${nameSize(groom.name)} mt-2`}>
-            {groom.name}
-          </h1>
-          <p className={`${t.name} text-3xl`}>&</p>
-          <p className={`${t.name} ${nameSize(bride.name)}`}>{bride.name}</p>
-          <p className={`${t.soft} mt-3`}>đến chung vui chuyến bay hạnh phúc</p>
-        </RibbonCard>
-        <div className="mx-auto mt-[60svh] grid max-w-[520px] grid-cols-2 items-start gap-3">
-          <Address label="Nhà trai" person={groom} img={images[1]} />
-          <div className="mt-10">
-            <Address label="Nhà gái" person={bride} img={images[2]} />
           </div>
         </div>
-      </section>
+      ) : null}
 
-      {/* C4 · Chuyện tình, xuyên mây */}
-      <section
-        id="clouds"
-        className="flex min-h-[170svh] flex-col gap-[45svh] pr-12 pl-4 pt-[20svh] sm:pr-16"
+      <main
+        className={`transition-opacity duration-1000 ${opened ? "" : "opacity-0"}`}
       >
-        {STORY.map((s, i) => (
-          <RibbonCard
-            key={s.title}
-            className="mx-auto flex w-full items-center gap-4"
+        {/* ---------- Tên (buổi sáng) ---------- */}
+        <section className="flex min-h-[100svh] flex-col items-center justify-end px-6 pb-[14svh] text-center">
+          <p data-rise className="text-[15px] text-[#1F2433]/70">
+            Cùng chúng mình bay lên trong ngày vui
+          </p>
+          <h2
+            data-rise
+            className={`${SCRIPT} mt-2 text-[clamp(4.5rem,21vw,10rem)] break-words`}
           >
-            <div className="min-w-0 flex-1">
-              <p className={t.label}>{s.alt}</p>
-              <h2 className={t.title}>{s.title}</h2>
-              <p className="mt-1">{s.text}</p>
-            </div>
-            {images[3 + i] && (
-              // biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
-              <img
-                src={images[3 + i]}
-                alt=""
-                className="aspect-3/4 w-[88px] shrink-0 rotate-3 rounded bg-white object-cover p-1 shadow sm:w-[120px]"
-              />
-            )}
-          </RibbonCard>
-        ))}
-      </section>
+            <span className="block">{groom.name}</span>
+            <span className="block text-[0.5em] text-[#E8735A]">&amp;</span>
+            <span className="block">{bride.name}</span>
+          </h2>
+        </section>
 
-      {/* C8 · Đoàn khinh khí cầu */}
-      <section
-        id="flotilla"
-        className="min-h-[128svh] pr-12 pl-4 pt-[15svh] text-center sm:pr-16"
-      >
-        <h2 className="font-(family-name:--font-script) text-2xl text-[#23303F]">
-          Những khoảnh khắc bay cùng tụi mình
-        </h2>
-        {fallback ? (
-          <div className="pointer-events-auto mx-auto mt-6 grid max-w-[520px] grid-cols-2 gap-3">
-            {images.map((src, i) => (
-              <button
-                key={src}
-                type="button"
-                onClick={() => setShown(i)}
-                className="rounded-lg bg-white p-1 shadow"
-              >
-                {/* biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử" */}
-                <img
-                  src={src}
-                  alt={`Ảnh ${i + 1}`}
-                  className="aspect-3/4 w-full rounded object-cover"
+        {/* ---------- Cặp đôi ---------- */}
+        <section className="mx-auto grid w-full max-w-5xl grid-cols-6 gap-x-4 px-5 py-[16svh] lg:grid-cols-12 lg:gap-x-8">
+          {(
+            [
+              ["Chú rể", "Nhà trai", groom, 1, "col-span-4 lg:col-span-5"],
+              [
+                "Cô dâu",
+                "Nhà gái",
+                bride,
+                2,
+                "col-span-4 col-start-3 mt-[18svh] lg:col-span-5 lg:col-start-8 lg:mt-[26svh]",
+              ],
+            ] as const
+          ).map(([role, side, p, i, cls]) =>
+            images[i] ? (
+              <figure key={role} data-rise className={cls}>
+                <PhotoSlot
+                  url={images[i]}
+                  alt={`${role} ${p.name}`}
+                  radius={28}
+                  className="aspect-[3/4] w-full"
+                  onClick={view(i)}
                 />
-              </button>
+                <figcaption className="mt-5">
+                  <p className="text-sm text-[#1F2433]/60">{role}</p>
+                  <p
+                    className={`${SCRIPT} text-[3.6rem] break-words lg:text-[4.6rem]`}
+                  >
+                    {p.name}
+                  </p>
+                  <p className="text-[15px] text-[#1F2433]/75 break-words">
+                    {side} · {p.address}
+                  </p>
+                </figcaption>
+              </figure>
+            ) : null,
+          )}
+        </section>
+
+        {/* ---------- Chuyện tình ---------- */}
+        <section className="mx-auto flex w-full max-w-5xl flex-col gap-[18svh] px-5 py-[12svh]">
+          {STORY.map((s, k) => {
+            const i = 3 + k;
+            const flip = k % 2 === 1;
+            return (
+              <article
+                key={s.year}
+                className={`grid grid-cols-6 items-end gap-x-4 gap-y-6 lg:grid-cols-12 lg:gap-x-8 ${k === 2 ? "lg:items-center" : ""}`}
+              >
+                {images[i] && (
+                  <div
+                    data-rise
+                    className={
+                      k === 2
+                        ? "col-span-6 lg:col-span-8 lg:col-start-3"
+                        : flip
+                          ? "col-span-5 col-start-2 lg:col-span-6 lg:col-start-7 lg:row-start-1"
+                          : "col-span-5 lg:col-span-6"
+                    }
+                  >
+                    <PhotoSlot
+                      url={images[i]}
+                      alt={s.title}
+                      radius={28}
+                      className={`w-full ${k === 2 ? "aspect-[4/5] lg:aspect-[16/10]" : "aspect-[4/5]"}`}
+                      onClick={view(i)}
+                    />
+                  </div>
+                )}
+                <div
+                  data-rise
+                  className={
+                    k === 2
+                      ? "col-span-6 text-center lg:col-span-8 lg:col-start-3"
+                      : flip
+                        ? "col-span-6 lg:col-span-5 lg:col-start-1 lg:row-start-1 lg:self-center"
+                        : "col-span-6 lg:col-span-5 lg:col-start-8 lg:self-center"
+                  }
+                >
+                  <p className="text-sm tabular-nums text-[#1F2433]/55">
+                    {s.year}
+                  </p>
+                  <h3 className={`${SCRIPT} text-[3.4rem] lg:text-[4.4rem]`}>
+                    {s.title}
+                  </h3>
+                  <p className="max-w-[40ch] text-[#1F2433]/80 lg:text-lg">
+                    {s.text}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
+        </section>
+
+        {/* ---------- Album (giờ vàng) ---------- */}
+        <section className="mx-auto w-full max-w-6xl px-5 py-[14svh]">
+          <header
+            data-rise
+            className="mb-16 flex flex-col items-center text-center lg:mb-24"
+          >
+            <h2 className={`${SCRIPT} text-[clamp(4rem,16vw,8rem)]`}>
+              Những khoảnh khắc
+            </h2>
+            <p className="max-w-[36ch] text-[#1F2433]/75">
+              {images.length} tấm ảnh, mỗi tấm là một lần chúng mình cùng bay.
+            </p>
+          </header>
+          <div className="grid grid-cols-6 gap-x-4 gap-y-[10svh] lg:grid-cols-12 lg:gap-x-8 lg:gap-y-[16svh]">
+            {gallery.flatMap((row) =>
+              row.idx.map((i, j) => (
+                <div
+                  key={images[i]}
+                  data-rise
+                  className={ROW_CLASS[row.kind][j] ?? "col-span-3"}
+                >
+                  <PhotoSlot
+                    url={images[i]}
+                    alt={`Khoảnh khắc ${i + 1}`}
+                    radius={24}
+                    className="size-full"
+                    onClick={view(i)}
+                  />
+                </div>
+              )),
+            )}
+          </div>
+          <div className="mt-[12svh] flex justify-center">
+            <button
+              type="button"
+              onClick={() => setAlbum(true)}
+              className={`${BTN} bg-white/70 text-[#1F2433] ring-1 ring-[#1F2433]/10 hover:bg-white`}
+            >
+              <ImagesIcon className="size-5" />
+              Xem trọn album
+            </button>
+          </div>
+        </section>
+
+        {/* ---------- Ngày cưới (chạng vạng) ---------- */}
+        <section
+          className={`flex min-h-[110svh] flex-col items-center justify-center px-5 text-center ${IVORY}`}
+        >
+          <p data-rise className="text-[15px] text-[#FFF8F0]/80">
+            Hẹn gặp bạn vào {formatWeekday(date)}
+          </p>
+          <p
+            data-rise
+            className="mt-2 text-[clamp(5rem,26vw,13rem)] leading-none font-extralight tracking-[-0.04em] tabular-nums"
+          >
+            {day[0]}.{day[1]}
+          </p>
+          <p data-rise className="text-lg tabular-nums text-[#FFF8F0]/80">
+            {day[2]}
+          </p>
+          <div
+            data-rise
+            className="mt-10 grid grid-cols-4 gap-2 sm:gap-4"
+            role="timer"
+            aria-label="Thời gian còn lại tới ngày cưới"
+          >
+            {(
+              [
+                ["Ngày", left?.days],
+                ["Giờ", left?.hours],
+                ["Phút", left?.minutes],
+                ["Giây", left?.seconds],
+              ] as const
+            ).map(([label, v]) => (
+              <div
+                key={label}
+                className="min-w-[4.5rem] rounded-3xl bg-white/10 px-3 py-4 ring-1 ring-white/20"
+              >
+                <p className="text-3xl font-light tabular-nums">
+                  {v === undefined ? "--" : pad(v)}
+                </p>
+                <p className="mt-1 text-xs text-[#FFF8F0]/70">{label}</p>
+              </div>
             ))}
           </div>
-        ) : (
-          <>
-            <p className={`${t.soft} mt-2`}>
-              {images.length} khoảnh khắc đang bay quanh bạn · chạm vào khinh
-              khí cầu để xem
-            </p>
-            <RibbonCard className="mx-auto mt-[65svh] w-fit p-3">
-              <button
-                type="button"
-                onClick={() => setShown("all")}
-                className={t.btn}
+          <dl
+            data-rise
+            className="mt-12 w-full max-w-sm divide-y divide-white/15 text-left"
+          >
+            {(
+              [
+                ["Lễ thành hôn", new Date(date.getTime() - 3_600_000)],
+                ["Tiệc cưới", date],
+              ] as const
+            ).map(([label, d]) => (
+              <div
+                key={label}
+                className="flex items-baseline justify-between py-4"
               >
-                Xem tất cả ảnh
-              </button>
-            </RibbonCard>
-          </>
-        )}
-      </section>
+                <dt>{label}</dt>
+                <dd className="text-2xl font-light tabular-nums">
+                  {formatTime(d)}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
 
-      {/* C5 + C6 + C7 · Hoàng hôn */}
-      <section
-        id="sunset"
-        className="min-h-[170svh] pr-12 pl-4 pt-[20svh] pb-[20svh] sm:pr-16"
-      >
-        <RibbonCard className="mx-auto text-center">
-          <p className={t.label}>✈ Điểm hạ cánh</p>
-          <p className="text-[72px] font-bold leading-none lg:text-[110px]">
-            {part("day")}
+        {/* ---------- Địa điểm ---------- */}
+        <section
+          className={`mx-auto flex min-h-[100svh] w-full max-w-3xl flex-col justify-center px-5 ${IVORY}`}
+        >
+          <h2
+            data-rise
+            className={`${SCRIPT} text-center text-[clamp(3.6rem,14vw,7rem)]`}
+          >
+            Nơi hạ cánh
+          </h2>
+          <p data-rise className="text-center text-lg break-words">
+            {venue.name ?? "Nhà hàng tiệc cưới"}
           </p>
-          <p className="font-bold tracking-[0.15em] uppercase">
-            Tháng {part("month")} · {part("year")}
-          </p>
-          {hasDate && past && (
-            <p className="mt-4">
-              Tụi mình đã hạ cánh an toàn ở bến hạnh phúc ♥
-            </p>
-          )}
-          {hasDate && left && !past && (
-            <div className="mt-4 grid grid-cols-4 gap-2">
-              {(
-                [
-                  [left.days, "ngày"],
-                  [left.hours, "giờ"],
-                  [left.minutes, "phút"],
-                  [left.seconds, "giây"],
-                ] as const
-              ).map(([v, l]) => (
-                <div key={l} className="rounded-2xl bg-[#DCEFFA] py-2">
-                  <p className="text-xl font-bold">{pad(v)}</p>
-                  <p className={t.soft}>{l}</p>
-                </div>
-              ))}
-            </div>
-          )}
-          <hr className="my-4 border-[#3D84A8]/30" />
-          <p className="flex justify-between">
-            <span>🎈 Lễ thành hôn</span>
-            <span className="font-bold">17:00</span>
-          </p>
-          <p className="flex justify-between">
-            <span>🥂 Tiệc cưới</span>
-            <span className="font-bold">{formatTime(date)}</span>
-          </p>
-          <hr className="my-4 border-[#3D84A8]/30" />
-          <p className="font-bold break-words">
-            {venue.name ?? "Địa điểm tổ chức"}
-          </p>
-          <MapEmbed
-            venue={venue}
-            className="mt-3 h-[200px] w-full rounded-xl"
-          />
+          <div
+            data-rise
+            className="mt-8 rounded-[2rem] bg-white/10 p-1.5 ring-1 ring-white/20"
+          >
+            <MapEmbed
+              venue={venue}
+              className="aspect-[4/3] w-full rounded-[calc(2rem-0.375rem)] lg:aspect-[16/9]"
+            />
+          </div>
           <a
+            data-rise
             href={`https://www.google.com/maps/dir/?api=1&destination=${venue.lat},${venue.lng}`}
             target="_blank"
-            rel="noreferrer"
-            className={`${t.btn} mt-4 inline-flex items-center`}
+            rel="noopener noreferrer"
+            className={`${BTN} mt-8 self-center bg-[#E8735A] text-white hover:-translate-y-0.5`}
           >
             Chỉ đường
+            <ArrowUpRightIcon className="size-4" />
           </a>
-        </RibbonCard>
-      </section>
+        </section>
 
-      {/* C10 · Trời sao */}
-      <section
-        id="stars"
-        className="relative flex min-h-[127svh] flex-col items-center justify-end px-6 pb-[20svh] text-center text-white"
-      >
-        {fallback &&
-          STARS.map((s) => (
-            <span
-              key={`${s.left}${s.top}`}
-              className="absolute size-1 rounded-full bg-white/80"
-              style={s}
-              aria-hidden
-            />
-          ))}
-        <h2 className="font-(family-name:--font-script) text-[26px] lg:text-4xl">
-          Cảm ơn bạn đã bay cùng tụi mình!
-        </h2>
-        {images.length > 0 && (
-          // biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
-          <img
-            src={images[images.length - 1]}
-            alt=""
-            className="mt-6 aspect-3/4 w-44 rounded-2xl object-cover shadow-lg"
-          />
-        )}
-        <p className="mt-6 break-words text-white/85">{couple}</p>
-      </section>
-
-      {/* Lightbox (A10) + lưới tất cả ảnh */}
-      {shown !== null && (
-        <div
-          className="pointer-events-auto fixed inset-0 z-40 flex items-center justify-center overflow-y-auto bg-[#1B1F4B]/90 p-4"
-          role="dialog"
-          aria-modal
+        {/* ---------- Lời cảm ơn (đêm sao) ---------- */}
+        <section
+          className={`mx-auto flex min-h-[120svh] w-full max-w-3xl flex-col items-center justify-center gap-10 px-5 pb-32 text-center ${IVORY}`}
         >
-          <button
-            type="button"
-            onClick={() => setShown(null)}
-            className="fixed top-4 left-1/2 z-40 min-h-11 -translate-x-1/2 rounded-full bg-white px-5 font-bold text-[#23303F]"
-          >
-            Đóng
-          </button>
-          {shown === "all" ? (
-            <div className="mt-16 grid max-h-full w-full max-w-[520px] grid-cols-2 gap-3">
-              {images.map((src, i) => (
-                <button key={src} type="button" onClick={() => setShown(i)}>
-                  {/* biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử" */}
-                  <img
-                    src={src}
-                    alt={`Ảnh ${i + 1}`}
-                    className="aspect-3/4 w-full rounded-lg object-cover"
-                  />
-                </button>
-              ))}
+          {images[0] && (
+            <div data-rise className="w-[min(72vw,340px)]">
+              <PhotoSlot
+                url={images[0]}
+                alt={couple}
+                radius={28}
+                className="aspect-[3/4] w-full"
+                onClick={view(0)}
+              />
             </div>
-          ) : (
-            // biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
-            <img
-              src={images[shown]}
-              alt={`Ảnh ${shown + 1}`}
-              className="max-h-[80svh] max-w-full rounded-xl object-contain"
-            />
           )}
-        </div>
-      )}
-    </main>
+          <p
+            data-rise
+            className="max-w-[30ch] text-xl leading-relaxed text-[#FFF8F0]/90 lg:text-2xl"
+          >
+            Cảm ơn bạn đã cùng chúng mình đi hết hành trình này. Sự hiện diện
+            của bạn là món quà quý nhất.
+          </p>
+          <p
+            data-rise
+            className={`${SCRIPT} text-[clamp(3.6rem,15vw,7rem)] text-balance break-words`}
+          >
+            {couple}
+          </p>
+          <div data-rise>
+            <GiftButton
+              className={`${BTN} bg-[#FFF8F0] pl-2 text-[#1F2433] hover:-translate-y-0.5 [&>span]:bg-[#E8735A] [&>span]:text-white`}
+            />
+          </div>
+        </section>
+      </main>
+
+      <Lightbox
+        images={images}
+        index={photo}
+        onIndex={setPhoto}
+        onClose={() => setPhoto(null)}
+      />
+      <AlbumSheet
+        images={images}
+        open={album}
+        onPick={(i) => {
+          setAlbum(false);
+          setPhoto(i);
+        }}
+        onClose={() => setAlbum(false)}
+      />
+    </div>
   );
 }
