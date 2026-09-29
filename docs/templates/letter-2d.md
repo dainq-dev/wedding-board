@@ -1,5 +1,9 @@
 # 2D-02 · `letter-2d` · Phong Thư Sáp
 
+> **Design Read:** Đọc là thiệp cưới dạng thư tay cho cặp đôi hoài niệm, ngôn ngữ giấy kraft, dấu sáp và chữ viết tay, nghiêng về mỹ học heritage epistolary cổ điển, nhịp chậm, đậm nghi thức mở thư.
+>
+> **Dials:** `DESIGN_VARIANCE 7/10` · `MOTION_INTENSITY 5/10` · `VISUAL_DENSITY 2/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md).
 

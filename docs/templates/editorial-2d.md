@@ -1,5 +1,9 @@
 # 2D-05 · `editorial-2d` · Tạp Chí Cưới
 
+> **Design Read:** Đọc là thiệp cưới tạp chí thời trang cho cặp đôi thành thị, ngôn ngữ ảnh bìa lớn, lưới 12 cột và chữ tương phản mạnh, nghiêng về mỹ học fashion-editorial sắc, khoảng trắng có chủ đích.
+>
+> **Dials:** `DESIGN_VARIANCE 8/10` · `MOTION_INTENSITY 5/10` · `VISUAL_DENSITY 3/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md).
 
