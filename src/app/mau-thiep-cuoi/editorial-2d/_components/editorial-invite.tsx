@@ -611,7 +611,7 @@ export function EditorialInvite() {
       )}
       {opened && <MusicToggle music={music} />}
 
-      <OpenGate onOpen={open} className="bg-[#FFFFFF] [perspective:2000px]">
+      <OpenGate onOpen={open} className="!bg-[#FFFFFF] [perspective:2000px]">
         <div
           ref={cover}
           className="relative flex h-full w-full origin-left flex-col bg-[#111111] text-white"
@@ -654,7 +654,7 @@ export function EditorialInvite() {
             </p>
             <button
               type="button"
-              className={`${t.btn} mt-6 self-start bg-white text-[#111111]`}
+              className="mt-6 min-h-11 self-start bg-white px-6 text-xs font-bold uppercase tracking-[0.2em] text-[#111111]"
             >
               Mở số báo
             </button>

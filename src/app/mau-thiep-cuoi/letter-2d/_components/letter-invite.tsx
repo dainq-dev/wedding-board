@@ -444,7 +444,7 @@ export function LetterInvite() {
 
       {opened && <MusicToggle music={music} />}
 
-      <OpenGate onOpen={open} className="bg-[#EFE8DC]">
+      <OpenGate onOpen={open} className="!bg-[#EFE8DC]">
         <div
           ref={gate}
           className="flex flex-col items-center gap-8 px-4 text-center text-[#3B362E]"
