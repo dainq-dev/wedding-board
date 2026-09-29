@@ -2,6 +2,7 @@ import { meta as aoDai2d } from "@/app/mau-thiep-cuoi/ao-dai-2d/meta";
 import { meta as balloon3d } from "@/app/mau-thiep-cuoi/balloon-3d/meta";
 import { meta as boho2d } from "@/app/mau-thiep-cuoi/boho-2d/meta";
 import { meta as botanical2d } from "@/app/mau-thiep-cuoi/botanical-2d/meta";
+import { meta as cafe2d } from "@/app/mau-thiep-cuoi/cafe-2d/meta";
 import { meta as editorial2d } from "@/app/mau-thiep-cuoi/editorial-2d/meta";
 import { meta as film2d } from "@/app/mau-thiep-cuoi/film-2d/meta";
 import { meta as firefly3d } from "@/app/mau-thiep-cuoi/firefly-3d/meta";
@@ -32,6 +33,7 @@ export const templates: TemplateMeta[] = [
   swiss2d,
   botanical2d,
   boho2d,
+  cafe2d,
 ];
 
 // Mẫu hiện trên trang chủ. 3D đang làm lại nên tạm ẩn; route vẫn mở được qua link trực tiếp.

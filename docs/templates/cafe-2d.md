@@ -5,6 +5,19 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi trẻ, quen nhau ở quán cà phê, cưới thân mật với nhiều bạn bè; ngôn ngữ *quán cà phê vỉa hè Sài Gòn về đêm, bảng phấn, đèn dây*; nghiêng về *lo-fi ấm, thủ công, có duyên* chứ không "dễ thương" gượng ép.
+**Dial:** VARIANCE 7 · MOTION 5 · DENSITY 3.
+
+- **Font:** Pangolin (chữ phấn, tên & tiêu đề) + **Lexend** (nội dung). Không dùng Be Vietnam Pro (đã là font của dashboard).
+- **Bảng màu khoá:** nền `night`, bảng `board`, chữ `chalk`, nhấn duy nhất cho chữ là `chalk-yellow`; `caramel` chỉ cho nút; `straw-red` chỉ cho ống hút. Radius khoá 12px cho mọi khối và nút.
+- **Ảnh:** theo template-spec §2.2, *tường ảnh đèn dây* chứa **toàn bộ** `data.images` (không `images[3..n-2]`), nhịp hàng 2 / 3 ảnh xen kẽ, có Lightbox + "Xem trọn album".
+- **Mừng cưới:** phần "thanh toán" của hoá đơn dùng `<GiftButton>` chung thay cho 2 QR mẫu.
+- **Nhạc:** nhạc chung `useMusic()`; bỏ C16 radio cassette (trùng chức năng `MusicToggle`).
+- **Chuyển chương "rót đầy":** là section cuộn có lớp cà phê dâng theo scrub (không dùng lớp phủ `fixed`), không thể kẹt lớp phủ khi cuộn ngược.
+- **Văn phong:** thân mật nhưng lễ độ ("Trân trọng mời bạn ghé quán"), không emoji, không dấu `—` trong chữ hiển thị.
+
 ## 1. Concept
 
 **Một câu:** Khách ngồi xuống một quán cà phê vỉa hè Sài Gòn; phin đang nhỏ giọt, bấm vào là ly đầy cà phê và tấm bảng phấn ghi *"Menu hôm nay: Cưới"* hiện ra — mỗi phần của thiệp là một món trong menu.
