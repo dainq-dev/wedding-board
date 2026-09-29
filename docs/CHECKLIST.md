@@ -96,3 +96,4 @@ Ghi lại mọi thay đổi ngoài thư mục mẫu để người khác biết 
 |---|---|---|---|---|
 | 29/09/2026 | Qwen · 2D-batch-1 | `src/wedding/sample-data.ts` | Mẫu mặc định dùng 20 ảnh JPEG thật từ `/wedding-images/`, không còn SVG placeholder | |
 | 29/09/2026 | Qwen · 2D-batch-1 | `src/kit/music.tsx` callers + audio spec | Mọi mẫu dùng chung `public/music-wedding.mp3` qua `useMusic()`; chỉ owner mới được override nhạc riêng | |
+| 29/09/2026 | Claude agent · 2D-20..30 | `src/kit/open-gate.tsx` | `OpenGate` chỉ thêm `bg-black` khi mẫu không truyền `bg-` (trước đây `bg-black` đứng sau trong CSS nên luôn thắng nền riêng của mẫu, vd song-hy nền đỏ) | |

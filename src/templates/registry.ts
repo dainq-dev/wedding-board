@@ -12,6 +12,7 @@ import { meta as firefly3d } from "@/app/mau-thiep-cuoi/firefly-3d/meta";
 import { meta as galaxy3d } from "@/app/mau-thiep-cuoi/galaxy-3d/meta";
 import { meta as letter2d } from "@/app/mau-thiep-cuoi/letter-2d/meta";
 import { meta as lotus3d } from "@/app/mau-thiep-cuoi/lotus-3d/meta";
+import { meta as marble2d } from "@/app/mau-thiep-cuoi/marble-2d/meta";
 import { meta as neon2d } from "@/app/mau-thiep-cuoi/neon-2d/meta";
 import { meta as polaroid2d } from "@/app/mau-thiep-cuoi/polaroid-2d/meta";
 import { meta as routeMap2d } from "@/app/mau-thiep-cuoi/route-map-2d/meta";
@@ -48,6 +49,7 @@ export const templates: TemplateMeta[] = [
   dongHo2d,
   daLat2d,
   routeMap2d,
+  marble2d,
 ];
 
 // Mẫu hiện trên trang chủ. 3D đang làm lại nên tạm ẩn; route vẫn mở được qua link trực tiếp.

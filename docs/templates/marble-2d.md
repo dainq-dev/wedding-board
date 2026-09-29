@@ -5,6 +5,18 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi cưới ở khách sạn / trung tâm tiệc lớn, gia đình trọng nghi lễ; ngôn ngữ *sảnh đá cẩm thạch trắng, cửa vòm Ý, chữ ép kim*; nghiêng về *luxury tĩnh lặng, đối xứng, nhiều khoảng trắng*.
+**Dial:** VARIANCE 4 · MOTION 4 · DENSITY 2 (đối xứng tuyệt đối là chủ ý của concept, override anti-center bias).
+
+- **Font:** **Yeseva One** (tên, monogram, số lớn) + **Raleway** (nội dung, 400 để dễ đọc). Không dùng Cormorant Garamond / Montserrat (đã có mẫu khác dùng).
+- **Chuyển cảnh vòm:** màn mở là "lỗ vòm" nở ra (box-shadow quanh vòm rỗng) để lộ trang; giữa trang có 2 lần "vòm mở" bằng `clip-path` theo cuộn trên ảnh lớn (ảnh chuyện tình), thay vì ghim chồng section.
+- **Ảnh:** "hành lang vòm" chứa **toàn bộ** `data.images` (template-spec §2.2) dạng lưới vòm đối xứng 2 / 3 cột, không cuộn ngang; có "Xem trọn album".
+- **Gia đình:** chưa có trường tên bố mẹ → dùng "Nhà trai" / "Nhà gái" + địa chỉ, không để chỗ trống.
+- **Mừng cưới:** `<GiftButton>` chung. Nhạc chung, bỏ C16 "Now playing".
+- Không emoji; không dấu `—` trong chữ hiển thị.
+
 ## 1. Concept
 
 **Một câu:** Một sảnh đá cẩm thạch trắng với những ô cửa vòm; mỗi phần của thiệp được mở ra qua một ô cửa vòm, chữ dát vàng, monogram hai người ở trung tâm.
