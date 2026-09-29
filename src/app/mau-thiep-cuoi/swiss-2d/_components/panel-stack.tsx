@@ -8,7 +8,7 @@ export function PanelStack({ children }: { children: ReactNode }) {
   const [current, setCurrent] = useState(2);
   useGSAP(() => {
     const panels = gsap.utils.toArray<HTMLElement>("[data-swiss-panel]");
-    return () => panels.forEach((panel, index) => {
+    panels.forEach((panel, index) => {
       if (index === panels.length - 1) return;
       const next = panels[index + 1];
       gsap.to(panel, {
@@ -21,7 +21,7 @@ export function PanelStack({ children }: { children: ReactNode }) {
   useEffect(() => {
     const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-swiss-panel]"));
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-      if (entry.isIntersecting) setCurrent(Number(entry.target.dataset.swissPanel));
+      if (entry.isIntersecting) setCurrent(Number((entry.target as HTMLElement).dataset.swissPanel));
     }), { threshold: 0.55 });
     panels.forEach((panel) => observer.observe(panel));
     return () => observer.disconnect();

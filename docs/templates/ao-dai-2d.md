@@ -1,5 +1,9 @@
 # 2D-07 · `ao-dai-2d` · Áo Dài Tím Huế
 
+> **Design Read:** Đọc là thiệp cưới online cho một cặp đôi yêu nếp Huế, ngôn ngữ lụa tím và thư pháp tiết chế, nghiêng về mỹ học heritage editorial dịu, sâu và rất riêng tư.
+>
+> **Dials:** `DESIGN_VARIANCE 7/10` · `MOTION_INTENSITY 6/10` · `VISUAL_DENSITY 3/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md). Mẫu chuẩn tham chiếu: [letter-2d.md](./letter-2d.md).
 

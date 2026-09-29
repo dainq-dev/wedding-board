@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <rect width="600" height="800" fill="#F5F0F7"/>
+  <path d="M470 0C180 120 520 220 180 360S500 570 150 800" fill="none" stroke="#5B2A86" stroke-width="9"/>
+  <path d="M485 0C195 120 535 220 195 360S515 570 165 800" fill="none" stroke="#C9A0DC" stroke-width="4"/>
+  <path d="M245 160c22 50 8 96-25 139l-52 69 52 54-11 212c33 26 121 26 154 0l-11-212 52-54-52-69c-33-43-47-89-25-139-30 18-52 18-82 0Z" fill="#5B2A86" fill-opacity=".16" stroke="#5B2A86" stroke-width="5"/>
+  <path d="M352 422c92 8 137 55 181 104-84-22-137-12-192 28" fill="#5B2A86" fill-opacity=".4" stroke="#5B2A86" stroke-width="5"/>
+  <text x="300" y="690" text-anchor="middle" fill="#5B2A86" font-family="cursive" font-size="64">Áo Dài Tím Huế</text>
+  <text x="300" y="738" text-anchor="middle" fill="#6E5A80" font-family="serif" font-size="20" letter-spacing="5">THIỆP BÁO HỶ</text>
+</svg>

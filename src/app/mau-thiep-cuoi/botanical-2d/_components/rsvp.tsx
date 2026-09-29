@@ -4,14 +4,14 @@ import { useState } from "react";
 
 export function Rsvp() {
   const [name, setName] = useState("");
-  const [sent, setSent] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  if (sent) {
+  if (submitted) {
     return <p className="rounded-t-[3rem] bg-white px-7 py-14 text-center text-xl italic shadow-[0_20px_60px_-38px_rgba(74,97,70,0.6)]">Cảm ơn {name || "bạn"}! Hẹn gặp bạn trong vườn nhỏ của chúng tôi.</p>;
   }
 
   return (
-    <form onSubmit={(event) => { event.preventDefault(); setSent(true); }} className="rounded-t-[3rem] rounded-b-2xl bg-white p-7 shadow-[0_20px_60px_-38px_rgba(74,97,70,0.6)]">
+    <form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }} className="rounded-t-[3rem] rounded-b-2xl bg-white p-7 shadow-[0_20px_60px_-38px_rgba(74,97,70,0.6)]">
       <label className="block text-[15px] italic text-[#6B7565]" htmlFor="guest-name">Họ và tên</label>
       <input id="guest-name" required value={name} onChange={(event) => setName(event.target.value)} className="mt-1 min-h-11 w-full border-b border-[#C8D5B9] bg-transparent px-1 text-lg outline-none focus:border-[#5F7A5A]" />
       <fieldset className="mt-6">

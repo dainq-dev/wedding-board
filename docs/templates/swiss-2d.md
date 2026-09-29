@@ -1,5 +1,11 @@
 # 2D-08 · `swiss-2d` · Swiss Mono
 
+## Design Read
+
+Đọc là: thiệp cưới online cho một cặp đôi hiện đại, có gu kiến trúc và yêu sự rõ ràng, ngôn ngữ poster Thuỵ Sĩ, nghiêng về chủ nghĩa tối giản biên tập.
+
+`DESIGN_VARIANCE 7` · `MOTION_INTENSITY 6` · `VISUAL_DENSITY 3`
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md). Mẫu chuẩn tham chiếu: [letter-2d.md](./letter-2d.md).
 

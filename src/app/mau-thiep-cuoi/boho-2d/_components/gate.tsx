@@ -1,9 +1,9 @@
 "use client";
 
 import { OpenGate } from "@/kit/open-gate";
-import { Pampas, Sun } from "./boho-art";
+import { Pampas, Sun } from "./art";
 
-export function ArchGate({
+export function Gate({
   groom,
   bride,
   onOpen,

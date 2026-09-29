@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <rect width="600" height="800" fill="#fff"/>
+  <g stroke="#d9d9d9" stroke-width="1">
+    <path d="M50 0v800M100 0v800M150 0v800M200 0v800M250 0v800M300 0v800M350 0v800M400 0v800M450 0v800M500 0v800M550 0v800"/>
+    <path d="M0 150h600M0 300h600M0 450h600M0 600h600"/>
+  </g>
+  <text x="-28" y="460" font-family="Arial, Helvetica, sans-serif" font-size="310" font-weight="900" letter-spacing="-35" fill="#000">01</text>
+  <circle cx="480" cy="525" r="18" fill="#ff3b30"/>
+  <text x="52" y="610" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="800" letter-spacing="-2" fill="#000">SWISS</text>
+  <text x="52" y="654" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="800" letter-spacing="-2" fill="#000">MONO</text>
+  <text x="52" y="728" font-family="monospace" font-size="15" font-weight="700" letter-spacing="3" fill="#000">WEDDING INVITATION</text>
+</svg>
