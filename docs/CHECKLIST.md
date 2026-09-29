@@ -61,8 +61,8 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | [ ] | 2D-17 | **Thẻ Lên Máy Bay** `boarding-2d` | [spec](./templates/boarding-2d.md) | ⬜ Chưa làm | | | |
 | [ ] | 2D-18 | **Lịch Bloc** `lich-to-2d` | [spec](./templates/lich-to-2d.md) | ⬜ Chưa làm | | | |
 | [ ] | 2D-19 | **Báo Tin Vui** `newspaper-2d` | [spec](./templates/newspaper-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-20 | **Cà Phê Sài Gòn** `cafe-2d` | [spec](./templates/cafe-2d.md) | 🟡 Đang làm | Claude agent | | |
-| [ ] | 2D-21 | **Tin Nhắn Đầu Tiên** `chat-2d` | [spec](./templates/chat-2d.md) | 🟡 Đang làm | Claude agent | | |
+| [ ] | 2D-20 | **Cà Phê Sài Gòn** `cafe-2d` | [spec](./templates/cafe-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-21 | **Tin Nhắn Đầu Tiên** `chat-2d` | [spec](./templates/chat-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
 
 ## P5 — 3D đợt B
 
@@ -78,15 +78,15 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 
 | ✓ | # | Mẫu | Spec | Trạng thái | Người làm | Branch / PR | Ghi chú |
 |---|---|---|---|---|---|---|---|
-| [ ] | 2D-22 | **Gỗ Mộc Đèn Dây** `rustic-2d` | [spec](./templates/rustic-2d.md) | 🟡 Đang làm | Claude agent | | |
-| [ ] | 2D-23 | **Neon Sài Gòn** `neon-2d` | [spec](./templates/neon-2d.md) | 🟡 Đang làm | Claude agent | | |
-| [ ] | 2D-24 | **Sơn Mài** `son-mai-2d` | [spec](./templates/son-mai-2d.md) | 🟡 Đang làm | Claude agent | | |
-| [ ] | 2D-25 | **Tranh Đông Hồ** `dong-ho-2d` | [spec](./templates/dong-ho-2d.md) | 🟡 Đang làm | Claude agent | | |
-| [ ] | 2D-26 | **Sương Đà Lạt** `da-lat-2d` | [spec](./templates/da-lat-2d.md) | 🟡 Đang làm | Claude agent | | |
-| [ ] | 2D-27 | **Bản Đồ Hành Trình** `route-map-2d` | [spec](./templates/route-map-2d.md) | 🟡 Đang làm | Claude agent | | |
-| [ ] | 2D-28 | **Đá Cẩm Thạch** `marble-2d` | [spec](./templates/marble-2d.md) | 🟡 Đang làm | Claude agent | | |
-| [ ] | 2D-29 | **Nét Sáp Màu** `crayon-2d` | [spec](./templates/crayon-2d.md) | 🟡 Đang làm | Claude agent | | |
-| [ ] | 2D-30 | **Đêm Đầy Sao** `starry-2d` | [spec](./templates/starry-2d.md) | 🟡 Đang làm | Claude agent | | |
+| [ ] | 2D-22 | **Gỗ Mộc Đèn Dây** `rustic-2d` | [spec](./templates/rustic-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-23 | **Neon Sài Gòn** `neon-2d` | [spec](./templates/neon-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-24 | **Sơn Mài** `son-mai-2d` | [spec](./templates/son-mai-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-25 | **Tranh Đông Hồ** `dong-ho-2d` | [spec](./templates/dong-ho-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-26 | **Sương Đà Lạt** `da-lat-2d` | [spec](./templates/da-lat-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-27 | **Bản Đồ Hành Trình** `route-map-2d` | [spec](./templates/route-map-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-28 | **Đá Cẩm Thạch** `marble-2d` | [spec](./templates/marble-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-29 | **Nét Sáp Màu** `crayon-2d` | [spec](./templates/crayon-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-30 | **Đêm Đầy Sao** `starry-2d` | [spec](./templates/starry-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
 
 ## Thay đổi dùng chung
 

@@ -22,6 +22,7 @@ import { meta as sakura2d } from "@/app/mau-thiep-cuoi/sakura-2d/meta";
 import { meta as seasons3d } from "@/app/mau-thiep-cuoi/seasons-3d/meta";
 import { meta as sonMai2d } from "@/app/mau-thiep-cuoi/son-mai-2d/meta";
 import { meta as songHy2d } from "@/app/mau-thiep-cuoi/song-hy-2d/meta";
+import { meta as starry2d } from "@/app/mau-thiep-cuoi/starry-2d/meta";
 import { meta as swiss2d } from "@/app/mau-thiep-cuoi/swiss-2d/meta";
 import type { TemplateMeta } from "@/wedding/types";
 
@@ -52,6 +53,7 @@ export const templates: TemplateMeta[] = [
   routeMap2d,
   marble2d,
   crayon2d,
+  starry2d,
 ];
 
 // Mẫu hiện trên trang chủ. 3D đang làm lại nên tạm ẩn; route vẫn mở được qua link trực tiếp.
