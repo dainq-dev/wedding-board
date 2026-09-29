@@ -450,7 +450,7 @@ export function EditorialInvite() {
                 {date.getFullYear()} ·{" "}
                 <span className={t.red}>
                   {left?.done
-                    ? "Số báo đã phát hành — cảm ơn quý độc giả"
+                    ? "Số báo đã phát hành, cảm ơn quý độc giả"
                     : left
                       ? `Còn ${left.days} ngày`
                       : ""}
@@ -568,9 +568,9 @@ export function EditorialInvite() {
                 type="submit"
                 className={`${t.btn} self-start ${t.focus}`}
               >
-                {sent ? "Đã gửi toà soạn ✓" : "Gửi toà soạn"}
+                {sent ? "Đã gửi toà soạn" : "Gửi toà soạn"}
               </button>
-              <p className={t.label}>Bản xem thử — không gửi đi</p>
+              <p className={t.label}>Bản xem thử, không gửi đi</p>
             </form>
           </section>
 
