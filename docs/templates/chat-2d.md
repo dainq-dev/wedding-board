@@ -5,6 +5,17 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi trẻ quen nhau qua tin nhắn; ngôn ngữ *giao diện nhắn tin sạch, sáng, tinh gọn*; nghiêng về *product UI hiện đại* (khung điện thoại như ảnh chụp sản phẩm), vui nhưng không trẻ con.
+**Dial:** VARIANCE 6 · MOTION 6 · DENSITY 4.
+
+- **Cuộn:** cuộc trò chuyện cuộn **bên trong khung điện thoại** như app thật (header, thanh ghim, thanh nhập cố định trong khung). Vì vậy mẫu này không dùng `SmoothScroll` (ScrollSmoother sẽ phá cảm giác app); tin nhắn hiện bằng ScrollTrigger gắn `scroller` là khung chat.
+- **Desktop:** bố cục chia đôi bất đối xứng: bên trái là chữ lớn (ngày cưới, tên mẫu, hướng dẫn), bên phải là điện thoại; không để điện thoại trơ trọi giữa nền trống.
+- **Ảnh:** theo template-spec §2.2, mọi ảnh `images[3..n-2]` được gửi thành **nhiều tin ảnh** (1–4 ảnh mỗi tin, bố cục lưới thay đổi) rải qua các ngày, không ẩn sau ô `+k`; thêm thẻ "Album chung" mở `AlbumSheet`.
+- **Emoji:** không dùng emoji trong nội dung, nút hay tiêu đề; reaction là icon trái tim (Phosphor). Chữ hiển thị không có dấu `—`.
+- **Mừng cưới:** tin "chuyển khoản" dùng `<GiftButton>` chung thay 2 QR mẫu. **Nhạc:** nhạc chung; tin nhắn thoại điều khiển chính bài nhạc đó.
+
 ## 1. Concept
 
 **Một câu:** Điện thoại của khách sáng lên với thông báo "1 tin nhắn mới"; mở ra là cuộc trò chuyện giữa hai người, từ tin nhắn làm quen đầu tiên tới lời mời cưới được ghim trên cùng.
