@@ -11,7 +11,7 @@ import {
   WarningCircleIcon,
   XIcon,
 } from "@phosphor-icons/react";
-import { type ReactNode, useRef, useState } from "react";
+import { type ReactNode, useId, useState } from "react";
 import { MapEmbed } from "@/components/map-embed";
 import { useTryItForm } from "./index.logic";
 import type { FieldKey, MediaView, SectionId, Who } from "./type";
@@ -462,12 +462,11 @@ function MediaPicker({
   error?: string;
   note: string;
 }) {
-  const input = useRef<HTMLInputElement>(null);
+  const inputId = useId();
   const [over, setOver] = useState(false);
   const isImg = media.kind === "images";
   const ok = media.count >= media.min;
   const Icon = isImg ? ImagesIcon : VideoCameraIcon;
-  const pick = () => input.current?.click();
 
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: vùng nhận kéo thả; bàn phím dùng các nút chọn file bên trong
@@ -483,7 +482,7 @@ function MediaPicker({
         setOver(false);
         media.add(e.dataTransfer.files);
       }}
-      className={`rounded-2xl transition-shadow duration-300 ${over ? "ring-2 ring-[#16181A] ring-offset-4" : ""}`}
+      className={`rounded-2xl transition-shadow duration-300 has-[input:focus-visible]:ring-2 has-[input:focus-visible]:ring-[#16181A] has-[input:focus-visible]:ring-offset-4 ${over ? "ring-2 ring-[#16181A] ring-offset-4" : ""}`}
     >
       <div className="mb-3 flex items-center justify-between gap-3">
         <p className="flex items-center gap-2 text-[13px] font-medium">
@@ -501,12 +500,14 @@ function MediaPicker({
             : `${media.count}/${media.min} tối thiểu`}
         </span>
       </div>
+      {/* Mở trực tiếp qua <label htmlFor> (không dùng hidden + click()) để điện thoại và trình duyệt trong Zalo/Messenger hiện thư viện ảnh gốc. */}
       <input
-        ref={input}
+        id={inputId}
         type="file"
+        aria-label={isImg ? "Chọn ảnh từ thư viện" : "Chọn video từ thư viện"}
         accept={isImg ? "image/*" : "video/*"}
         multiple
-        hidden
+        className="sr-only"
         onChange={(e) => {
           if (e.target.files) media.add(e.target.files);
           e.target.value = ""; // cho phép chọn lại cùng file
@@ -522,7 +523,7 @@ function MediaPicker({
                   <img
                     src={slot.item.url}
                     alt={slot.label}
-                    className="size-full object-cover"
+                    className="size-full object-cover text-transparent"
                   />
                 ) : (
                   <video
@@ -558,33 +559,32 @@ function MediaPicker({
                 </div>
               </div>
             ) : (
-              <button
-                type="button"
-                onClick={pick}
-                className={`flex aspect-[3/4] w-full flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed px-2 text-center text-[11px] leading-tight transition-colors hover:bg-[#16181A]/4 ${error ? "border-[#B3261E]/50 text-[#B3261E]" : "border-[#16181A]/20 text-[#5E6661]"}`}
+              <label
+                htmlFor={inputId}
+                className={`flex aspect-[3/4] w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed px-2 text-center text-[11px] leading-tight transition-colors hover:bg-[#16181A]/4 ${error ? "border-[#B3261E]/50 text-[#B3261E]" : "border-[#16181A]/20 text-[#5E6661]"}`}
               >
                 <PlusIcon className="size-5" />
                 {slot.label}
-              </button>
+              </label>
             )}
           </li>
         ))}
         {ok && (
           <li>
-            <button
-              type="button"
-              onClick={pick}
-              className="flex aspect-[3/4] w-full flex-col items-center justify-center gap-1.5 rounded-xl bg-[#16181A]/4 text-[12px] font-medium transition-colors hover:bg-[#16181A]/8"
+            <label
+              htmlFor={inputId}
+              className="flex aspect-[3/4] w-full cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl bg-[#16181A]/4 text-[12px] font-medium transition-colors hover:bg-[#16181A]/8"
             >
               <PlusIcon className="size-5" />
               Thêm {isImg ? "ảnh" : "video"}
-            </button>
+            </label>
           </li>
         )}
       </ul>
       {error && <p className={`mt-2 text-[12.5px] ${ERR}`}>{error}</p>}
       <p className={`mt-3 text-[12.5px] leading-relaxed ${MUTED}`}>
-        {note} Có thể kéo thả nhiều file vào đây.
+        {note} Chọn được nhiều {isImg ? "ảnh" : "video"} cùng lúc từ thư viện
+        <span className="hidden sm:inline">, hoặc kéo thả file vào đây</span>.
       </p>
     </div>
   );

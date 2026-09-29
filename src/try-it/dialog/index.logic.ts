@@ -20,7 +20,7 @@ import type {
   SectionStatus,
   TryItView,
 } from "./type";
-import { MIN_YEAR, maxBirthYear, validateDraft } from "./validate";
+import { isMediaFile, MIN_YEAR, maxBirthYear, validateDraft } from "./validate";
 
 const MAX_VIDEO = 50 * 1024 * 1024; // ảnh không giới hạn dung lượng
 const MAX_YEAR = maxBirthYear(); // module scope: cacheComponents cấm new Date() khi render
@@ -48,12 +48,11 @@ function useMediaList(kind: "images" | "videos") {
     },
     [],
   );
-  const prefix = kind === "images" ? "image/" : "video/";
   return {
     items,
     add: (files: Iterable<File>) => {
       const next = [...files]
-        .filter((f) => f.type.startsWith(prefix))
+        .filter((f) => isMediaFile(f, kind))
         .map((file) => ({
           id: crypto.randomUUID(),
           file,

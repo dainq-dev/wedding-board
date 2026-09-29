@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import type { Draft } from "./type";
-import { validateDraft } from "./validate";
+import { isMediaFile, validateDraft } from "./validate";
 
 const person = { name: "An", address: "Huế", birthYear: "1995" };
 const ok: Draft = {
@@ -52,4 +52,16 @@ test("link Maps rỗng / không có toạ độ", () => {
       2008,
     ).mapsUrl,
   ).toContain("maps.app.goo.gl");
+});
+
+test("isMediaFile: theo MIME, hoặc theo đuôi khi MIME rỗng (HEIC từ thư viện)", () => {
+  expect(isMediaFile({ name: "a.jpg", type: "image/jpeg" }, "images")).toBe(
+    true,
+  );
+  expect(isMediaFile({ name: "IMG_1.HEIC", type: "" }, "images")).toBe(true);
+  expect(isMediaFile({ name: "clip.mov", type: "" }, "videos")).toBe(true);
+  expect(
+    isMediaFile({ name: "clip.mov", type: "video/quicktime" }, "images"),
+  ).toBe(false);
+  expect(isMediaFile({ name: "note.pdf", type: "" }, "images")).toBe(false);
 });
