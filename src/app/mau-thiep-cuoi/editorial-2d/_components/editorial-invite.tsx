@@ -69,8 +69,13 @@ function RunningHeader({ page }: { page: string }) {
   );
 }
 
-// biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
-const Img = (p: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...p} />;
+const Img = ({
+  alt,
+  ...p
+}: React.ImgHTMLAttributes<HTMLImageElement> & { alt: string }) => (
+  // biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
+  <img alt={alt} {...p} />
+);
 
 export function EditorialInvite() {
   const { data } = useWedding();
@@ -342,7 +347,7 @@ export function EditorialInvite() {
                 “Yêu là cùng nhau nhìn về một hướng.”
               </p>
               <span
-                aria-hidden
+                aria-hidden="true"
                 className="ed-underline mt-3 block h-1 w-2/3 origin-left bg-[#B91C1C]"
               />
             </blockquote>
@@ -624,7 +629,7 @@ export function EditorialInvite() {
             />
           )}
           <div
-            aria-hidden
+            aria-hidden="true"
             className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/60"
           />
           <div className="relative flex h-full flex-col overflow-hidden px-4 pt-16 pb-8 lg:px-[6vw]">

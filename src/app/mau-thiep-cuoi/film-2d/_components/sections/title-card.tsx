@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { formatDate, weddingDate } from "@/kit/dates";
+import { weddingDate } from "@/kit/dates";
 import { gsap, useGSAP } from "@/kit/gsap";
 import { splitReveal } from "@/kit/presets";
 import { useReducedMotion } from "@/kit/use-reduced-motion";

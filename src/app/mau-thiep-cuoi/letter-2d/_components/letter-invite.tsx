@@ -40,8 +40,13 @@ const ICONS: Record<string, string> = {
     "M9 18V6l10-2v12M9 18a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm10-2a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z",
 };
 
-// biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
-const Img = (p: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...p} />;
+const Img = ({
+  alt,
+  ...p
+}: React.ImgHTMLAttributes<HTMLImageElement> & { alt: string }) => (
+  // biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
+  <img alt={alt} {...p} />
+);
 
 const Rule = () => (
   <div aria-hidden className="my-5 flex items-center gap-3 text-[#6B7B5A]">
@@ -212,7 +217,7 @@ export function LetterInvite() {
                       className={`relative bg-white p-2 pb-6 shadow-md ${rot}`}
                     >
                       <span
-                        aria-hidden
+                        aria-hidden="true"
                         className="absolute -top-2 left-1/2 h-5 w-2 -translate-x-1/2 rounded-full bg-[#A8874A]"
                       />
                       <Img
@@ -258,31 +263,32 @@ export function LetterInvite() {
                     {d}
                   </span>
                 ))}
-                {grid.cells.map((d, i) =>
-                  d === day ? (
-                    <span
-                      key={i}
-                      className="relative flex aspect-square items-center justify-center font-semibold text-white"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden
-                        className="absolute inset-0 size-full fill-[#8A3B2E]"
+                {grid.cells
+                  .map((d, pos) => ({ d, pos }))
+                  .map(({ d, pos }) =>
+                    d === day ? (
+                      <span
+                        key={pos}
+                        className="relative flex aspect-square items-center justify-center font-semibold text-white"
                       >
-                        <path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6C19 16.5 12 21 12 21Z" />
-                      </svg>
-                      <span className="relative">{d}</span>
-                    </span>
-                  ) : (
-                    // biome-ignore lint/suspicious/noArrayIndexKey: ô lịch cố định theo vị trí
-                    <span
-                      key={i}
-                      className="flex aspect-square items-center justify-center"
-                    >
-                      {d ?? ""}
-                    </span>
-                  ),
-                )}
+                        <svg
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                          className="absolute inset-0 size-full fill-[#8A3B2E]"
+                        >
+                          <path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6C19 16.5 12 21 12 21Z" />
+                        </svg>
+                        <span className="relative">{d}</span>
+                      </span>
+                    ) : (
+                      <span
+                        key={pos}
+                        className="flex aspect-square items-center justify-center"
+                      >
+                        {d ?? ""}
+                      </span>
+                    ),
+                  )}
               </div>
             </div>
           </section>
@@ -299,7 +305,7 @@ export function LetterInvite() {
                   <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-[#6B7B5A] bg-[#FBF8F2]">
                     <svg
                       viewBox="0 0 24 24"
-                      aria-hidden
+                      aria-hidden="true"
                       className="size-5 fill-none stroke-[#6B7B5A] stroke-[1.25]"
                     >
                       <path d={ICONS[s.icon]} />
@@ -456,7 +462,7 @@ export function LetterInvite() {
           </p>
           <div className="lt-env relative aspect-[3/2] w-[min(84vw,380px)] overflow-hidden rounded-sm bg-[#F1EADF] shadow-[0_10px_30px_-10px_rgba(59,54,46,0.35)]">
             <div
-              aria-hidden
+              aria-hidden="true"
               className="absolute inset-x-0 top-0 h-[60%] bg-[#E6DCCB] [clip-path:polygon(0_0,100%_0,50%_100%)]"
             />
             <button

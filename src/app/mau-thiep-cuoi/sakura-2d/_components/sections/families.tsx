@@ -7,13 +7,13 @@ import { t } from "../tokens";
 
 function PortraitColumn({
   img,
-  role,
+  side,
   name,
   address,
   className = "",
 }: {
   img: string | undefined;
-  role: string;
+  side: string;
   name: string;
   address: string;
   className?: string;
@@ -26,11 +26,11 @@ function PortraitColumn({
           src={img}
           width={360}
           height={480}
-          alt={`Chân dung ${role.toLowerCase()} ${name}`}
+          alt={`Chân dung ${side.toLowerCase()} ${name}`}
           className={`c3-img aspect-3/4 w-full ${t.arch}`}
         />
       ) : null}
-      <h3 className={`${t.heading} mt-4`}>{role}</h3>
+      <h3 className={`${t.heading} mt-4`}>{side}</h3>
       <p className={`${t.script} mt-1 text-[26px] leading-tight break-words`}>
         {name}
       </p>
@@ -84,13 +84,13 @@ export function FamiliesSection({
       >
         <PortraitColumn
           img={groomImg}
-          role="Nhà trai"
+          side="Nhà trai"
           name={groom}
           address={groomAddress}
         />
         <PortraitColumn
           img={brideImg}
-          role="Nhà gái"
+          side="Nhà gái"
           name={bride}
           address={brideAddress}
           className="mt-12 max-[340px]:mt-0"

@@ -47,6 +47,7 @@ export function Trailer({
             onEnded={restore}
           >
             <source src={src} />
+            <track kind="captions" />
           </video>
         </div>
         <p className={`${t.label} mt-3 text-center`}>Chạm để xem trailer</p>

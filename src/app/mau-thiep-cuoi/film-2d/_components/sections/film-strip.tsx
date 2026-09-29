@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/kit/gsap";
+import { useGSAP } from "@/kit/gsap";
 import { horizontalTrack } from "@/kit/presets";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
 import type { WeddingData } from "@/wedding/types";
@@ -65,9 +65,9 @@ export function FilmStrip({ data }: { data: WeddingData }) {
         );
         if (counter.current)
           counter.current.textContent = `${idx + 1}/${FRAMES.length}`;
-        blocks.current.forEach((b, i) =>
-          b.classList.toggle("bg-[#C9A227]", i <= idx),
-        );
+        blocks.current.forEach((b, i) => {
+          b.classList.toggle("bg-[#C9A227]", i <= idx);
+        });
       };
     },
     { dependencies: [reduced] },
