@@ -79,7 +79,15 @@ function SongCard({ music }: { music: Music }) {
     <div className={`${CARD} lt-card -rotate-2`}>
       <p className={`${SCRIPT} text-2xl`}>Bài hát của chúng tôi</p>
       <div className="mt-4 flex items-center justify-center gap-6 text-[#6B7B5A]">
-        <span aria-hidden>◀◀</span>
+        <span aria-hidden>
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="size-4 fill-none stroke-current stroke-[1.8]"
+          >
+            <path d="m11 6-5 6 5 6M18 6l-5 6 5 6" />
+          </svg>
+        </span>
         <button
           type="button"
           onClick={music.toggle}
@@ -98,7 +106,15 @@ function SongCard({ music }: { music: Music }) {
             )}
           </svg>
         </button>
-        <span aria-hidden>▶▶</span>
+        <span aria-hidden>
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="size-4 fill-none stroke-current stroke-[1.8]"
+          >
+            <path d="m13 6 5 6-5 6M6 6l5 6-5 6" />
+          </svg>
+        </span>
       </div>
       <div className="mt-4 flex items-center gap-3">
         <div className="h-0.5 flex-1 bg-[#D9CFBF]">
