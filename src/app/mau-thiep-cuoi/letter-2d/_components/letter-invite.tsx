@@ -51,7 +51,15 @@ const Img = ({
 
 const Rule = () => (
   <div aria-hidden className="my-5 flex items-center gap-3 text-[#6B7B5A]">
-    <span className="lt-rule h-px flex-1 origin-right bg-[#D9CFBF]" />✿
+    <span className="lt-rule h-px flex-1 origin-right bg-[#D9CFBF]" />
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="size-4 shrink-0 fill-none stroke-current stroke-[1.6]"
+    >
+      <path d="M12 3c2.2 3.2 5.5 3.4 5.5 6.6A5.5 5.5 0 0 1 12 15a5.5 5.5 0 0 1-5.5-5.4C6.5 6.4 9.8 6.2 12 3Z" />
+      <path d="M12 15v6" />
+    </svg>
     <span className="lt-rule h-px flex-1 origin-left bg-[#D9CFBF]" />
   </div>
 );
@@ -69,7 +77,7 @@ function SongCard({ music }: { music: Music }) {
     `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
   return (
     <div className={`${CARD} lt-card -rotate-2`}>
-      <p className={`${SCRIPT} text-2xl`}>♪ Bài hát của chúng tôi</p>
+      <p className={`${SCRIPT} text-2xl`}>Bài hát của chúng tôi</p>
       <div className="mt-4 flex items-center justify-center gap-6 text-[#6B7B5A]">
         <span aria-hidden>◀◀</span>
         <button
@@ -78,7 +86,17 @@ function SongCard({ music }: { music: Music }) {
           aria-label={music.playing ? "Tạm dừng" : "Phát nhạc"}
           className={`${BTN} size-12 px-0`}
         >
-          {music.playing ? "❚❚" : "▶"}
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="size-5 fill-current"
+          >
+            {music.playing ? (
+              <path d="M8 5h3v14H8zM13 5h3v14h-3z" />
+            ) : (
+              <path d="M8 5.5v13a1 1 0 0 0 1.53.85l9.5-6.5a1 1 0 0 0 0-1.7l-9.5-6.5A1 1 0 0 0 8 5.5Z" />
+            )}
+          </svg>
         </button>
         <span aria-hidden>▶▶</span>
       </div>
