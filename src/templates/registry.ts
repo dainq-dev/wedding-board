@@ -6,6 +6,7 @@ import { meta as editorial2d } from "@/app/mau-thiep-cuoi/editorial-2d/meta";
 import { meta as film2d } from "@/app/mau-thiep-cuoi/film-2d/meta";
 import { meta as firefly3d } from "@/app/mau-thiep-cuoi/firefly-3d/meta";
 import { meta as galaxy3d } from "@/app/mau-thiep-cuoi/galaxy-3d/meta";
+import { meta as gatsby2d } from "@/app/mau-thiep-cuoi/gatsby-2d/meta";
 import { meta as letter2d } from "@/app/mau-thiep-cuoi/letter-2d/meta";
 import { meta as lotus3d } from "@/app/mau-thiep-cuoi/lotus-3d/meta";
 import { meta as picnic2d } from "@/app/mau-thiep-cuoi/picnic-2d/meta";
@@ -36,6 +37,7 @@ export const templates: TemplateMeta[] = [
   boho2d,
   picnic2d,
   tropical2d,
+  gatsby2d,
 ];
 
 export const getTemplate = (slug: string) =>
