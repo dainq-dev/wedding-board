@@ -6,6 +6,21 @@ export const maxBirthYear = (now = new Date()) => now.getFullYear() - 18;
 
 type Counts = { images: number; videos: number };
 
+const EXT = {
+  images: /\.(jpe?g|png|webp|gif|avif|heic|heif|bmp)$/i,
+  videos: /\.(mp4|mov|m4v|webm|3gp|mkv)$/i,
+};
+
+/** Ảnh/video từ thư viện điện thoại (HEIC, Google Photos…) đôi khi có `type` rỗng: nhận theo đuôi file. */
+export function isMediaFile(
+  file: { name: string; type: string },
+  kind: keyof Counts,
+) {
+  if (file.type)
+    return file.type.startsWith(kind === "images" ? "image/" : "video/");
+  return EXT[kind].test(file.name);
+}
+
 /** Lỗi theo từng trường; object rỗng = hợp lệ. */
 export function validateDraft(
   draft: Draft,
