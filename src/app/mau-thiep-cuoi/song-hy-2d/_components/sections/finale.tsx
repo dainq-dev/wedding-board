@@ -60,7 +60,7 @@ export function FinaleSection({
       <div className={`${t.col} flex flex-col gap-8`}>
         <div className={`${t.card} relative px-6 py-10`}>
           <Cloud className="absolute -top-6 left-6 w-20 text-[#D4A24C]/50" />
-          <p className={`${t.title} text-center text-[20px] lg:text-[26px]`}>
+          <p className={`${t.title} text-center !text-[20px] lg:!text-[26px]`}>
             Địa điểm tổ chức
           </p>
           <MapEmbed
@@ -73,7 +73,7 @@ export function FinaleSection({
         </div>
 
         <div className={`${t.card} px-6 py-10`}>
-          <p className={`${t.title} text-center text-[20px] lg:text-[26px]`}>
+          <p className={`${t.title} text-center !text-[20px] lg:!text-[26px]`}>
             Khoảnh khắc
           </p>
           <div className="mt-6 grid grid-cols-2 gap-3">
@@ -100,7 +100,7 @@ export function FinaleSection({
           />
           <CornerOrnament className="absolute top-4 left-4 size-8 text-[#D4A24C]" />
           <CornerOrnament className="absolute right-4 bottom-4 size-8 -scale-100 text-[#D4A24C]" />
-          <p className={`${t.title} text-[22px] lg:text-[28px]`}>Lời cảm ơn</p>
+          <p className={`${t.title} !text-[22px] lg:!text-[28px]`}>Lời cảm ơn</p>
           <p className={`${t.soft} mt-4`}>
             Cảm ơn quý khách đã đến chung vui cùng gia đình chúng tôi.
           </p>

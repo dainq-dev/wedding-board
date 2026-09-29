@@ -64,7 +64,9 @@ export function WhenSection({ date }: { date: Date }) {
       <div className={`${t.col} flex flex-col gap-8`}>
         <div className={`${t.card} px-6 py-10 text-center`}>
           <p className={t.label}>Ngày chung đôi</p>
-          <p className={`${t.big} mt-4`}>{formatDate(date)}</p>
+          <p className="mt-4 font-(family-name:--font-display) text-[44px] leading-none tracking-tight text-[#9B1B1E] tabular-nums sm:text-[64px] lg:text-[96px]">
+            {formatDate(date)}
+          </p>
           <p className={`${t.soft} italic mt-2`}>
             {formatWeekday(date)} · {formatTime(date)}
           </p>
@@ -105,7 +107,7 @@ export function WhenSection({ date }: { date: Date }) {
             {STEPS.map((s) => (
               <li key={s.title} className="flex gap-4">
                 <span
-                  className={`${t.big} w-[86px] shrink-0 text-[28px] lg:text-[34px]`}
+                  className={`w-[86px] shrink-0 font-(family-name:--font-display) text-[28px] leading-none text-[#9B1B1E] tabular-nums lg:text-[34px]`}
                 >
                   {s.time}
                 </span>
