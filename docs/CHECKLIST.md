@@ -94,3 +94,4 @@ Ghi lại mọi thay đổi ngoài thư mục mẫu để người khác biết 
 
 | Ngày | Người | File | Nội dung | PR |
 |---|---|---|---|---|
+| 29/09/2026 | Qwen · 2D-batch-1 | `src/wedding/sample-data.ts` | Mẫu mặc định dùng 20 ảnh JPEG thật từ `/wedding-images/`, không còn SVG placeholder | |
