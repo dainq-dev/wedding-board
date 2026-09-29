@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { templates } from "@/templates/registry";
+import { listedTemplates as templates } from "@/templates/registry";
 import { Hero } from "./_components/hero";
 import { TemplateGrid, TemplateList } from "./_components/template-grid";
 

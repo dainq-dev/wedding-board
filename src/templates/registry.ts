@@ -34,5 +34,8 @@ export const templates: TemplateMeta[] = [
   boho2d,
 ];
 
+// Mẫu hiện trên trang chủ. 3D đang làm lại nên tạm ẩn; route vẫn mở được qua link trực tiếp.
+export const listedTemplates = templates.filter((t) => t.tech !== "3d");
+
 export const getTemplate = (slug: string) =>
   templates.find((t) => t.slug === slug);
