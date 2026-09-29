@@ -5,6 +5,24 @@
 
 ---
 
+## 0. Thiết kế lại v2 (29/09/2026) — thay thế các mục bên dưới khi mâu thuẫn
+
+Bản v1 bị đánh giá không đạt ([visual-quality.md §7](../visual-quality.md)): thành phố hình hộp, khinh khí cầu nhựa, ảnh là plane trần, gần như không thấy ảnh cưới.
+
+**Design Read:** thiệp cưới online cho cặp đôi mê xê dịch, ngôn ngữ *điện ảnh giờ vàng, mơ màng và thoáng*, nghiêng về *sky cinematic*: trời chuyển từ sáng trong → hoàng hôn → đêm sao, mây mềm thể tích, ảnh cưới lơ lửng như những khoảnh khắc bay cùng gió.
+**Dial:** VARIANCE 7 · MOTION 6 · DENSITY 2.
+
+**Art direction**
+- *Tham chiếu:* ảnh chụp từ khinh khí cầu Cappadocia lúc bình minh; poster phim "Up" (Pixar) phần bầu trời; khung hình hoàng hôn trên biển mây của các phim hàng không.
+- *Phong cách hình khối:* **particle / ánh sáng mềm**: trời là shader gradient, mây thể tích (drei `Clouds` + texture pmndrs), khinh khí cầu ở trung/viễn cảnh với vải có gân + sheen, lửa đốt phát sáng (bloom) khi trời tối. Không có khối hộp.
+- *Chất liệu:* vải khinh khí cầu (sọc gân, sheen), giỏ mây đan; ảnh cưới bo góc 24px, không viền, như ảnh trong tạp chí du lịch.
+- *Bảng màu:* trời `#7FB3E0 → #F7C59F → #3B3F74 → #0E1330`; chữ ban ngày `#1F2433`, về đêm `#FFF8F0`; nhấn duy nhất *ember* `#E8735A`.
+- *Chữ:* tên cặp đôi **Italianno** (script mảnh, sang); nội dung **Hanken Grotesk**. Không nhãn chữ in hoa nhỏ trên mọi section.
+- *3 hero shot:* (1) màn mở: tên cặp đôi trên nền trời sớm, mây trôi dưới chân, vài khinh khí cầu xa; (2) album: 20+ ảnh xếp nhịp tạp chí, uốn nhẹ theo tốc độ cuộn, hiện dần như vén mây; (3) kết: trời sao, lửa khinh khí cầu toả sáng, nút *Gửi lời chúc*.
+- *Nhịp cuộn:* sáng (tên, cặp đôi) → trưa (chuyện tình) → giờ vàng (album) → chạng vạng (ngày cưới, địa điểm) → đêm (lời cảm ơn).
+
+---
+
 ## 1. Concept
 
 **Một câu:** Hai người cùng bước lên giỏ một chiếc khinh khí cầu trên sân thượng thành phố, cuộn trang là bay lên, xuyên qua mây, ngắm hoàng hôn trên biển mây rồi chạm tới bầu trời sao.

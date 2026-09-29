@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { MapEmbed } from "@/components/map-embed";
 import { useCountdown } from "@/kit/countdown";
 import { formatTime, formatWeekday, weddingDate } from "@/kit/dates";
+import { GiftButton } from "@/kit/gift";
 import { gsap, ScrollSmoother, ScrollTrigger, useGSAP } from "@/kit/gsap";
 import { MusicToggle, useMusic } from "@/kit/music";
 import { OpenGate } from "@/kit/open-gate";
@@ -82,7 +83,7 @@ export function EditorialInvite() {
   const { groom, bride, images, venue } = data;
   const date = weddingDate(data);
   const left = useCountdown(date);
-  const music = useMusic("/templates/editorial-2d/music.wav", 0.5);
+  const music = useMusic(0.5);
   const reduced = useReducedMotion();
   const [opened, setOpened] = useState(false);
   const [zoom, setZoom] = useState<string | null>(null);
@@ -406,23 +407,24 @@ export function EditorialInvite() {
               >
                 Khoảnh khắc
               </p>
-              {[images[6], images[7], images[4]].map(
-                (src, i) =>
-                  src && (
-                    <button
-                      key={src}
-                      type="button"
-                      onClick={() => setZoom(src)}
-                      className={`cursor-zoom-in ${t.focus} ${i === 0 ? "col-span-5 lg:col-span-10" : "col-span-3 lg:col-span-6"} ${i === 2 ? "mt-10" : ""}`}
-                    >
-                      <Img
-                        src={src}
-                        alt=""
-                        className={`w-full object-cover ${i === 0 ? "aspect-4/3" : "aspect-3/4"}`}
-                      />
-                    </button>
-                  ),
-              )}
+              {/* Trang ảnh thời trang: mọi ảnh sau ảnh bìa, xếp kiểu tạp chí (masonry cột). */}
+              <div className="col-span-5 columns-2 gap-3 lg:col-span-10 lg:columns-3 lg:gap-6">
+                {images.slice(1).map((src, i) => (
+                  <button
+                    key={src}
+                    type="button"
+                    onClick={() => setZoom(src)}
+                    className={`mb-3 block w-full cursor-zoom-in break-inside-avoid lg:mb-6 ${t.focus}`}
+                  >
+                    <Img
+                      src={src}
+                      alt={`Khoảnh khắc ${i + 2}`}
+                      loading="lazy"
+                      className="w-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
           </section>
 
@@ -586,9 +588,12 @@ export function EditorialInvite() {
               ))}
             </div>
             <div className="flex items-end justify-between px-4 lg:px-[6vw]">
-              <p className={`${t.display} text-2xl italic lg:text-4xl`}>
-                Cảm ơn vì đã đọc.
-              </p>
+              <div className="flex flex-col items-start gap-5">
+                <p className={`${t.display} text-2xl italic lg:text-4xl`}>
+                  Cảm ơn vì đã đọc.
+                </p>
+                <GiftButton className="inline-flex min-h-12 items-center gap-2.5 bg-white py-2 pr-6 pl-2 text-xs font-bold tracking-[0.2em] text-[#111111] uppercase" />
+              </div>
               <div className="flex flex-col items-end gap-1" aria-hidden>
                 <div className="h-10 w-28 bg-[repeating-linear-gradient(90deg,#fff_0_2px,transparent_2px_4px,#fff_4px_5px,transparent_5px_8px)]" />
                 <span className="text-[10px] tracking-[0.3em]">

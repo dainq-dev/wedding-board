@@ -1,5 +1,6 @@
 "use client";
 
+import { PerformanceMonitor } from "@react-three/drei";
 import { Canvas, type CanvasProps } from "@react-three/fiber";
 import { useEffect, useState } from "react";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
@@ -24,6 +25,7 @@ export function SceneCanvas({
   const reduced = useReducedMotion();
   const [ok, setOk] = useState<boolean | null>(null);
   const [visible, setVisible] = useState(true);
+  const [dpr, setDpr] = useState<number | null>(null);
 
   useEffect(() => {
     setOk(hasWebGL());
@@ -39,11 +41,13 @@ export function SceneCanvas({
   return (
     <div className={`fixed inset-0 -z-10 ${className}`} aria-hidden>
       <Canvas
-        dpr={[1, mobile ? 1.5 : 2]}
+        dpr={dpr ?? [1, mobile ? 1.5 : 2]}
         frameloop={visible ? "always" : "never"}
         gl={{ antialias: !mobile, powerPreference: "high-performance" }}
         {...props}
       >
+        {/* FPS tụt → hạ dpr về 1 thay vì giật (spec §10). */}
+        <PerformanceMonitor onDecline={() => setDpr(1)} />
         {children}
       </Canvas>
     </div>

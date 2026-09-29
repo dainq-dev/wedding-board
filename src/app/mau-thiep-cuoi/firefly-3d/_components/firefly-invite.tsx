@@ -150,7 +150,7 @@ function ForestFallback() {
 export function FireflyInvite() {
   const { data } = useWedding();
   const { groom, bride, venue, images, videos } = data;
-  const music = useMusic("/templates/firefly-3d/music.mp3", 0.5);
+  const music = useMusic(0.5);
   const reduced = useReducedMotion();
   const [opened, setOpened] = useState(false);
   const [unlocked, setUnlocked] = useState(false);

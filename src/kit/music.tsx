@@ -2,14 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-// Nhạc mặc định cho mọi mẫu. Mẫu có bài riêng thì truyền `src`; file riêng
-// không tồn tại / lỗi → tự chuyển sang bài mặc định.
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 
-export const DEFAULT_MUSIC = "/music-wedding.mp3";
+// Mọi mẫu dùng chung một bài nhạc (quyết định của chủ dự án, spec §8).
+export const WEDDING_MUSIC = "/music-wedding.mp3";
 
 // Nhạc nền: play() phải được gọi trong handler click (autoplay policy).
-export function useMusic(src: string = DEFAULT_MUSIC, maxVolume = 0.6) {
+export function useMusic(maxVolume = 0.6) {
   const audio = useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(maxVolume);
@@ -17,17 +16,11 @@ export function useMusic(src: string = DEFAULT_MUSIC, maxVolume = 0.6) {
   const fade = useRef(0);
 
   useEffect(() => {
-    const a = new Audio(src);
+    const a = new Audio(WEDDING_MUSIC);
     a.loop = true;
     a.volume = 0;
     a.onplay = () => setPlaying(true);
     a.onpause = () => setPlaying(false);
-    a.onerror = () => {
-      if (a.src.endsWith(DEFAULT_MUSIC)) return;
-      const resume = a.dataset.wantPlay === "1";
-      a.src = DEFAULT_MUSIC;
-      if (resume) a.play().catch(() => {});
-    };
     audio.current = a;
 
     let hiddenPaused = false;
@@ -47,7 +40,7 @@ export function useMusic(src: string = DEFAULT_MUSIC, maxVolume = 0.6) {
       a.pause();
       audio.current = null;
     };
-  }, [src]);
+  }, []);
 
   const fadeTo = useCallback((target: number, ms = 1500) => {
     const a = audio.current;

@@ -1,4 +1,6 @@
-# balloon-3d — nhạc & âm thanh
+# balloon-3d — nguồn tài nguyên
 
-- `music.mp3`: TODO: tải nhạc Pixabay theo từ khoá `ukulele happy wedding` / `happy ukulele glockenspiel` / `cheerful acoustic travel` (~110 BPM, 2:00–2:30, không lời).
-- `burner.mp3`: TODO: tải hiệu ứng "phụt lửa" Pixabay theo từ khoá `gas burner whoosh` / `hot air balloon burner` (≤ 30KB).
+- Nhạc: dùng chung `public/music-wedding.mp3` (spec §8).
+- Ảnh cưới mẫu: `public/wedding-images/` (do chủ dự án cung cấp).
+- Texture mây `public/textures/cloud.png`: từ [pmndrs/drei-assets](https://github.com/pmndrs/drei-assets) (texture mặc định của `@react-three/drei` `<Clouds>`).
+- Bầu trời, khinh khí cầu, sao: dựng bằng shader / hình học procedural trong `_components/scene.tsx`.

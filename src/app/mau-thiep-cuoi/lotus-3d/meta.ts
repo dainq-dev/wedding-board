@@ -4,7 +4,7 @@ export const meta: TemplateMeta = {
   slug: "lotus-3d",
   name: "Đầm Sen",
   description:
-    "Bình minh trên đầm sen quê, mỗi nụ sen nở ra là một trang thư mời.",
+    "Thuyền trôi qua đầm sen lúc bình minh, ảnh cưới trong khung vòm cửa nhà rường.",
   thumbnail: "/templates/lotus-3d/thumb.png",
   tech: "3d",
   styles: ["traditional", "floral"],

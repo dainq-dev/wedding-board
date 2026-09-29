@@ -1,488 +1,551 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { ArrowUpRightIcon, ImagesIcon } from "@phosphor-icons/react";
+import { useRef, useState } from "react";
 import { MapEmbed } from "@/components/map-embed";
+import { PhotoSlot, PhotoSlotsProvider } from "@/kit/3d/photo-slots";
 import { useScrollProgress } from "@/kit/3d/use-scroll-progress";
 import { useCountdown } from "@/kit/countdown";
-import { formatMonth, weddingDate } from "@/kit/dates";
-import { gsap, ScrollTrigger, useGSAP } from "@/kit/gsap";
+import { formatTime, formatWeekday, weddingDate } from "@/kit/dates";
+import { GiftButton } from "@/kit/gift";
+import { gsap, useGSAP } from "@/kit/gsap";
+import { AlbumSheet, Lightbox } from "@/kit/lightbox";
 import { MusicToggle, useMusic } from "@/kit/music";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
 import { useScrollLock } from "@/kit/use-scroll-lock";
 import { useWedding } from "@/wedding/wedding-data-provider";
-import { LotusCanvas, PETAL_PATH, useThreeD } from "./lotus-canvas";
-import { type BloomId, cardVisible, reflectionIndex } from "./pond";
+import { LotusCanvas } from "./lotus-canvas";
 
-export const t = {
-  root: "min-h-screen bg-[#F6EFE7] text-[#2F2A26] font-(family-name:--font-sans) font-light text-[17px] leading-[1.75]",
-  name: "font-(family-name:--font-serif) italic font-light lg:text-[84px] text-[#D9577A] leading-[1.05] text-balance break-words",
-  label:
-    "text-[11px] lg:text-xs font-medium uppercase tracking-[0.3em] text-[#4F7D4A]",
-  card: "rounded-2xl bg-white/80 backdrop-blur-md border border-[#4F7D4A]/20 p-6 max-w-[380px] w-full mx-auto pointer-events-auto",
-  verse:
-    "font-(family-name:--font-serif) italic text-lg lg:text-xl text-[#6B5E53]",
-  btn: "min-h-11 rounded-full bg-[#A8395A] px-8 text-white tracking-[0.15em] uppercase text-sm pointer-events-auto focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A8395A]",
-  h2: "font-(family-name:--font-serif) font-normal text-[26px] lg:text-[34px] leading-tight",
-} as const;
+// Tokens (art direction v2, docs/templates/lotus-3d.md §0)
+const INK = "text-[#2F2A26]";
+const BARK = "text-[#6B5E53]";
+const SERIF = "font-(family-name:--font-serif)";
+const DISPLAY = `${SERIF} font-light italic leading-[0.95] tracking-[-0.02em]`;
+const EASE = "ease-[cubic-bezier(0.32,0.72,0,1)]";
+const BTN = `inline-flex min-h-12 items-center gap-2 rounded-full px-6 text-[16px] font-medium transition-transform duration-500 ${EASE} active:scale-[0.98]`;
+const ALBUM_FROM = 6;
 
-const TZ = "Asia/Ho_Chi_Minh";
-const STORY: {
-  id: BloomId;
-  label: string;
-  title: string;
-  text: string;
-  img: number;
-}[] = [
-  {
-    id: "L1",
-    label: "Trang III",
-    title: "Duyên",
-    text: "Gặp nhau giữa muôn người, như chuồn chuồn tình cờ đậu lại một nhành sen.",
-    img: 3,
-  },
-  {
-    id: "L2",
-    label: "Trang IV",
-    title: "Thương",
-    text: "Thương nhau qua nắng qua mưa, qua cả những ngày bùn lầy nhất.",
-    img: 4,
-  },
-  {
-    id: "L3",
-    label: "Trang V",
-    title: "Nguyện",
-    text: "Nguyện cùng nhau nở hoa, và cùng nhau giữ hương cho đến bạc đầu.",
-    img: 5,
-  },
-];
-
-function PetalMark() {
-  return (
-    <svg
-      viewBox="0 0 24 32"
-      aria-hidden="true"
-      className="mx-auto mb-2 h-5 w-4 fill-[#D9577A]"
-    >
-      <path d={PETAL_PATH} />
-    </svg>
-  );
-}
-
-function Arch({ src, className = "" }: { src?: string; className?: string }) {
-  if (!src) return null;
-  return (
-    // biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
-    <img
-      src={src}
-      alt=""
-      className={`aspect-3/4 rounded-t-full object-cover ${className}`}
-    />
-  );
-}
+const pad = (n: number) => String(n).padStart(2, "0");
 
 export function LotusInvite() {
+  return (
+    <PhotoSlotsProvider>
+      <Invite />
+    </PhotoSlotsProvider>
+  );
+}
+
+function Invite() {
   const { data } = useWedding();
   const { groom, bride, venue, images } = data;
-  const mode = useThreeD();
+  const music = useMusic(0.5);
   const reduced = useReducedMotion();
-  const music = useMusic("/templates/lotus-3d/music.mp3", 0.5);
-
-  const [phase, setPhase] = useState<"closed" | "intro" | "open">("closed");
-  const [lightbox, setPhoto] = useState<number | null>(null);
-  const [showAll, setShowAll] = useState(false);
-  useScrollLock(phase !== "open");
-
-  const track = useRef<HTMLElement>(null);
-  const gate = useRef<HTMLDivElement>(null);
-  const progress = useScrollProgress(track);
-  const introStart = useRef<number | null>(null);
-  const intro = useRef<gsap.core.Timeline | null>(null);
-  const bloomCards = useRef<Partial<Record<BloomId, HTMLElement | null>>>({});
-
   const date = weddingDate(data);
-  const cd = useCountdown(date);
-  const long = groom.name.length + bride.name.length > 24;
+  const left = useCountdown(date);
 
-  const { contextSafe } = useGSAP(
+  const [opened, setOpened] = useState(false);
+  const [photo, setPhoto] = useState<number | null>(null);
+  const [album, setAlbum] = useState(false);
+  useScrollLock(!opened);
+
+  const root = useRef<HTMLDivElement>(null);
+  const gate = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
+  const progress = useScrollProgress(root);
+  const intro = useRef(0);
+
+  useGSAP(
     () => {
-      // Card C2/C4: hiện theo trạng thái nở của bông sen (cardVisible), chỉ tween khi đổi.
-      const shown: Partial<Record<BloomId, boolean>> = {};
-      const els = bloomCards.current;
-      gsap.set(Object.values(els), { autoAlpha: 0, y: 24 });
-      ScrollTrigger.create({
-        trigger: track.current,
-        start: "top top",
-        end: "bottom bottom",
-        onUpdate: (s) => {
-          for (const id of Object.keys(els) as BloomId[]) {
-            const v = cardVisible(id, s.progress);
-            if (v === shown[id]) continue;
-            shown[id] = v;
-            gsap.to(els[id] ?? null, {
-              autoAlpha: v ? 1 : 0,
-              y: v ? 0 : 24,
-              duration: reduced ? 0.4 : 1.1,
-              ease: "sine.out",
-              overwrite: "auto",
-            });
-          }
-        },
+      gsap.from("[data-gate] > *", {
+        y: 20,
+        opacity: 0,
+        filter: "blur(8px)",
+        duration: 1.6,
+        stagger: 0.14,
+        ease: "sine.out",
+        delay: 0.4,
       });
-      // A1 cho các khối còn lại: hiện khi vào viewport.
-      for (const el of gsap.utils.toArray<HTMLElement>("[data-a1]")) {
-        gsap.from(el, {
-          autoAlpha: 0,
-          y: reduced ? 0 : 24,
-          duration: reduced ? 0.4 : 1.1,
-          ease: "sine.out",
-          scrollTrigger: { trigger: el, start: "top 85%" },
-        });
-      }
     },
-    { scope: track, dependencies: [reduced, mode] },
+    { scope: gate },
   );
 
-  const open = contextSafe(() => {
+  useGSAP(
+    () => {
+      if (!opened) return;
+      for (const el of gsap.utils.toArray<HTMLElement>("[data-rise]")) {
+        gsap.from(el, {
+          y: reduced ? 0 : 32,
+          opacity: 0,
+          filter: reduced ? "none" : "blur(6px)",
+          duration: 1.4,
+          ease: "sine.out",
+          scrollTrigger: { trigger: el, start: "top 90%", once: true },
+        });
+      }
+      // Album: dải vòm ảnh trôi ngang như thuyền đi qua đầm (ghim section).
+      const t = track.current;
+      if (reduced || !t) return;
+      gsap.to(t, {
+        x: () => -(t.scrollWidth - window.innerWidth),
+        ease: "none",
+        scrollTrigger: {
+          trigger: t.parentElement,
+          start: "top top",
+          end: () => `+=${t.scrollWidth - window.innerWidth}`,
+          pin: true,
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+        },
+      });
+    },
+    { scope: root, dependencies: [opened, reduced] },
+  );
+
+  const open = () => {
     music.play(3000);
-    introStart.current = performance.now();
-    setPhase("intro");
-    const q = gsap.utils.selector(gate);
-    intro.current = gsap
-      .timeline({ onComplete: () => setPhase("open") })
-      .to(
-        q("[data-gate-content]"),
-        { autoAlpha: 0, duration: 0.6, ease: "sine.out" },
-        0,
-      )
-      .fromTo(
-        q("[data-skip]"),
-        { autoAlpha: 0 },
-        { autoAlpha: 1, duration: 0.3 },
-        0.5,
-      )
-      .to(
-        q("[data-gate-mist]"),
-        { opacity: 0, duration: 2.2, ease: "sine.out" },
-        0.8,
-      )
-      .to({}, { duration: 0.5 }, 3);
-  });
-  const skip = () => {
-    introStart.current = Number.NEGATIVE_INFINITY;
-    intro.current?.progress(1);
+    setOpened(true);
+    if (reduced) {
+      intro.current = 1;
+      return;
+    }
+    gsap.to(intro, { current: 1, duration: 3.2, ease: "sine.inOut" });
+    if (gate.current)
+      gsap.to(gate.current, {
+        opacity: 0,
+        y: -16,
+        filter: "blur(10px)",
+        duration: 1.1,
+        ease: "sine.in",
+      });
   };
-
-  // Lightbox mở → nhạc giảm về 0.25 để ngắm ảnh.
-  const setLightbox = (i: number | null) => {
-    if (music.playing) music.fadeTo(i === null ? 0.5 : 0.25, 600);
-    setPhoto(i);
-  };
-
-  useEffect(() => {
-    if (lightbox === null) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setPhoto(null);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [lightbox]);
 
   const day = new Intl.DateTimeFormat("vi-VN", {
-    day: "numeric",
-    timeZone: TZ,
-  }).format(date);
-  const directions = `https://www.google.com/maps/dir/?api=1&destination=${venue.lat},${venue.lng}`;
-  const gallery = reflectionIndex(images.length).filter((i) => images[i]);
+    timeZone: "Asia/Ho_Chi_Minh",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
+    .format(date)
+    .split("/");
+  const couple = `${groom.name} & ${bride.name}`;
+  const view = (i: number) => () => setPhoto(i);
+  const gallery = images.slice(ALBUM_FROM);
 
   return (
-    <div className={`${t.root} relative isolate overflow-x-clip`}>
-      <LotusCanvas
-        mode={mode}
-        progress={progress}
-        introStart={introStart}
-        images={images}
-        onPhoto={setLightbox}
-      />
+    <div
+      ref={root}
+      className={`relative isolate min-h-screen font-(family-name:--font-sans) text-[17px] leading-[1.75] ${INK}`}
+    >
+      <LotusCanvas progress={progress} intro={intro} />
       <MusicToggle music={music} />
 
-      {phase !== "open" && (
+      {/* ---------- Màn mở: bông sen cận cảnh, mặt trời vừa lên ---------- */}
+      {!opened || !reduced ? (
         <div
           ref={gate}
-          id="dawn"
-          className="fixed inset-0 z-30 flex items-end justify-center px-4 pb-24"
+          className={`fixed inset-0 z-30 flex items-start justify-center px-6 pt-[12svh] text-center transition-[visibility] ${opened ? "pointer-events-none invisible delay-1000" : ""}`}
         >
-          <div
-            data-gate-mist
-            className="absolute inset-0 bg-[#F6EFE7]/85 bg-[radial-gradient(ellipse_at_50%_35%,#F7C9A9_0%,transparent_55%)]"
-          />
-          <div data-gate-content className="relative text-center">
-            <p className={t.verse}>“Trong đầm gì đẹp bằng sen…”</p>
-            <p className="mt-4 text-balance break-words font-(family-name:--font-serif) text-[30px] italic text-[#D9577A]">
-              {groom.name} · {bride.name}
+          <div data-gate className="flex max-w-xl flex-col items-center">
+            <p className={`${SERIF} text-lg italic ${BARK}`}>
+              Trong đầm gì đẹp bằng sen
+            </p>
+            <h1
+              className={`${DISPLAY} mt-5 text-[clamp(3.4rem,15vw,6.5rem)] break-words`}
+            >
+              <span className="block">{groom.name}</span>
+              <span className="block text-[0.5em] text-[#A8395A]">và</span>
+              <span className="block">{bride.name}</span>
+            </h1>
+            <p className={`mt-5 text-[16px] tabular-nums ${BARK}`}>
+              {formatWeekday(date)}, {day.join(" . ")}
             </p>
             <button
               type="button"
               onClick={open}
-              disabled={phase !== "closed"}
-              className={`${t.btn} mt-8`}
+              disabled={opened}
+              className={`${BTN} mt-8 bg-[#A8395A] px-8 text-white shadow-[0_18px_40px_-18px_rgba(168,57,90,0.8)] hover:-translate-y-0.5`}
             >
               Mở thiệp
             </button>
           </div>
-          {/* Luôn render (ẩn bằng `invisible`) để timeline mở thiệp tìm được target; GSAP autoAlpha hiện nó ở 0.5s. */}
-          <button
-            type="button"
-            data-skip
-            onClick={skip}
-            className="invisible absolute bottom-24 left-1/2 min-h-11 -translate-x-1/2 rounded-full px-6 text-sm text-[#6B5E53] underline"
-          >
-            Bỏ qua
-          </button>
         </div>
-      )}
+      ) : null}
 
-      <main ref={track} className="pointer-events-none px-4">
-        {/* 1 · Sương tan */}
-        <section
-          id="mist"
-          className="flex h-[75svh] items-end justify-center pb-16"
-        >
-          <p data-a1 className={`${t.label} text-center`}>
-            Cuộn nhẹ để đi dạo đầm sen
+      <main
+        className={`transition-opacity duration-1000 ${opened ? "" : "opacity-0"}`}
+      >
+        {/* ---------- Tên ---------- */}
+        <section className="flex min-h-[100svh] flex-col items-center justify-start px-6 pt-[16svh] text-center">
+          <p data-rise className={`text-[16px] ${BARK}`}>
+            Trân trọng kính mời bạn đến dự lễ thành hôn của
           </p>
-        </section>
-
-        {/* 2 · Nụ sen lớn (C2) */}
-        <section id="bloom" className="h-[112svh]">
-          <div
-            ref={(el) => {
-              bloomCards.current.L0 = el;
-            }}
-            className="sticky top-16 text-center"
+          <h2
+            data-rise
+            className={`${DISPLAY} mt-4 text-[clamp(3.8rem,17vw,8rem)] break-words`}
           >
-            <p className={t.label}>── Trang I ──</p>
-            <p className="mt-3 text-[15px] text-[#6B5E53]">
-              Trân trọng báo tin lễ thành hôn của
-            </p>
-            <h1
-              className={`${t.name} mt-3 ${long ? "text-[32px]" : "text-[44px]"}`}
-            >
-              <span className="block">{groom.name}</span>
-              <span className="block text-[0.6em]">&amp;</span>
-              <span className="block">{bride.name}</span>
-            </h1>
-          </div>
+            <span className="block">{groom.name}</span>
+            <span className="block text-[0.45em] text-[#A8395A]">và</span>
+            <span className="block">{bride.name}</span>
+          </h2>
         </section>
 
-        {/* 3 · Hai lá sen (C3) */}
-        <section id="leaves" className="h-[112svh]">
-          <div data-a1 className={`${t.card} sticky top-16`}>
-            <PetalMark />
-            <p className={`${t.label} text-center`}>Trang II</p>
-            <div className="mt-4 grid grid-cols-2 gap-4 text-center">
-              {[
-                { side: "Nhà trai", p: groom, img: images[1] },
-                { side: "Nhà gái", p: bride, img: images[2] },
-              ].map(({ side, p, img }) => (
-                <div key={side} className="min-w-0">
-                  {mode === false && (
-                    <Arch src={img} className="mx-auto mb-3 w-full max-w-28" />
-                  )}
-                  <h2 className={t.label}>{side}</h2>
-                  <p className="mt-1 break-words font-(family-name:--font-serif) text-xl">
+        {/* ---------- Cặp đôi: hai vòm cửa ---------- */}
+        <section className="mx-auto grid w-full max-w-5xl grid-cols-6 gap-x-4 px-5 py-[16svh] lg:grid-cols-12 lg:gap-x-10">
+          {(
+            [
+              [
+                "Chú rể",
+                "Nhà trai",
+                groom,
+                1,
+                "col-span-4 lg:col-span-5 lg:col-start-1",
+              ],
+              [
+                "Cô dâu",
+                "Nhà gái",
+                bride,
+                2,
+                "col-span-4 col-start-3 mt-[16svh] lg:col-span-5 lg:col-start-8 lg:mt-[24svh]",
+              ],
+            ] as const
+          ).map(([role, side, p, i, cls]) =>
+            images[i] ? (
+              <figure key={role} data-rise className={cls}>
+                <div className="rounded-t-full rounded-b-[26px] bg-[#FBF7F2]/80 p-2 ring-1 ring-[#2F2A26]/10">
+                  <PhotoSlot
+                    url={images[i]}
+                    alt={`${role} ${p.name}`}
+                    radius={20}
+                    arch
+                    className="aspect-[3/4] w-full"
+                    onClick={view(i)}
+                  />
+                </div>
+                <figcaption className="mt-6">
+                  <p className={`text-[15px] ${BARK}`}>{role}</p>
+                  <p
+                    className={`${DISPLAY} mt-1 text-[2.8rem] break-words lg:text-[3.6rem]`}
+                  >
                     {p.name}
                   </p>
-                  <p className="mt-1 break-words text-[#6B5E53]">{p.address}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 4 · Chuyện tình (C4) */}
-        <section id="story" className="h-[150svh]">
-          <div className="sticky top-16 grid">
-            {STORY.map((s) => (
-              <article
-                key={s.id}
-                ref={(el) => {
-                  bloomCards.current[s.id] = el;
-                }}
-                className={`${t.card} col-start-1 row-start-1 flex gap-4`}
-              >
-                <Arch
-                  src={images[s.img]}
-                  className="w-[88px] shrink-0 self-start"
-                />
-                <div className="min-w-0">
-                  <p className={t.label}>{s.label}</p>
-                  <h2 className={`${t.h2} mt-1`}>{s.title}</h2>
-                  <p className="mt-2 text-[#6B5E53]">{s.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* 5 · Soi bóng (C8) */}
-        <section id="reflection" className="min-h-[112svh] pb-16">
-          <div
-            data-a1
-            className="sticky top-16 mx-auto max-w-[380px] text-center"
-          >
-            <p className={t.label}>Trang VI</p>
-            <h2 className={`${t.h2} mt-1`}>Soi bóng</h2>
-            <p className="mt-2 text-[#6B5E53]">
-              Những khoảnh khắc in bóng xuống mặt đầm.
-            </p>
-            {mode && (
-              <button
-                type="button"
-                onClick={() => setShowAll((v) => !v)}
-                className={`${t.btn} mt-4`}
-              >
-                {showAll ? "Thu gọn" : "Xem tất cả ảnh"}
-              </button>
-            )}
-          </div>
-          {(showAll || mode === false) && (
-            <div className="pointer-events-auto relative mx-auto mt-[30svh] grid max-w-xl grid-cols-2 gap-x-4 gap-y-8">
-              {gallery.map((i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setLightbox(i)}
-                  aria-label={`Xem ảnh ${i + 1}`}
-                  className="block rounded-lg focus-visible:outline-2 focus-visible:outline-[#A8395A]"
-                >
-                  {/* biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL */}
-                  <img
-                    src={images[i]}
-                    alt={`Ảnh cưới ${i + 1}`}
-                    className="aspect-3/4 w-full rounded-lg object-cover"
-                  />
-                  {/* biome-ignore lint/performance/noImgElement: bóng phản chiếu giả */}
-                  <img
-                    src={images[i]}
-                    alt=""
-                    className="aspect-3/4 h-12 w-full -scale-y-100 rounded-lg object-cover object-bottom opacity-30 mask-[linear-gradient(to_bottom,black,transparent)]"
-                  />
-                </button>
-              ))}
-            </div>
+                  <p className={`mt-2 text-[16px] break-words ${BARK}`}>
+                    {side} · {p.address}
+                  </p>
+                </figcaption>
+              </figure>
+            ) : null,
           )}
         </section>
 
-        {/* 6 · Thuỷ tạ (C5 + C6 + C7) */}
-        <section id="pavilion" className="min-h-[112svh] py-16">
-          <div data-a1 className={`${t.card} text-center`}>
-            <p className={t.label}>Trang VII · Hẹn ngày</p>
-            <p className="mt-2 font-(family-name:--font-serif) text-[88px] font-extralight leading-none lg:text-[128px]">
-              {day}
-            </p>
-            <p className={`${t.label} mt-2 text-[#2F2A26]`}>
-              {formatMonth(date)}
-            </p>
-            {data.date && cd && (
-              <p className="mt-3 text-[#A8395A]">
-                {cd.done
-                  ? "Chúng tôi đã nên duyên vợ chồng ♥"
-                  : `${cd.days} ngày · ${String(cd.hours).padStart(2, "0")} giờ · ${String(cd.minutes).padStart(2, "0")} phút`}
-              </p>
-            )}
-            <div
-              className="my-5 flex items-center gap-3 text-[#D9577A]"
-              aria-hidden="true"
-            >
-              <span className="h-px flex-1 bg-[#4F7D4A]/30" />❀
-              <span className="h-px flex-1 bg-[#4F7D4A]/30" />
-            </div>
-            <ul className="space-y-3 text-left">
-              {[
-                {
-                  name: "Lễ vu quy",
-                  time: "08:00",
-                  at: `Tại nhà gái · ${bride.address}`,
-                },
-                {
-                  name: "Lễ thành hôn",
-                  time: "10:00",
-                  at: `Tại nhà trai · ${groom.address}`,
-                },
-                {
-                  name: "Tiệc cưới",
-                  time: "18:00",
-                  at: `Tại ${venue.name ?? "nhà hàng"}`,
-                },
-              ].map((e) => (
-                <li key={e.name}>
-                  <div className="flex justify-between gap-4 font-(family-name:--font-serif) text-lg">
-                    <span>{e.name}</span>
-                    <span>{e.time}</span>
-                  </div>
-                  <p className="break-words text-[15px] text-[#6B5E53]">
-                    {e.at}
-                  </p>
-                </li>
-              ))}
-            </ul>
-            <MapEmbed
-              venue={venue}
-              className="mt-5 h-[200px] w-full rounded-xl"
-            />
-            <a
-              href={directions}
-              target="_blank"
-              rel="noreferrer"
-              className={`${t.btn} mt-4 inline-flex items-center`}
-            >
-              Chỉ đường
-            </a>
-          </div>
+        {/* ---------- Chuyện tình: 3 trang đổi nhịp ---------- */}
+        <section className="mx-auto flex w-full max-w-6xl flex-col gap-[20svh] px-5 py-[12svh]">
+          {images[3] && (
+            <article className="grid grid-cols-6 items-end gap-x-4 gap-y-8 lg:grid-cols-12 lg:gap-x-10">
+              <div
+                data-rise
+                className="col-span-5 lg:col-span-5 lg:col-start-2"
+              >
+                <PhotoSlot
+                  url={images[3]}
+                  alt="Ngày đầu gặp gỡ"
+                  radius={20}
+                  arch
+                  className="aspect-[3/4] w-full"
+                  onClick={view(3)}
+                />
+              </div>
+              <div
+                data-rise
+                className="col-span-6 lg:col-span-5 lg:col-start-8 lg:pb-[8svh]"
+              >
+                <p className={`${SERIF} text-[15px] tabular-nums ${BARK}`}>
+                  Mùa hạ 2019
+                </p>
+                <h3
+                  className={`${DISPLAY} mt-2 text-[2.6rem] lg:text-[3.4rem]`}
+                >
+                  Ngày đầu gặp gỡ
+                </h3>
+                <p className={`mt-4 max-w-[38ch] ${BARK}`}>
+                  Một buổi sớm ở hồ Tịnh Tâm, anh xin mượn chiếc ô. Cơn mưa tạnh
+                  rồi mà hai người vẫn đứng lại.
+                </p>
+              </div>
+            </article>
+          )}
+
+          {images[4] && (
+            <article data-rise className="relative">
+              <PhotoSlot
+                url={images[4]}
+                alt="Những mùa sen"
+                radius={24}
+                className="aspect-[4/5] w-full sm:aspect-[16/9]"
+                onClick={view(4)}
+              />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 rounded-b-[24px] bg-[linear-gradient(to_top,rgba(30,24,20,0.72),transparent)] px-6 pt-32 pb-8 text-[#FBF7F2] lg:px-12 lg:pb-12">
+                <p
+                  className={`${SERIF} text-[15px] tabular-nums text-[#FBF7F2]/80`}
+                >
+                  2019 đến 2024
+                </p>
+                <h3 className={`${DISPLAY} mt-2 text-[2.6rem] lg:text-[4rem]`}>
+                  Năm mùa sen nở
+                </h3>
+                <p className="mt-3 max-w-[40ch] text-[#FBF7F2]/85">
+                  Mỗi tháng sáu cùng nhau về Tháp Mười, ngồi thuyền trước khi
+                  mặt trời lên.
+                </p>
+              </div>
+            </article>
+          )}
+
+          {images[5] && (
+            <article className="grid grid-cols-6 items-center gap-x-4 gap-y-8 lg:grid-cols-12 lg:gap-x-10">
+              <div
+                data-rise
+                className="order-2 col-span-6 lg:order-1 lg:col-span-4 lg:col-start-2"
+              >
+                <p className={`${SERIF} text-[15px] tabular-nums ${BARK}`}>
+                  Xuân 2025
+                </p>
+                <h3
+                  className={`${DISPLAY} mt-2 text-[2.6rem] lg:text-[3.4rem]`}
+                >
+                  Lời hứa bên đầm
+                </h3>
+                <p className={`mt-4 max-w-[38ch] ${BARK}`}>
+                  Anh ngỏ lời khi bông sen đầu mùa vừa hé. Em gật đầu, và cả đầm
+                  sen như cũng nở theo.
+                </p>
+              </div>
+              <div
+                data-rise
+                className="order-1 col-span-4 col-start-2 lg:order-2 lg:col-span-5 lg:col-start-7"
+              >
+                <PhotoSlot
+                  url={images[5]}
+                  alt="Lời hứa bên đầm"
+                  radius={20}
+                  arch
+                  className="aspect-[2/3] w-full"
+                  onClick={view(5)}
+                />
+              </div>
+            </article>
+          )}
         </section>
 
-        {/* 7 · Cánh sen bay (C10) */}
-        <section
-          id="petals"
-          className="flex min-h-[175svh] items-end justify-center pb-[20svh]"
-        >
-          <div data-a1 className="max-w-[380px] text-center">
-            <p className="font-(family-name:--font-serif) text-xl italic">
-              Tấm lòng như đoá sen thơm, xin gửi đến bạn lời cảm ơn chân thành.
-            </p>
-            <Arch
-              src={images[7] ?? images.at(-1)}
-              className="mx-auto mt-6 w-40"
+        {/* ---------- Album: dải vòm ảnh trôi ngang ---------- */}
+        {gallery.length > 0 && (
+          <section className="relative overflow-hidden">
+            <div className="flex h-[100svh] flex-col justify-center gap-10">
+              <header className="px-5 lg:px-16">
+                <h2 className={`${DISPLAY} text-[clamp(3rem,11vw,6rem)]`}>
+                  Những mùa sen
+                </h2>
+                <p className={`mt-2 ${BARK}`}>
+                  {images.length} khoảnh khắc chúng mình muốn kể bạn nghe.
+                </p>
+              </header>
+              <div
+                ref={track}
+                className={`flex w-max items-end gap-5 px-5 lg:gap-10 lg:px-16 ${reduced ? "max-w-full snap-x snap-mandatory overflow-x-auto pb-4" : ""}`}
+              >
+                {gallery.map((url, k) => {
+                  const i = ALBUM_FROM + k;
+                  const tall = k % 3 !== 1;
+                  return (
+                    <figure key={url} className="shrink-0 snap-center">
+                      <PhotoSlot
+                        url={url}
+                        alt={`Khoảnh khắc ${i + 1}`}
+                        radius={18}
+                        arch={tall}
+                        className={
+                          tall
+                            ? "aspect-[3/4] h-[46svh] lg:h-[56svh]"
+                            : "aspect-[4/5] h-[36svh] lg:h-[44svh]"
+                        }
+                        onClick={view(i)}
+                      />
+                      <figcaption
+                        className={`${SERIF} mt-3 text-[15px] italic tabular-nums ${BARK}`}
+                      >
+                        {pad(i + 1)}
+                      </figcaption>
+                    </figure>
+                  );
+                })}
+                <div className="flex h-[46svh] shrink-0 items-center pr-5 lg:h-[56svh]">
+                  <button
+                    type="button"
+                    onClick={() => setAlbum(true)}
+                    className={`${BTN} bg-[#FBF7F2] ring-1 ring-[#2F2A26]/12 hover:bg-white`}
+                  >
+                    <ImagesIcon className="size-5" />
+                    Xem trọn album
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ---------- Ngày cưới ---------- */}
+        <section className="mx-auto flex min-h-[110svh] w-full max-w-3xl flex-col items-center justify-center px-5 text-center">
+          <p data-rise className={`${SERIF} text-xl italic ${BARK}`}>
+            {formatWeekday(date)}
+          </p>
+          <p
+            data-rise
+            className={`${SERIF} text-[clamp(7rem,34vw,13rem)] leading-none font-extralight tabular-nums`}
+          >
+            {day[0]}
+          </p>
+          <p data-rise className={`text-lg tabular-nums ${BARK}`}>
+            Tháng {Number(day[1])} năm {day[2]}
+          </p>
+          <div
+            data-rise
+            className="mt-10 grid grid-cols-4 gap-2 sm:gap-4"
+            role="timer"
+            aria-label="Thời gian còn lại tới ngày cưới"
+          >
+            {(
+              [
+                ["Ngày", left?.days],
+                ["Giờ", left?.hours],
+                ["Phút", left?.minutes],
+                ["Giây", left?.seconds],
+              ] as const
+            ).map(([label, v]) => (
+              <div
+                key={label}
+                className="min-w-[4.5rem] rounded-t-full rounded-b-3xl bg-[#FBF7F2]/75 px-3 pt-6 pb-4 ring-1 ring-[#2F2A26]/10 backdrop-blur-sm"
+              >
+                <p className={`${SERIF} text-3xl font-light tabular-nums`}>
+                  {v === undefined ? "--" : pad(v)}
+                </p>
+                <p className={`mt-1 text-[13px] ${BARK}`}>{label}</p>
+              </div>
+            ))}
+          </div>
+          <dl
+            data-rise
+            className="mt-12 w-full max-w-sm divide-y divide-[#2F2A26]/12 rounded-3xl bg-[#FBF7F2]/75 px-6 text-left ring-1 ring-[#2F2A26]/10 backdrop-blur-sm"
+          >
+            {(
+              [
+                ["Lễ vu quy", new Date(date.getTime() - 4 * 3_600_000)],
+                ["Lễ thành hôn", new Date(date.getTime() - 3_600_000)],
+                ["Tiệc cưới", date],
+              ] as const
+            ).map(([label, d]) => (
+              <div
+                key={label}
+                className="flex items-baseline justify-between py-4"
+              >
+                <dt>{label}</dt>
+                <dd className={`${SERIF} text-2xl font-light tabular-nums`}>
+                  {formatTime(d)}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        {/* ---------- Địa điểm ---------- */}
+        <section className="mx-auto flex min-h-[100svh] w-full max-w-3xl flex-col justify-center px-5">
+          <h2
+            data-rise
+            className={`${DISPLAY} text-center text-[clamp(3rem,12vw,6rem)]`}
+          >
+            Nơi đón bạn
+          </h2>
+          <p
+            data-rise
+            className={`mt-2 text-center text-lg break-words ${BARK}`}
+          >
+            {venue.name ?? "Nhà hàng tiệc cưới"}
+          </p>
+          <div
+            data-rise
+            className="mt-8 rounded-[2rem] bg-[#FBF7F2]/80 p-1.5 ring-1 ring-[#2F2A26]/10"
+          >
+            <MapEmbed
+              venue={venue}
+              className="aspect-[4/3] w-full rounded-[calc(2rem-0.375rem)] lg:aspect-[16/9]"
             />
-            <p className="mt-4 break-words font-(family-name:--font-serif) text-2xl italic text-[#D9577A]">
-              {groom.name} &amp; {bride.name}
-            </p>
+          </div>
+          <a
+            data-rise
+            href={`https://www.google.com/maps/dir/?api=1&destination=${venue.lat},${venue.lng}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${BTN} mt-8 self-center bg-[#A8395A] text-white hover:-translate-y-0.5`}
+          >
+            Chỉ đường
+            <ArrowUpRightIcon className="size-4" />
+          </a>
+        </section>
+
+        {/* ---------- Lời cảm ơn ---------- */}
+        <section className="mx-auto flex min-h-[120svh] w-full max-w-3xl flex-col items-center justify-center gap-10 px-5 pb-32 text-center">
+          {images[0] && (
+            <div
+              data-rise
+              className="w-[min(70vw,340px)] rounded-t-full rounded-b-[26px] bg-[#FBF7F2]/80 p-2 ring-1 ring-[#2F2A26]/10"
+            >
+              <PhotoSlot
+                url={images[0]}
+                alt={couple}
+                radius={20}
+                arch
+                className="aspect-[3/4] w-full"
+                onClick={view(0)}
+              />
+            </div>
+          )}
+          <p
+            data-rise
+            className={`${SERIF} text-xl leading-relaxed italic ${BARK} lg:text-2xl`}
+          >
+            Gần bùn mà chẳng hôi tanh mùi bùn
+          </p>
+          <p data-rise className="max-w-[34ch] text-lg">
+            Cảm ơn bạn đã đọc đến trang cuối. Sự hiện diện của bạn là niềm vui
+            trọn vẹn nhất của hai gia đình.
+          </p>
+          <p
+            data-rise
+            className={`${DISPLAY} text-[clamp(3rem,13vw,6rem)] text-balance break-words`}
+          >
+            {couple}
+          </p>
+          <div data-rise>
+            <GiftButton
+              className={`${BTN} bg-[#A8395A] pl-2 text-white hover:-translate-y-0.5 [&>span]:bg-white [&>span]:text-[#A8395A]`}
+            />
           </div>
         </section>
       </main>
 
-      {lightbox !== null && (
-        // biome-ignore lint/a11y/useKeyWithClickEvents: Esc xử lý qua listener window, có nút "Đóng"
-        <div
-          role="dialog"
-          aria-modal
-          aria-label="Xem ảnh"
-          className="fixed inset-0 z-[45] flex items-center justify-center bg-[#2F2A26]/85 p-4"
-          onClick={() => setLightbox(null)}
-        >
-          {/* biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL */}
-          <img
-            src={images[lightbox]}
-            alt={`Ảnh cưới ${lightbox + 1}`}
-            className="max-h-[85svh] max-w-full rounded-lg object-contain"
-          />
-          <button
-            type="button"
-            onClick={() => setLightbox(null)}
-            className="absolute top-20 right-4 min-h-11 rounded-full bg-white/90 px-4 text-sm"
-          >
-            Đóng
-          </button>
-        </div>
-      )}
+      <Lightbox
+        images={images}
+        index={photo}
+        onIndex={setPhoto}
+        onClose={() => setPhoto(null)}
+      />
+      <AlbumSheet
+        images={images}
+        open={album}
+        onPick={(i) => {
+          setAlbum(false);
+          setPhoto(i);
+        }}
+        onClose={() => setAlbum(false)}
+      />
     </div>
   );
 }

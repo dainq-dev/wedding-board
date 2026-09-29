@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Be_Vietnam_Pro, Noto_Serif_Display } from "next/font/google";
+import { Noto_Serif_Display, Public_Sans } from "next/font/google";
 import { meta } from "./meta";
 
+// Art direction v2: tên & tiêu đề Noto Serif Display (italic light), nội dung Public Sans.
 const serif = Noto_Serif_Display({
   subsets: ["vietnamese"],
   weight: ["200", "300", "400"],
   style: ["normal", "italic"],
   variable: "--font-serif",
 });
-const sans = Be_Vietnam_Pro({
+const sans = Public_Sans({
   subsets: ["vietnamese"],
-  weight: ["300", "500"],
   variable: "--font-sans",
 });
 
@@ -21,8 +21,6 @@ export const metadata: Metadata = {
 
 export default function LotusLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: LayoutProps<"/mau-thiep-cuoi/lotus-3d">) {
   return <div className={`${serif.variable} ${sans.variable}`}>{children}</div>;
 }

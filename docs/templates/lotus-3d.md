@@ -5,6 +5,24 @@
 
 ---
 
+## 0. Thiết kế lại v2 (29/09/2026) — thay thế các mục bên dưới khi mâu thuẫn
+
+Bản v1 không đạt ([visual-quality.md §7](../visual-quality.md)): hoa sen gấp từ vài mặt phẳng, ảnh là plane trần, card mờ khó đọc, nhiều đoạn cuộn trống.
+
+**Design Read:** thiệp cưới cho cặp đôi trân trọng nét Việt, gia đình có nhiều người lớn tuổi; ngôn ngữ *tranh lụa bình minh, thanh tịnh, chậm rãi*; nghiêng về *heritage editorial* với mặt nước phản chiếu thật.
+**Dial:** VARIANCE 6 · MOTION 4 · DENSITY 2.
+
+**Art direction**
+- *Tham chiếu:* đầm sen Tháp Mười lúc 5 giờ sáng; tranh lụa Nguyễn Phan Chánh; cửa vòm nhà rường Huế; ảnh sương sớm trên mặt hồ tĩnh.
+- *Phong cách hình khối:* **stylized mịn**: cánh sen là bề mặt cong nhiều phân đoạn (gradient trắng → hồng, sheen), lá sen tròn có gân, mặt nước `MeshReflectorMaterial` phản chiếu mờ, sương là sprite mềm, hàng tre xa là silhouette mờ trong sương. Không có khối gấp cạnh.
+- *Khung ảnh:* **vòm cửa** (nửa tròn trên) gợi kiến trúc Việt; ảnh ngang chữ nhật bo nhẹ.
+- *Bảng màu:* sương `#F6EFE7`, mực `#2F2A26`, nâu nhạt `#6B5E53`, nhấn duy nhất hồng sen đậm `#A8395A`; trời bình minh đào → xanh sớm.
+- *Chữ:* **Noto Serif Display** (italic light) cho tên & tiêu đề; **Public Sans** cho nội dung, 17px vì người xem lớn tuổi.
+- *Bố cục khác các mẫu khác:* album là **dải cuộn ngang được ghim** (các vòm ảnh trôi ngang như đi thuyền qua đầm), chuyện tình là 3 "trang" đổi nhịp (vòm lớn · ảnh ngang tràn có chữ đè · vòm đôi).
+- *3 hero shot:* (1) màn mở: bông sen lớn nở cận cảnh, mặt trời vừa lên sau hàng tre, câu ca dao; (2) album ngang: vòm ảnh lướt qua, mặt nước phản chiếu hoa sen; (3) kết: vòm ảnh cưới, câu *"Gần bùn mà chẳng hôi tanh mùi bùn"*, nút *Gửi lời chúc*.
+
+---
+
 ## 1. Concept
 
 **Một câu:** Bình minh trên một đầm sen quê; camera lướt sát mặt nước phủ sương, một chú chuồn chuồn dẫn đường, mỗi nụ sen nở ra là một trang của lời mời.

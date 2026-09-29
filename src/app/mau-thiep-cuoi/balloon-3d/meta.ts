@@ -4,7 +4,7 @@ export const meta: TemplateMeta = {
   slug: "balloon-3d",
   name: "Khinh Khí Cầu",
   description:
-    "Cùng bước lên khinh khí cầu: cuộn trang là bay lên qua phố, xuyên mây, ngắm hoàng hôn trên biển mây rồi chạm tới trời sao.",
+    "Bay cùng khinh khí cầu từ sáng trong qua giờ vàng tới trời sao, ảnh cưới lơ lửng giữa mây.",
   thumbnail: "/templates/balloon-3d/thumb.png",
   tech: "3d",
   styles: ["playful", "cinematic"],
