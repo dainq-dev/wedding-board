@@ -1,5 +1,13 @@
 # 2D-09 · `botanical-2d` · Vườn Màu Nước
 
+## Design Read
+
+**Đọc là:** thiệp cưới online cho một cặp đôi tổ chức hôn lễ sân vườn, ngôn ngữ màu nước sage dịu và nghi lễ Việt trang trọng, nghiêng về một khu vườn biên tập trên giấy cotton hơn là một trang web trang trí hoa lá.
+
+- **DESIGN_VARIANCE:** 7/10 · Các chương thay đổi nhịp ảnh, lịch, vòm sự kiện và lối vườn, nhưng chỉ dùng một ngôn ngữ vòm và lá.
+- **MOTION_INTENSITY:** 6/10 · Khoảnh khắc đi xuyên qua phong bì và lá mép trôi có chủ đích; phần đọc thông tin đứng yên, tôn trọng reduced motion.
+- **VISUAL_DENSITY:** 3/10 · Không gian thở rộng, chỉ một tiêu điểm mỗi viewport, lá nằm ngoài cột đọc để ảnh và tên cặp đôi luôn là nhân vật chính.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md). Mẫu chuẩn tham chiếu: [letter-2d.md](./letter-2d.md).
 

@@ -1,5 +1,13 @@
 # 2D-10 · `boho-2d` · Boho Đất Nung
 
+## Design Read
+
+Đọc là: thiệp cưới online cho một cặp đôi yêu một lễ cưới ngoài trời nhỏ, ngôn ngữ bohemian đất nung ấm và mộc, nghiêng về vẻ tĩnh tại của một cuốn photobook Địa Trung Hải hơn là một trang landing page trang trí.
+
+- **DESIGN_VARIANCE:** 7/10 — nhịp vòm hẹp, rộng và đôi xen kẽ như những khoảng sân trong một ngôi nhà đất.
+- **MOTION_INTENSITY:** 6/10 — mặt trời dẫn nhịp hành trình; chuyển động chậm, có trọng lượng, không gây xao nhãng khi đọc.
+- **VISUAL_DENSITY:** 3/10 — nhiều khoảng thở, ảnh là điểm nhìn chính, hoạ tiết pampas chỉ đóng vai trò khung cảnh.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md). Mẫu chuẩn tham chiếu: [letter-2d.md](./letter-2d.md).
 

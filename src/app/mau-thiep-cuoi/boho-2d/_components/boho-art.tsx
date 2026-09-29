@@ -1,0 +1,99 @@
+"use client";
+
+import type { ReactNode } from "react";
+import { useRef } from "react";
+import { gsap, useGSAP } from "@/kit/gsap";
+import { useReducedMotion } from "@/kit/use-reduced-motion";
+
+export function Sun({ className = "" }: { readonly className?: string }) {
+  return (
+    <svg viewBox="0 0 100 100" aria-hidden="true" className={className}>
+      <g stroke="currentColor" strokeWidth="5" strokeLinecap="round">
+        {Array.from({ length: 12 }, (_, index) => {
+          const angle = index * 30;
+          return (
+            <path
+              key={angle}
+              d="M50 6v13"
+              transform={`rotate(${angle} 50 50)`}
+            />
+          );
+        })}
+      </g>
+      <circle cx="50" cy="50" r="23" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function Pampas({ className = "" }: { readonly className?: string }) {
+  const root = useRef<SVGSVGElement>(null);
+  const reduced = useReducedMotion();
+
+  useGSAP(
+    () => {
+      if (reduced || !root.current) return;
+      return gsap.to(root.current, {
+        rotate: 4,
+        transformOrigin: "bottom center",
+        duration: 3.5,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      });
+    },
+    { scope: root, dependencies: [reduced] },
+  );
+
+  return (
+    <svg ref={root} viewBox="0 0 120 220" aria-hidden="true" className={className}>
+      <g fill="none" stroke="currentColor" strokeLinecap="round">
+        <path d="M52 220C58 145 50 78 20 8" strokeWidth="3" />
+        <path d="M60 220C65 155 74 83 102 24" strokeWidth="3" />
+        <path d="M66 220C63 126 62 47 59 4" strokeWidth="3" />
+        {Array.from({ length: 18 }, (_, index) => {
+          const y = 14 + index * 8;
+          return (
+            <path
+              key={y}
+              d={`M${38 + index / 2} ${y + 14}q20 -14 31 -3M${70 - index / 3} ${y + 8}q-18 -13 -30 -1`}
+              strokeWidth="2"
+              opacity="0.8"
+            />
+          );
+        })}
+      </g>
+    </svg>
+  );
+}
+
+export function Arch({
+  children,
+  className = "",
+}: {
+  readonly children: ReactNode;
+  readonly className?: string;
+}) {
+  return (
+    <div
+      data-boho-reveal
+      className={`relative overflow-hidden rounded-t-[999px] border-2 border-[#E8D8BF] bg-[#FFFAF3] shadow-[0_22px_55px_-34px_rgba(74,52,38,0.55)] ${className}`}
+    >
+      <span className="pointer-events-none absolute inset-2 rounded-t-[999px] border border-[#E8D8BF]/70" />
+      <div className="relative">{children}</div>
+    </div>
+  );
+}
+
+export function Grain() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-30 h-full w-full opacity-[0.045] mix-blend-multiply"
+    >
+      <filter id="boho-2d-grain">
+        <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#boho-2d-grain)" />
+    </svg>
+  );
+}
