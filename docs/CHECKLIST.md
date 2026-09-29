@@ -57,12 +57,12 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | [ ] | 2D-13 | **Gatsby** `gatsby-2d` | [spec](./templates/gatsby-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-2 | master | |
 | [ ] | 2D-14 | **Đĩa Than 70s** `vinyl-2d` | [spec](./templates/vinyl-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-2 | master | |
 | [ ] | 2D-15 | **Truyện Tranh** `comic-2d` | [spec](./templates/comic-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-2 | master | |
-| [ ] | 2D-16 | **Nhiệm Vụ 8-bit** `pixel-2d` | [spec](./templates/pixel-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-17 | **Thẻ Lên Máy Bay** `boarding-2d` | [spec](./templates/boarding-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-18 | **Lịch Bloc** `lich-to-2d` | [spec](./templates/lich-to-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-19 | **Báo Tin Vui** `newspaper-2d` | [spec](./templates/newspaper-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-20 | **Cà Phê Sài Gòn** `cafe-2d` | [spec](./templates/cafe-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-21 | **Tin Nhắn Đầu Tiên** `chat-2d` | [spec](./templates/chat-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-16 | **Nhiệm Vụ 8-bit** `pixel-2d` | [spec](./templates/pixel-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
+| [ ] | 2D-17 | **Thẻ Lên Máy Bay** `boarding-2d` | [spec](./templates/boarding-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
+| [ ] | 2D-18 | **Lịch Bloc** `lich-to-2d` | [spec](./templates/lich-to-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ; C11 âm lịch cần `src/kit/lunar.ts` (thuật toán Hồ Ngọc Đức + test) |
+| [ ] | 2D-19 | **Báo Tin Vui** `newspaper-2d` | [spec](./templates/newspaper-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
+| [ ] | 2D-20 | **Cà Phê Sài Gòn** `cafe-2d` | [spec](./templates/cafe-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
+| [ ] | 2D-21 | **Tin Nhắn Đầu Tiên** `chat-2d` | [spec](./templates/chat-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
 
 ## P5 — 3D đợt B
 
