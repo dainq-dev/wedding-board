@@ -18,9 +18,17 @@ export function GridLines({ dark = false }: { dark?: boolean }) {
     { scope: root },
   );
   return (
-    <div ref={root} aria-hidden="true" className="pointer-events-none absolute inset-0 grid grid-cols-4 px-4 lg:grid-cols-12 lg:px-12">
+    <div
+      ref={root}
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 grid grid-cols-4 px-4 lg:grid-cols-12 lg:px-12"
+    >
       {Array.from({ length: 13 }, (_, index) => (
-        <i key={index} className={`swiss-grid-line border-l ${dark ? "border-[#262626]" : "border-[#d9d9d9]"}`} />
+        <i
+          // biome-ignore lint/suspicious/noArrayIndexKey: danh sách trang trí tĩnh, không đổi thứ tự
+          key={index}
+          className={`swiss-grid-line border-l ${dark ? "border-[#262626]" : "border-[#d9d9d9]"}`}
+        />
       ))}
     </div>
   );

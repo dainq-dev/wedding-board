@@ -10,6 +10,7 @@ export function Sun({ className = "" }: { readonly className?: string }) {
       <g stroke="currentColor" strokeWidth="5" strokeLinecap="round">
         {Array.from({ length: 12 }, (_, index) => (
           <path
+            // biome-ignore lint/suspicious/noArrayIndexKey: danh sách trang trí tĩnh, không đổi thứ tự
             key={index}
             d="M50 7v13"
             transform={`rotate(${index * 30} 50 50)`}
@@ -40,7 +41,12 @@ export function Pampas({ className = "" }: { readonly className?: string }) {
   );
 
   return (
-    <svg ref={root} viewBox="0 0 120 220" aria-hidden="true" className={className}>
+    <svg
+      ref={root}
+      viewBox="0 0 120 220"
+      aria-hidden="true"
+      className={className}
+    >
       <g fill="none" stroke="currentColor" strokeLinecap="round">
         <path d="M52 220C58 145 50 78 20 8" strokeWidth="3" />
         <path d="M60 220C65 155 74 83 102 24" strokeWidth="3" />

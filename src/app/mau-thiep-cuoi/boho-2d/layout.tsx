@@ -14,8 +14,13 @@ const body = Josefin_Sans({
   variable: "--font-boho-body",
 });
 
-export const metadata: Metadata = { title: meta.name, description: meta.description };
+export const metadata: Metadata = {
+  title: meta.name,
+  description: meta.description,
+};
 
 export default function Boho2dLayout({ children }: { children: ReactNode }) {
-  return <div className={`${display.variable} ${body.variable}`}>{children}</div>;
+  return (
+    <div className={`${display.variable} ${body.variable}`}>{children}</div>
+  );
 }
