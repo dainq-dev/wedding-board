@@ -38,22 +38,8 @@ export function LotusInvite() {
 function Invite() {
   const { data } = useWedding();
   const { groom, bride, venue, images } = data;
-  const music = useMusic(0.5);
-  const reduced = useReducedMotion();
   const music = useMusic();
-
-  const [phase, setPhase] = useState<"closed" | "intro" | "open">("closed");
-  const [lightbox, setPhoto] = useState<number | null>(null);
-  const [showAll, setShowAll] = useState(false);
-  useScrollLock(phase !== "open");
-
-  const track = useRef<HTMLElement>(null);
-  const gate = useRef<HTMLDivElement>(null);
-  const progress = useScrollProgress(track);
-  const introStart = useRef<number | null>(null);
-  const intro = useRef<gsap.core.Timeline | null>(null);
-  const bloomCards = useRef<Partial<Record<BloomId, HTMLElement | null>>>({});
-
+  const reduced = useReducedMotion();
   const date = weddingDate(data);
   const left = useCountdown(date);
 

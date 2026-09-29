@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import { Ephesis, Lora } from "next/font/google";
+import type { ReactNode } from "react";
 import { meta } from "./meta";
 
 const script = Ephesis({
@@ -23,5 +23,7 @@ export default function AoDai2dLayout({
 }: {
   readonly children: ReactNode;
 }) {
-  return <div className={`${script.variable} ${body.variable}`}>{children}</div>;
+  return (
+    <div className={`${script.variable} ${body.variable}`}>{children}</div>
+  );
 }

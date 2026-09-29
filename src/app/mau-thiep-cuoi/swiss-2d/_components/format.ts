@@ -1,4 +1,5 @@
-export const initials = (name: string) => name.trim().split(/\s+/).at(-1)?.[0]?.toUpperCase() ?? "?";
+export const initials = (name: string) =>
+  name.trim().split(/\s+/).at(-1)?.[0]?.toUpperCase() ?? "?";
 
 export const scheduleFrom = (date: Date) => {
   const offsets = [-60, 0, 30, 120] as const;
@@ -21,4 +22,6 @@ export const formatCoord = (lat: number, lng: number) =>
   `${Math.abs(lat).toFixed(4)}° ${lat >= 0 ? "N" : "S"} / ${Math.abs(lng).toFixed(4)}° ${lng >= 0 ? "E" : "W"}`;
 
 export const fitNameClass = (name: string) =>
-  name.length > 28 ? "text-[15vw] lg:text-[12vw]" : "text-[22vw] lg:text-[20vw]";
+  name.length > 28
+    ? "text-[15vw] lg:text-[12vw]"
+    : "text-[22vw] lg:text-[20vw]";
