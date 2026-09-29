@@ -68,7 +68,9 @@ function WalkRig({ progress }: { progress: { current: number } }) {
     const t = PATH.getTangentAt(w);
     pos.set(p.x, EYE + Math.sin(b.phase) * 0.035 * a, p.z);
     dummy.position.copy(pos);
-    dummy.lookAt(pos.x + t.x, EYE, pos.z + t.z);
+    // Object3D.lookAt hướng +z về target, còn camera nhìn theo −z →
+    // nhìn NGƯỢC tiếp tuyến để camera (chép quaternion) hướng về phía trước lối.
+    dummy.lookAt(pos.x - t.x, EYE, pos.z - t.z);
     dummy.rotateY(-(yaw + px.current * -6) * DEG);
     dummy.rotateX(pitch * DEG);
     dummy.rotateZ(Math.sin(b.phase / 2) * 0.4 * DEG * a);
@@ -247,9 +249,21 @@ function PhotoPlane({
       <mesh ref={ref} position={at}>
         <planeGeometry args={[1.2, 1.6]} />
         {basic ? (
-          <meshBasicMaterial ref={brightRef} map={tex} color="#262626" />
+          // key: material tạo khi map=null không tự recompile shader khi texture về.
+          <meshBasicMaterial
+            key={tex?.uuid ?? "none"}
+            ref={brightRef}
+            map={tex}
+            color="#262626"
+            // Ảnh là thứ cần khoe: không để fog đêm nuốt mất.
+            fog={false}
+          />
         ) : (
-          <meshStandardMaterial map={tex} roughness={0.9} />
+          <meshStandardMaterial
+            key={tex?.uuid ?? "none"}
+            map={tex}
+            roughness={0.9}
+          />
         )}
         <mesh position={[0, 0, -0.02]}>
           <planeGeometry args={[1.32, 1.72]} />
@@ -282,17 +296,19 @@ function Photos({
   progress: { current: number };
 }) {
   const light = useRef<PointLight>(null);
+  // Hành lang ảnh: MỌI ảnh sau chân dung, xen kẽ trái/phải dọc lối đi w 0.44 → 0.70.
+  const n = Math.max(0, images.length - 3);
   const corridor = useMemo(
     () =>
-      [3, 4, 5, 6, 7].map((img, i) => {
-        const w = 0.44 + i * 0.05;
+      Array.from({ length: n }, (_, i) => {
+        const w = 0.44 + (0.26 * i) / Math.max(1, n - 1);
         return {
-          img,
+          img: 3 + i,
           at: along(w, 0, i % 2 ? 1.8 : -1.8, 1.9),
           face: along(w, -4),
         };
       }),
-    [],
+    [n],
   );
   const mats = useRef<(MeshBasicMaterial | null)[]>([]);
   const cam = useThree((s) => s.camera);
@@ -318,7 +334,7 @@ function Photos({
       const m = mats.current[i];
       if (!m) return;
       const d = cam.position.distanceTo(c.at);
-      const b = 0.15 + 0.85 * Math.max(0, Math.min(1, (6 - d) / 3));
+      const b = 0.6 + 0.4 * Math.max(0, Math.min(1, (6 - d) / 3));
       m.color.setScalar(b);
     });
   });
@@ -454,7 +470,7 @@ function Fog({
   useEffect(() => {
     if (!opened) return;
     const tw = gsap.to(base.current, {
-      v: 0.07,
+      v: 0.05,
       delay: 0.8,
       duration: 1.6,
       ease: "sine.inOut",
@@ -477,8 +493,9 @@ export default function Scene(props: SceneProps) {
     <>
       <color attach="background" args={["#050D0A"]} />
       <fogExp2 attach="fog" args={["#050D0A", 0.12]} />
-      <ambientLight intensity={0.05} />
-      <hemisphereLight args={["#1a2a22", "#020604", 0.15]} />
+      {/* Ánh trăng đủ để đọc được dáng rừng + ảnh; đom đóm vẫn là nguồn sáng chính. */}
+      <ambientLight intensity={0.18} />
+      <hemisphereLight args={["#3B5A4A", "#050D0A", 0.55]} />
       <WalkRig progress={progress} />
       <Fog opened={opened} progress={progress} />
       <Forest mobile={mobile} />

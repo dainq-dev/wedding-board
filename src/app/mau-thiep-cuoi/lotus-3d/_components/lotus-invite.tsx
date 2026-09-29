@@ -11,7 +11,7 @@ import { useReducedMotion } from "@/kit/use-reduced-motion";
 import { useScrollLock } from "@/kit/use-scroll-lock";
 import { useWedding } from "@/wedding/wedding-data-provider";
 import { LotusCanvas, PETAL_PATH, useThreeD } from "./lotus-canvas";
-import { type BloomId, cardVisible, REFLECTION_INDEX } from "./pond";
+import { type BloomId, cardVisible, reflectionIndex } from "./pond";
 
 export const t = {
   root: "min-h-screen bg-[#F6EFE7] text-[#2F2A26] font-(family-name:--font-sans) font-light text-[17px] leading-[1.75]",
@@ -190,7 +190,7 @@ export function LotusInvite() {
     timeZone: TZ,
   }).format(date);
   const directions = `https://www.google.com/maps/dir/?api=1&destination=${venue.lat},${venue.lng}`;
-  const gallery = REFLECTION_INDEX.filter((i) => images[i]);
+  const gallery = reflectionIndex(images.length).filter((i) => images[i]);
 
   return (
     <div className={`${t.root} relative isolate overflow-x-clip`}>

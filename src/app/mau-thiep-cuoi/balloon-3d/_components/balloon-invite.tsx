@@ -339,7 +339,8 @@ export function BalloonInvite() {
       {/* C2 + C3 · Đi lên */}
       <section
         id="rise"
-        className="min-h-[255svh] pr-12 pl-4 pt-[55svh] sm:pr-16"
+        // Màn mở trong suốt → ẩn card tên tới khi cất cánh, tránh 2 lớp tên chồng nhau.
+        className={`min-h-[255svh] pr-12 pl-4 pt-[55svh] transition-opacity duration-700 sm:pr-16 ${opened ? "" : "opacity-0"}`}
       >
         <RibbonCard className="mx-auto text-center">
           <p className={t.soft}>Trân trọng kính mời</p>
@@ -414,7 +415,8 @@ export function BalloonInvite() {
         ) : (
           <>
             <p className={`${t.soft} mt-2`}>
-              Chạm vào khinh khí cầu để xem ảnh
+              {images.length} khoảnh khắc đang bay quanh bạn · chạm vào khinh
+              khí cầu để xem
             </p>
             <RibbonCard className="mx-auto mt-[65svh] w-fit p-3">
               <button

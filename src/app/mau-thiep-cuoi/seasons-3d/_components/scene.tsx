@@ -91,19 +91,22 @@ function World({ progress, intro, images, onPhoto }: Omit<Props, "fallback">) {
         <meshStandardMaterial ref={hill} flatShading />
       </mesh>
       <Tree mobile={mobile} progress={progress} intro={intro}>
-        {(tips) =>
-          pics
-            .slice(3, 9)
+        {(tips) => {
+          const album = pics.slice(3);
+          // Lấy mẫu đều theo góc; nhiều ảnh hơn đầu cành thì dừng ở số đầu cành.
+          const n = Math.min(album.length, tips.length);
+          return album
+            .slice(0, n)
             .map((src, i) => (
               <HangingPhoto
                 key={src}
                 url={src}
-                at={tips[i]}
+                at={tips[Math.floor((i * tips.length) / n)]}
                 i={i}
                 onClick={() => onPhoto(3 + i)}
               />
-            ))
-        }
+            ));
+        }}
       </Tree>
       {pics.slice(1, 3).map((src, i) => (
         <Photo
@@ -200,16 +203,12 @@ function Tree({
       const b = branches[i % branches.length];
       return new Vector3().lerpVectors(b.start, b.end, rand());
     });
-    // 6 đầu cành phía camera nhìn ở mùa thu (θ ≈ 200°) để treo ảnh.
+    // Đầu cành 2 tầng cuối, sắp theo góc quanh thân → World lấy mẫu đều để
+    // ảnh treo phủ vòng tròn (camera bay vòng quanh cây qua 4 mùa).
     const tips = branches
-      .filter((b) => b.depth === depth - 1)
+      .filter((b) => b.depth >= depth - 2)
       .map((b) => b.end)
-      .sort(
-        (a, b) =>
-          Math.abs(Math.atan2(a.x, a.z) + 2.8) -
-          Math.abs(Math.atan2(b.x, b.z) + 2.8),
-      )
-      .slice(0, 6)
+      .sort((a, b) => Math.atan2(a.x, a.z) - Math.atan2(b.x, b.z))
       .map((t) => t.clone().setY(Math.max(3, t.y - 1.2)));
     return { trunk, leaves, bulbs, tips };
   }, [depth, leafCount, bulbCount]);
@@ -319,7 +318,12 @@ function Photo({
       {...cursor}
     >
       <planeGeometry args={[0.9, 1.2]} />
-      <meshBasicMaterial map={tex} color={tex ? "#ffffff" : "#f5f5f4"} />
+      {/* key: material tạo khi map=null không tự recompile shader khi texture về. */}
+      <meshBasicMaterial
+        key={tex?.uuid ?? "none"}
+        map={tex}
+        color={tex ? "#ffffff" : "#f5f5f4"}
+      />
     </mesh>
   );
 }

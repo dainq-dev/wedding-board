@@ -72,5 +72,19 @@ export function cardVisible(id: BloomId, p: number): boolean {
   return bloomAt(id, p) > 0.6 && p >= a && p < b;
 }
 
-// images[3..7] + images[0]: 6 ảnh cắm đứng trên mặt nước (C8).
-export const REFLECTION_INDEX = [3, 4, 5, 6, 7, 0];
+// Album C8 dùng MỌI ảnh: images[3..n-1] rồi ảnh bìa images[0].
+export function reflectionIndex(n: number): number[] {
+  return [...Array(Math.max(0, n - 3)).keys()]
+    .map((i) => i + 3)
+    .concat(n > 0 ? [0] : []);
+}
+
+// Lối ảnh 2 bên trên mặt nước (z −37 → trước đình −57), chừa lối giữa cho camera.
+export function reflectionSlot(i: number): { pos: Vec3; rotY: number } {
+  const side = i % 2 ? 1 : -1;
+  const row = Math.floor(i / 2);
+  return {
+    pos: [side * (1.6 + (row % 2) * 1.3), 0.8, -37 - row * 1.4],
+    rotY: -side * 0.35,
+  };
+}
