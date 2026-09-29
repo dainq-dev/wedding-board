@@ -53,6 +53,16 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 
 | ✓ | # | Mẫu | Spec | Trạng thái | Người làm | Branch / PR | Ghi chú |
 |---|---|---|---|---|---|---|---|
+| [ ] | 2D-12 | **Tiệc Vườn Picnic** `picnic-2d` | [spec](./templates/picnic-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-13 | **Gatsby** `gatsby-2d` | [spec](./templates/gatsby-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-14 | **Đĩa Than 70s** `vinyl-2d` | [spec](./templates/vinyl-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-15 | **Truyện Tranh** `comic-2d` | [spec](./templates/comic-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-16 | **Nhiệm Vụ 8-bit** `pixel-2d` | [spec](./templates/pixel-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-17 | **Thẻ Lên Máy Bay** `boarding-2d` | [spec](./templates/boarding-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-18 | **Lịch Bloc** `lich-to-2d` | [spec](./templates/lich-to-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-19 | **Báo Tin Vui** `newspaper-2d` | [spec](./templates/newspaper-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-20 | **Cà Phê Sài Gòn** `cafe-2d` | [spec](./templates/cafe-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-21 | **Tin Nhắn Đầu Tiên** `chat-2d` | [spec](./templates/chat-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
 | [ ] | 2D-12 | **Tiệc Vườn Picnic** `picnic-2d` | [spec](./templates/picnic-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | agent chết ở skeleton → orchestrator implement toàn bộ (gate khăn caro, couple, menu lịch trình, album); verify DOM chốt ở batch integration |
 | [ ] | 2D-13 | **Gatsby** `gatsby-2d` | [spec](./templates/gatsby-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | agent chết ở skeleton → orchestrator implement (rèm nhung, Deco, showtime, champagne); chờ owner duyệt §6 |
 | [ ] | 2D-14 | **Đĩa Than 70s** `vinyl-2d` | [spec](./templates/vinyl-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | đĩa góc trái quay theo nhạc (đặc trưng spec); chờ owner duyệt §6 |
@@ -78,15 +88,15 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 
 | ✓ | # | Mẫu | Spec | Trạng thái | Người làm | Branch / PR | Ghi chú |
 |---|---|---|---|---|---|---|---|
-| [ ] | 2D-22 | **Gỗ Mộc Đèn Dây** `rustic-2d` | [spec](./templates/rustic-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-23 | **Neon Sài Gòn** `neon-2d` | [spec](./templates/neon-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-24 | **Sơn Mài** `son-mai-2d` | [spec](./templates/son-mai-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-25 | **Tranh Đông Hồ** `dong-ho-2d` | [spec](./templates/dong-ho-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-26 | **Sương Đà Lạt** `da-lat-2d` | [spec](./templates/da-lat-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-27 | **Bản Đồ Hành Trình** `route-map-2d` | [spec](./templates/route-map-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-28 | **Đá Cẩm Thạch** `marble-2d` | [spec](./templates/marble-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-29 | **Nét Sáp Màu** `crayon-2d` | [spec](./templates/crayon-2d.md) | ⬜ Chưa làm | | | |
-| [ ] | 2D-30 | **Đêm Đầy Sao** `starry-2d` | [spec](./templates/starry-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-22 | **Gỗ Mộc Đèn Dây** `rustic-2d` | [spec](./templates/rustic-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-23 | **Neon Sài Gòn** `neon-2d` | [spec](./templates/neon-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-24 | **Sơn Mài** `son-mai-2d` | [spec](./templates/son-mai-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-25 | **Tranh Đông Hồ** `dong-ho-2d` | [spec](./templates/dong-ho-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-26 | **Sương Đà Lạt** `da-lat-2d` | [spec](./templates/da-lat-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-27 | **Bản Đồ Hành Trình** `route-map-2d` | [spec](./templates/route-map-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-28 | **Đá Cẩm Thạch** `marble-2d` | [spec](./templates/marble-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-29 | **Nét Sáp Màu** `crayon-2d` | [spec](./templates/crayon-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-30 | **Đêm Đầy Sao** `starry-2d` | [spec](./templates/starry-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
 
 ## Thay đổi dùng chung
 
@@ -96,3 +106,4 @@ Ghi lại mọi thay đổi ngoài thư mục mẫu để người khác biết 
 |---|---|---|---|---|
 | 29/09/2026 | Qwen · 2D-batch-1 | `src/wedding/sample-data.ts` | Mẫu mặc định dùng 20 ảnh JPEG thật từ `/wedding-images/`, không còn SVG placeholder | |
 | 29/09/2026 | Qwen · 2D-batch-1 | `src/kit/music.tsx` callers + audio spec | Mọi mẫu dùng chung `public/music-wedding.mp3` qua `useMusic()`; chỉ owner mới được override nhạc riêng | |
+| 29/09/2026 | Claude agent · 2D-20..30 | `src/kit/open-gate.tsx` | `OpenGate` chỉ thêm `bg-black` khi mẫu không truyền `bg-` (trước đây `bg-black` đứng sau trong CSS nên luôn thắng nền riêng của mẫu, vd song-hy nền đỏ) | |

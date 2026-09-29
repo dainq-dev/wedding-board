@@ -105,23 +105,25 @@ export function TemplateGrid({ templates }: { templates: TemplateMeta[] }) {
                 ["2d", "2D"],
                 ["3d", "3D"],
               ] as const
-            ).map(([v, label]) => (
-              <button
-                key={v}
-                type="button"
-                role="tab"
-                aria-selected={tech === v}
-                onClick={() =>
-                  update((p) => (v ? p.set("tech", v) : p.delete("tech")))
-                }
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-full px-4 py-2 text-sm text-[#5E6661] transition-colors aria-selected:bg-white aria-selected:text-[#16181A] aria-selected:shadow-sm sm:flex-none"
-              >
-                {label}
-                <span className="text-xs tabular-nums opacity-60">
-                  {count(v)}
-                </span>
-              </button>
-            ))}
+            )
+              .filter(([v]) => v === "" || count(v) > 0)
+              .map(([v, label]) => (
+                <button
+                  key={v}
+                  type="button"
+                  role="tab"
+                  aria-selected={tech === v}
+                  onClick={() =>
+                    update((p) => (v ? p.set("tech", v) : p.delete("tech")))
+                  }
+                  className="flex flex-1 items-center justify-center gap-1.5 rounded-full px-4 py-2 text-sm text-[#5E6661] transition-colors aria-selected:bg-white aria-selected:text-[#16181A] aria-selected:shadow-sm sm:flex-none"
+                >
+                  {label}
+                  <span className="text-xs tabular-nums opacity-60">
+                    {count(v)}
+                  </span>
+                </button>
+              ))}
           </div>
           <label className="relative flex-1">
             <svg

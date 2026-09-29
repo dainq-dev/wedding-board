@@ -38,6 +38,9 @@ export function OpenGate({
 
   if (closed) return null;
 
+  // Mẫu truyền bg- riêng thì bỏ nền đen mặc định (bg-black đứng sau trong CSS nên luôn thắng).
+  const bg = /(^|\s)bg-/.test(className) ? "" : "bg-black";
+
   // z-40: nút "Quay lại"/"Dùng thử" của layout chung ở z-50 (spec §4.2).
   const open = () => {
     onOpen();
@@ -66,7 +69,7 @@ export function OpenGate({
         if ((e.key === "Enter" || e.key === " ") && e.target === gate.current)
           open();
       }}
-      className={`fixed inset-0 z-40 flex items-center justify-center bg-black ${className}`}
+      className={`fixed inset-0 z-40 flex items-center justify-center ${bg} ${className}`}
     >
       {children ?? (
         <button

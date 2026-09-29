@@ -5,6 +5,18 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi cưới ngoài trời ở quê / farmstay; ngôn ngữ *kho thóc gỗ, dây thừng đay, bảng gỗ sơn tay, đèn sợi đốt*; nghiêng về *thủ công mộc mạc, ấm, có chiều sâu vật liệu*.
+**Dial:** VARIANCE 7 · MOTION 6 · DENSITY 3.
+
+- **Khác cafe-2d (cũng nền gỗ tối):** không bảng phấn, không dây đèn treo ảnh. Xương sống là **một sợi dây thừng dọc liền mạch** (vẽ theo cuộn), mọi nội dung là **bảng gỗ treo bằng dây chữ V** có giấy kraft dán lên; album là **dây phơi cuộn ngang được ghim**.
+- **Font:** **Alex Brush** (chữ sơn tay cho tên và tiêu đề phụ) + **Gelasio** (nội dung). Không dùng Great Vibes / Lora (đã có mẫu khác dùng).
+- **h1** nằm ở bảng tên lớn C2 (màn C1 bị gỡ sau khi mở nên không chứa h1).
+- **Ảnh:** dây phơi chứa **toàn bộ** `data.images` (template-spec §2.2) + nút "Xem trọn album".
+- **Mừng cưới:** bảng "Mừng cưới" dùng `<GiftButton>` chung; nhạc chung, bỏ C16 radio (trùng `MusicToggle`).
+- Không emoji / ký hiệu ♥ trong chữ; không dấu `—`.
+
 ## 1. Concept
 
 **Một câu:** Một buổi tối ở kho thóc gỗ ngoài đồng quê: khách bật công tắc, dây đèn bóng tròn sáng lên từng bóng một, rồi đi dọc theo **một sợi dây thừng chạy suốt trang**, trên đó treo các tấm bảng gỗ ghi thông tin đám cưới.

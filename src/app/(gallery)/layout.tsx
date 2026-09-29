@@ -1,5 +1,5 @@
 import { Be_Vietnam_Pro, Prata } from "next/font/google";
-import { templates } from "@/templates/registry";
+import { listedTemplates as templates } from "@/templates/registry";
 
 const body = Be_Vietnam_Pro({
   subsets: ["vietnamese"],

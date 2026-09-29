@@ -59,15 +59,17 @@ export function Hero({
               [count3d, "mẫu 3D"],
               ["6h", "lưu thử trên máy"],
             ] as const
-          ).map(([v, k]) => (
-            <div key={k}>
-              <dt className="sr-only">{k}</dt>
-              <dd className="font-(family-name:--font-display) text-3xl text-[#16181A]">
-                {v}
-              </dd>
-              <dd className="text-sm text-[#5E6661]">{k}</dd>
-            </div>
-          ))}
+          )
+            .filter(([v]) => v !== 0)
+            .map(([v, k]) => (
+              <div key={k}>
+                <dt className="sr-only">{k}</dt>
+                <dd className="font-(family-name:--font-display) text-3xl text-[#16181A]">
+                  {v}
+                </dd>
+                <dd className="text-sm text-[#5E6661]">{k}</dd>
+              </div>
+            ))}
         </dl>
       </div>
 

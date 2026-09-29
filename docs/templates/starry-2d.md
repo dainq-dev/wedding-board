@@ -5,6 +5,18 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi mơ mộng, cưới buổi tối ngoài trời; ngôn ngữ *bầu trời đêm nét cọ xoáy, trăng lưỡi liềm vàng, cây bách đen, làng nhỏ ngủ yên*; nghiêng về *hội hoạ mơ màng, nhẹ, không 3D*.
+**Dial:** VARIANCE 7 · MOTION 5 · DENSITY 2.
+
+- **Font:** **Cormorant Infant** (italic cho tên, tiêu đề, số lớn) + **Quicksand** (nội dung, nét tròn mềm). Không dùng Great Vibes / Lora (đã có mẫu khác dùng).
+- **Bầu trời:** nét xoáy là path SVG hình học (đường xoắn, sóng) với nét đứt chảy chậm; sao sinh bằng seed (`sky.ts`, có test); đường chân trời: làng mái nhọn sinh theo seed + một cây bách đen.
+- **Mặt trăng là thanh tiến độ:** trăng lưỡi liềm cố định đi theo vòng cung ngang trời theo tiến độ cuộn.
+- **Ảnh:** chuyện tình là chòm sao 3 ảnh nối nét; "bầu trời kỷ niệm" chứa **toàn bộ** `data.images` (template-spec §2.2) dạng sao-ảnh tròn; có "Xem trọn album".
+- **Mừng cưới:** `<GiftButton>` chung. Nhạc chung, bỏ C16 hộp nhạc.
+- Không emoji; không dấu `—` trong chữ hiển thị.
+
 ## 1. Concept
 
 **Một câu:** Một bầu trời đêm vẽ bằng những nét cọ xoáy kiểu tranh Van Gogh: trăng lưỡi liềm vàng mở ra thiệp mời, và trong suốt lúc cuộn, mặt trăng đi một vòng cung ngang trời như đồng hồ đếm thời gian của buổi tối, còn các kỷ niệm của hai người được nối thành chòm sao.
