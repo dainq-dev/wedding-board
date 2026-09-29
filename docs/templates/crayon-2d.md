@@ -5,6 +5,17 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi trẻ, vui tính, đám cưới nhỏ; ngôn ngữ *tranh sáp màu trẻ con trên giấy vẽ, băng keo, người que*; nghiêng về *hồn nhiên có chủ đích*: nét vụng là phong cách, còn bố cục, chữ và khoảng trắng vẫn chuẩn chỉnh.
+**Dial:** VARIANCE 8 · MOTION 6 · DENSITY 3.
+
+- **Font:** Mali (tên, tiêu đề) + Itim (nội dung), đúng spec; chưa mẫu nào dùng.
+- **Nét vẽ:** SVG tay là bản chất concept (được phép, khác quy tắc chung "không tự vẽ SVG"), nhưng chỉ dùng hình rất đơn giản: khung méo vẽ hai lần, gạch chân, vòng tròn tô, mặt trời, ngôi nhà, trái tim, người que. Một filter vân sáp dùng chung.
+- **Ảnh:** "bảng dán ảnh" chứa **toàn bộ** `data.images` (template-spec §2.2), dán băng keo xoay nhẹ, có "Xem trọn album".
+- **Mừng cưới:** `<GiftButton>` chung trong "phiếu bé ngoan". Nhạc chung, bỏ C16 cát-sét.
+- Không emoji; không dấu `—`; không viết hoa toàn bộ.
+
 ## 1. Concept
 
 **Một câu:** Cả tấm thiệp là một tờ giấy vẽ của trẻ con: ngôi nhà, mặt trời, hai người que nắm tay — tất cả được "vẽ" ngay trước mắt bằng nét sáp màu run run, và mỗi lần chuyển trang là một nét tô nguệch ngoạc quét kín màn hình.

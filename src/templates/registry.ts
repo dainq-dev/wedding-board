@@ -4,6 +4,7 @@ import { meta as boho2d } from "@/app/mau-thiep-cuoi/boho-2d/meta";
 import { meta as botanical2d } from "@/app/mau-thiep-cuoi/botanical-2d/meta";
 import { meta as cafe2d } from "@/app/mau-thiep-cuoi/cafe-2d/meta";
 import { meta as chat2d } from "@/app/mau-thiep-cuoi/chat-2d/meta";
+import { meta as crayon2d } from "@/app/mau-thiep-cuoi/crayon-2d/meta";
 import { meta as daLat2d } from "@/app/mau-thiep-cuoi/da-lat-2d/meta";
 import { meta as dongHo2d } from "@/app/mau-thiep-cuoi/dong-ho-2d/meta";
 import { meta as editorial2d } from "@/app/mau-thiep-cuoi/editorial-2d/meta";
@@ -50,6 +51,7 @@ export const templates: TemplateMeta[] = [
   daLat2d,
   routeMap2d,
   marble2d,
+  crayon2d,
 ];
 
 // Mẫu hiện trên trang chủ. 3D đang làm lại nên tạm ẩn; route vẫn mở được qua link trực tiếp.
