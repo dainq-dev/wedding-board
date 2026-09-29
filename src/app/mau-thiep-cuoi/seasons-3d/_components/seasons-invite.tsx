@@ -48,7 +48,7 @@ export function SeasonsInvite() {
   const images = data.images.filter(Boolean);
   const date = weddingDate(data);
   const left = useCountdown(date);
-  const music = useMusic("/templates/seasons-3d/music.mp3");
+  const music = useMusic();
   const reduced = useReducedMotion();
 
   const [webgl, setWebgl] = useState(true);

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { MapEmbed } from "@/components/map-embed";
 import { Countdown } from "@/kit/countdown-ui";
 import { formatTime, formatWeekday, weddingDate } from "@/kit/dates";
+import { GiftButton } from "@/kit/gift";
 import { gsap, useGSAP } from "@/kit/gsap";
 import { type Music, MusicToggle, useMusic } from "@/kit/music";
 import { OpenGate } from "@/kit/open-gate";
@@ -98,7 +99,7 @@ export function LetterInvite() {
   const { data } = useWedding();
   const { groom, bride, images, venue } = data;
   const date = weddingDate(data);
-  const music = useMusic("/templates/letter-2d/music.mp3");
+  const music = useMusic();
   const reduced = useReducedMotion();
   const [opened, setOpened] = useState(false);
   const [top, setTop] = useState(0);
@@ -108,7 +109,7 @@ export function LetterInvite() {
 
   const grid = buildMonthGrid(date);
   const { day } = weddingParts(date);
-  const album = images.slice(3, 6);
+  const album = images;
   const longNames = groom.name.length > 20 || bride.name.length > 20;
 
   useGSAP(
@@ -385,13 +386,16 @@ export function LetterInvite() {
               <div className="relative mx-auto mt-6 aspect-3/4 w-[80%]">
                 {album.map((src, i) => {
                   const pos = (i - top + album.length) % album.length;
+                  // Chỉ 3 tấm trên cùng lộ ra; phần còn lại nằm gọn dưới chồng.
+                  const shown = pos < 3;
                   return (
                     <div
                       key={src}
-                      className="absolute inset-0 bg-white p-2 pb-8 shadow-md transition-transform duration-500"
+                      aria-hidden={pos !== 0}
+                      className={`absolute inset-0 bg-white p-2 pb-8 shadow-md transition-[transform,opacity] duration-500 ${shown ? "" : "opacity-0"}`}
                       style={{
                         zIndex: album.length - pos,
-                        transform: `rotate(${[-2, 3, -4][pos] ?? 0}deg) translateY(${pos * 6}px)`,
+                        transform: `rotate(${[-2, 3, -4][pos] ?? 0}deg) translateY(${Math.min(pos, 2) * 6}px)`,
                       }}
                     >
                       <Img
@@ -414,13 +418,8 @@ export function LetterInvite() {
                 >
                   ←
                 </button>
-                <span aria-hidden className="flex gap-1.5">
-                  {album.map((src, i) => (
-                    <span
-                      key={src}
-                      className={`size-2 rounded-full ${i === top ? "bg-[#6B7B5A]" : "bg-[#D9CFBF]"}`}
-                    />
-                  ))}
+                <span className={`min-w-16 text-sm tabular-nums ${SOFT}`}>
+                  {top + 1} / {album.length}
                 </span>
                 <button
                   type="button"
@@ -444,6 +443,7 @@ export function LetterInvite() {
             <p className={`${SCRIPT} mt-6 text-[32px] break-words`}>
               {groom.name} &amp; {bride.name}
             </p>
+            <GiftButton className="mt-6 inline-flex min-h-12 items-center gap-2.5 rounded-full bg-[#6B7B5A] py-2 pr-6 pl-2 text-white transition-colors hover:bg-[#4E5B41] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6B7B5A]" />
           </section>
         </main>
       </SmoothScroll>

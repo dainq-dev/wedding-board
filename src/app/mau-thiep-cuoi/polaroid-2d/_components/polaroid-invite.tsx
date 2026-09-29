@@ -9,6 +9,7 @@ import {
   formatWeekday,
   weddingDate,
 } from "@/kit/dates";
+import { GiftButton } from "@/kit/gift";
 import { Draggable, gsap, useGSAP } from "@/kit/gsap";
 import { MusicToggle, useMusic } from "@/kit/music";
 import { SmoothScroll } from "@/kit/smooth-scroll";
@@ -49,7 +50,7 @@ export function PolaroidInvite() {
   const { groom, bride, images, venue } = data;
   const date = weddingDate(data);
   const left = useCountdown(date);
-  const music = useMusic("/templates/polaroid-2d/music.mp3");
+  const music = useMusic();
   const reduced = useReducedMotion();
   const [opened, setOpened] = useState(false);
   const [tidy, setTidy] = useState(false);
@@ -60,8 +61,8 @@ export function PolaroidInvite() {
   const desk = useRef<HTMLDivElement>(null);
   useScrollLock(!opened || zoom !== null);
 
-  const deskPhotos = images.slice(3, 10);
-  const last = images[9] ?? images.at(-1);
+  const deskPhotos = images;
+  const last = images.at(-1);
 
   useGSAP(
     () => {
@@ -253,10 +254,10 @@ export function PolaroidInvite() {
               </p>
               <div
                 ref={desk}
-                className={`relative mt-4 rounded-md ${t.desk} ${grid ? "grid grid-cols-2 gap-4 p-4" : "h-[110svh] touch-pan-y overflow-hidden"}`}
+                className={`relative mt-4 rounded-md ${t.desk} ${grid ? "grid grid-cols-2 gap-4 p-4 sm:grid-cols-3" : "h-[170svh] touch-pan-y overflow-hidden"}`}
               >
                 {deskPhotos.map((src, i) => {
-                  const pos = scatter(i, 100, 100, 42, 36);
+                  const pos = scatter(i, 100, 100, 36, 18);
                   return (
                     <button
                       key={src}
@@ -264,7 +265,7 @@ export function PolaroidInvite() {
                       data-src={src}
                       onClick={grid ? () => setZoom(src) : undefined}
                       aria-label={`Ảnh ${i + 1}`}
-                      className={`pl-desk-photo cursor-grab ${grid ? "" : "absolute w-[42%]"}`}
+                      className={`pl-desk-photo cursor-grab ${grid ? "" : "absolute w-[36%]"}`}
                       style={
                         grid
                           ? undefined
@@ -381,6 +382,7 @@ export function PolaroidInvite() {
                 {nickname(groom.name)} ♥ {nickname(bride.name)}
               </p>
             </div>
+            <GiftButton className={`${t.btn} mt-4 gap-2.5 pl-2`} />
           </section>
         </main>
       </SmoothScroll>

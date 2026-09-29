@@ -85,7 +85,7 @@ export function LotusInvite() {
   const { groom, bride, venue, images } = data;
   const mode = useThreeD();
   const reduced = useReducedMotion();
-  const music = useMusic("/templates/lotus-3d/music.mp3", 0.5);
+  const music = useMusic(0.5);
 
   const [phase, setPhase] = useState<"closed" | "intro" | "open">("closed");
   const [lightbox, setPhoto] = useState<number | null>(null);

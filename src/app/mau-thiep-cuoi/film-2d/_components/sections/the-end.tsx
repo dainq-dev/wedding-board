@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { GiftButton } from "@/kit/gift";
 import { gsap, useGSAP } from "@/kit/gsap";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
 import type { WeddingData } from "@/wedding/types";
@@ -78,6 +79,7 @@ export function TheEnd({ data }: { data: WeddingData }) {
           Cảm ơn đã xem
         </dd>
       </dl>
+      <GiftButton className={`${t.btn} mt-10 gap-2.5 pl-2`} />
     </section>
   );
 }

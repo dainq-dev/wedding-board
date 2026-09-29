@@ -5,6 +5,7 @@ import { MapEmbed } from "@/components/map-embed";
 import { useScrollProgress } from "@/kit/3d/use-scroll-progress";
 import { useCountdown } from "@/kit/countdown";
 import { formatTime, weddingDate } from "@/kit/dates";
+import { GiftButton } from "@/kit/gift";
 import { gsap, ScrollTrigger, SplitText, useGSAP } from "@/kit/gsap";
 import { MusicToggle, useMusic } from "@/kit/music";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
@@ -59,7 +60,7 @@ export function GalaxyInvite() {
   const { groom, bride, venue, images, videos } = data;
   const date = weddingDate(data);
   const left = useCountdown(date);
-  const music = useMusic("/templates/galaxy-3d/music.mp3", 0.5);
+  const music = useMusic(0.5);
   const three = useThree();
 
   const [opened, setOpened] = useState(false);
@@ -428,6 +429,7 @@ export function GalaxyInvite() {
           <span className="text-[#F4D58D]">{groom.name}</span> &{" "}
           <span className="text-[#9B8CFF]">{bride.name}</span>
         </p>
+        <GiftButton className="inline-flex min-h-12 items-center gap-2.5 rounded-full border border-[#F4D58D]/70 bg-[#14123A]/70 py-2 pr-6 pl-2 text-sm tracking-[0.1em] text-[#F4D58D] backdrop-blur-md transition-colors hover:bg-[#F4D58D]/10" />
         {video && (
           <button
             type="button"

@@ -63,10 +63,14 @@ export const meta: TemplateMeta = {
 - `styles`: `minimalist`, `floral`, `vintage`, `modern`, `luxury`, `traditional`, `playful`, `cinematic`
 - `colors`: `white`, `pink`, `red`, `gold`, `green`, `blue`, `purple`, `black`, `beige`
 
-### 2.2 Quy tắc `media`
-- `images`: **4–12**. Chỉ khai báo số ảnh mẫu thực sự hiển thị. Không khai báo 10 mà chỉ dùng 3.
+### 2.2 Ảnh cưới mẫu — **BẮT BUỘC HIỂN THỊ ≥ 20 ẢNH**
+- Bộ ảnh mẫu chuẩn: `public/wedding-images/0.jpeg` … `19.jpeg` (qua `sampleData.images`). Đây là ảnh cưới thật, đại diện cho thứ khách mời muốn xem nhất.
+- **PHẢI** hiển thị **toàn bộ** ảnh trong `data.images` — với dữ liệu mẫu là **tối thiểu 20 ảnh**. 20 là **mức sàn, không phải mức trần**: bố cục phải tự co giãn khi có 20, 30 hay 50 ảnh.
+- **KHÔNG** cắt bớt bằng `images.slice(a, b)` hay chọn tay vài index cho phần album / trưng bày. Được phép dùng riêng vài ảnh ở vị trí vai trò (bìa, chú rể, cô dâu — §4.3), nhưng album / gallery vẫn phải chứa mọi ảnh.
+- Ảnh phải là **tâm điểm có thiết kế**: bố cục trưng bày đẹp, chuyển ảnh có nhịp (không phải một lưới ô vuông đều tăm tắp), bấm vào xem lớn được (lightbox).
+- Mẫu 3D: ảnh **PHẢI** xuất hiện trong chính cảnh 3D (không chỉ ở lưới HTML) theo [visual-quality.md §3.4](./visual-quality.md).
+- `meta.media.images` là số ảnh **bắt buộc upload** khi "Dùng thử" (4–12), không phải số ảnh hiển thị. Bố cục vẫn phải đẹp khi người dùng upload ít hơn 20.
 - `videos`: **0–2**. Mỗi video làm tăng dung lượng lưu trên máy người dùng, chỉ thêm khi layout có chỗ xứng đáng.
-- Ảnh/video mẫu trong `sampleData` **PHẢI** ≥ số khai báo. Nếu mẫu cần nhiều hơn, bổ sung vào `public/sample/`.
 
 ## 3. `layout.tsx`
 
@@ -118,6 +122,12 @@ export function SakuraInvite() {
 
 - **PHẢI** dùng `<MapEmbed>` chung, không tự dựng iframe Google Maps.
 - **KHÔNG** hiển thị năm sinh trực tiếp. Nó chỉ dùng cho mẫu cần (vd: tuổi, con giáp).
+
+### 4.1b Gửi lời chúc & QR mừng cưới — **BẮT BUỘC**
+- **PHẢI** có `<GiftButton />` từ `@/kit/gift` trong mọi mẫu: nút *"Gửi lời chúc"* mở modal hiển thị QR nhận quà mừng (`public/QR-nhan-tien-cuoi.jpg`), có nút lưu mã QR.
+- **PHẢI** đặt ở vị trí trân trọng, dễ thấy: phần lời cảm ơn / kết thiệp (hoặc section mừng cưới riêng). Không làm nút nổi đè nội dung.
+- **NÊN** truyền `className` để nút khớp tông của mẫu (màu, bo góc, chữ); modal giữ thiết kế chung, không tự chế modal QR khác.
+- **KHÔNG** tự dựng QR / thông tin tài khoản riêng trong mẫu.
 
 ### 4.2 Không đè lên thành phần chung
 Layout chung đã có nút nổi **"← Quay lại"** (góc trên trái) và **"Dùng thử"** (góc dưới phải).
@@ -178,12 +188,10 @@ Thiệp chủ yếu được mở trên điện thoại.
 
 ## 8. Âm thanh — **BẮT BUỘC CÓ NHẠC** (theo [todo-list §2.4](./todo-list-wedding-page.md))
 
-- **PHẢI** có `public/templates/<slug>/music.mp3` (hoặc `.wav`), ≤ 3MB.
-- **PHẢI** dùng `useMusic` + `<MusicToggle>` từ `@/kit/music` — không tự chế `<audio>` riêng.
+- **Mọi trang dùng chung một bài: `public/music-wedding.mp3`** (quyết định của chủ dự án). **KHÔNG** thêm file nhạc / hiệu ứng âm thanh riêng cho từng mẫu.
+- **PHẢI** dùng `useMusic()` + `<MusicToggle>` từ `@/kit/music` (hook đã cố định bài nhạc chung) — không tự chế `<audio>` riêng.
 - **PHẢI** bắt đầu phát **bên trong click handler của card C1 OpenGate** (Chrome autoplay policy: phát ngoài user gesture sẽ bị chặn).
 - **PHẢI** có nút bật/tắt luôn nhìn thấy (không đè §4.2); chưa bấm mở thiệp thì chưa phát.
-- Placeholder tạm khi chờ track Pixabay: `bun scripts/gen-music.ts <slug> --bpm N --mode pad|pluck|folk|jazz`, kèm ghi chú "nhạc placeholder — chờ track Pixabay" trong `public/templates/<slug>/CREDITS.md`.
-- **NÊN** track chính thức từ Pixabay, MP3 96–128 kbps, dài 2–3 phút.
 
 ## 9. Tài nguyên
 

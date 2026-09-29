@@ -175,7 +175,7 @@ const STARS = Array.from({ length: 40 }, (_, i) => ({
 export function BalloonInvite() {
   const { data } = useWedding();
   const { groom, bride, venue, images } = data;
-  const music = useMusic(`${ASSETS}/music.mp3`);
+  const music = useMusic();
   const reduced = useReducedMotion();
   const [opened, setOpened] = useState(false);
   const [intro, setIntro] = useState<gsap.core.Timeline | null>(null);

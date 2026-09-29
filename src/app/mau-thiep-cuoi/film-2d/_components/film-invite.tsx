@@ -23,7 +23,7 @@ import { t } from "./tokens";
 
 export function FilmInvite() {
   const { data } = useWedding();
-  const music = useMusic("/templates/film-2d/music.mp3");
+  const music = useMusic();
   const reduced = useReducedMotion();
   const [opened, setOpened] = useState(false);
   const letterbox = useRef<LetterboxHandle>(null);
@@ -64,7 +64,7 @@ export function FilmInvite() {
           )}
           <Ticket data={data} />
           <Cinema venue={data.venue} />
-          <ContactSheet images={[...images.slice(3, 8), images[0]]} />
+          <ContactSheet images={images} />
           <TheEnd data={data} />
         </main>
       </SmoothScroll>
