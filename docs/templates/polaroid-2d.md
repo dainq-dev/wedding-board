@@ -1,5 +1,9 @@
 # 2D-03 · `polaroid-2d` · Sổ Polaroid
 
+> **Design Read:** Đọc là thiệp cưới scrapbook cho cặp đôi trẻ trung, ngôn ngữ ảnh polaroid, băng dính washi và chữ viết tay, nghiêng về mỹ học folk-playful phóng khoáng nhưng có chủ đích từng chi tiết.
+>
+> **Dials:** `DESIGN_VARIANCE 7/10` · `MOTION_INTENSITY 6/10` · `VISUAL_DENSITY 3/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md).
 

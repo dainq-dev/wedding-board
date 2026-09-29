@@ -1,5 +1,9 @@
 # 2D-01 · `sakura-2d` · Sakura (làm lại)
 
+> **Design Read:** Đọc là thiệp cưới online cho cặp đôi hiện đại yêu sự tinh giản kiểu Nhật, ngôn ngữ hồng pastel, trắng và cánh anh đào rơi, nghiêng về mỹ học floral-editorial thoáng như gallery, chậm và tinh tế.
+>
+> **Dials:** `DESIGN_VARIANCE 6/10` · `MOTION_INTENSITY 6/10` · `VISUAL_DENSITY 2/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md). Đây là bản **làm lại** mẫu tham chiếu hiện có tại `src/app/mau-thiep-cuoi/sakura-2d/` (hiện chỉ có tên, lưới ảnh, địa chỉ, bản đồ).
 

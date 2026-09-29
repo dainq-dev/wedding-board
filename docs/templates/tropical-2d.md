@@ -1,5 +1,9 @@
 # 2D-11 · `tropical-2d` · Biển Nhiệt Đới
 
+> **Design Read:** Đọc là thiệp cưới bên biển cho cặp đôi trẻ yêu xê dịch, ngôn ngữ hoàng hôn cam, biển xanh ngọc và bưu thiếp, nghiêng về mỹ học tropical-playful rộng mở, nhiều khoảng thở.
+>
+> **Dials:** `DESIGN_VARIANCE 8/10` · `MOTION_INTENSITY 6/10` · `VISUAL_DENSITY 2/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md). Mẫu chuẩn tham chiếu: [letter-2d.md](./letter-2d.md).
 

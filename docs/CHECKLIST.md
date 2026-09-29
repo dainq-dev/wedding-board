@@ -38,7 +38,7 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | [ ] | 2D-08 | **Swiss Mono** `swiss-2d` | [spec](./templates/swiss-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
 | [ ] | 2D-09 | **Vườn Màu Nước** `botanical-2d` | [spec](./templates/botanical-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
 | [ ] | 2D-10 | **Boho Đất Nung** `boho-2d` | [spec](./templates/boho-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
-| [ ] | 2D-11 | **Biển Nhiệt Đới** `tropical-2d` | [spec](./templates/tropical-2d.md) | ⬜ Chưa làm | | | |
+| [ ] | 2D-11 | **Biển Nhiệt Đới** `tropical-2d` | [spec](./templates/tropical-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | agent chết giữa skeleton → orchestrator implement (gate hoàng hôn+sóng, couple, lịch trình schedule.ts, album, QR); chờ owner duyệt mắt §6 |
 
 ## P3 — 3D đợt A
 
@@ -63,6 +63,16 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | [ ] | 2D-19 | **Báo Tin Vui** `newspaper-2d` | [spec](./templates/newspaper-2d.md) | ⬜ Chưa làm | | | |
 | [ ] | 2D-20 | **Cà Phê Sài Gòn** `cafe-2d` | [spec](./templates/cafe-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
 | [ ] | 2D-21 | **Tin Nhắn Đầu Tiên** `chat-2d` | [spec](./templates/chat-2d.md) | 🔵 Chờ review | Claude agent | `claude/read-project-codebase-dlu2vu` (PR 2D-20..30) | chờ chủ dự án duyệt mắt theo visual-quality §6; screenshot 390/1440 đã tự chấm |
+| [ ] | 2D-12 | **Tiệc Vườn Picnic** `picnic-2d` | [spec](./templates/picnic-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | agent chết ở skeleton → orchestrator implement toàn bộ (gate khăn caro, couple, menu lịch trình, album); verify DOM chốt ở batch integration |
+| [ ] | 2D-13 | **Gatsby** `gatsby-2d` | [spec](./templates/gatsby-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | agent chết ở skeleton → orchestrator implement (rèm nhung, Deco, showtime, champagne); chờ owner duyệt §6 |
+| [ ] | 2D-14 | **Đĩa Than 70s** `vinyl-2d` | [spec](./templates/vinyl-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | đĩa góc trái quay theo nhạc (đặc trưng spec); chờ owner duyệt §6 |
+| [ ] | 2D-15 | **Truyện Tranh** `comic-2d` | [spec](./templates/comic-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | bìa POW! + panel + bong bóng thoại; chờ owner duyệt §6 |
+| [ ] | 2D-16 | **Nhiệm Vụ 8-bit** `pixel-2d` | [spec](./templates/pixel-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
+| [ ] | 2D-17 | **Thẻ Lên Máy Bay** `boarding-2d` | [spec](./templates/boarding-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
+| [ ] | 2D-18 | **Lịch Bloc** `lich-to-2d` | [spec](./templates/lich-to-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ; C11 âm lịch cần `src/kit/lunar.ts` (thuật toán Hồ Ngọc Đức + test) |
+| [ ] | 2D-19 | **Báo Tin Vui** `newspaper-2d` | [spec](./templates/newspaper-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
+| [ ] | 2D-20 | **Cà Phê Sài Gòn** `cafe-2d` | [spec](./templates/cafe-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
+| [ ] | 2D-21 | **Tin Nhắn Đầu Tiên** `chat-2d` | [spec](./templates/chat-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
 
 ## P5 — 3D đợt B
 

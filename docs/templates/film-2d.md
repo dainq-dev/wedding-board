@@ -1,5 +1,9 @@
 # 2D-04 · `film-2d` · Thước Phim
 
+> **Design Read:** Đọc là thiệp cưới điện ảnh cho cặp đôi yêu phim, ngôn ngữ đen trắng, clapperboard và credit cuộn, nghiêng về mỹ học cinema noir sang trọng, ánh sáng tương phản cao, màu điểm duy nhất là vàng kim.
+>
+> **Dials:** `DESIGN_VARIANCE 8/10` · `MOTION_INTENSITY 6/10` · `VISUAL_DENSITY 2/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md).
 

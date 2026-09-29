@@ -1,5 +1,9 @@
 # 2D-06 · `song-hy-2d` · Song Hỷ
 
+> **Design Read:** Đọc là thiệp cưới truyền thống Việt Nam cho gia đình coi trọng nghi lễ, ngôn ngữ đỏ son, vàng kim, cửa son và chữ Hỷ, nghiêng về mỹ học ceremonial heritage trang trọng, đối xứng, đủ đầy.
+>
+> **Dials:** `DESIGN_VARIANCE 6/10` · `MOTION_INTENSITY 5/10` · `VISUAL_DENSITY 3/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md).
 

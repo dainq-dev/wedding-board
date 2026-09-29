@@ -1,5 +1,9 @@
 # 2D-15 · `comic-2d` · Truyện Tranh
 
+> **Design Read:** Đọc là thiệp cưới truyện tranh pop-art cho cặp đôi playful, ngôn ngữ panel viền mực, chấm halftone và bong bóng thoại, nghiêng về mỹ học comic-print rực rỡ nhưng lưới chặt chẽ.
+>
+> **Dials:** `DESIGN_VARIANCE 8/10` · `MOTION_INTENSITY 6/10` · `VISUAL_DENSITY 3/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md).
 

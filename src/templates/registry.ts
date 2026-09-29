@@ -7,14 +7,17 @@ import { meta as chat2d } from "@/app/mau-thiep-cuoi/chat-2d/meta";
 import { meta as crayon2d } from "@/app/mau-thiep-cuoi/crayon-2d/meta";
 import { meta as daLat2d } from "@/app/mau-thiep-cuoi/da-lat-2d/meta";
 import { meta as dongHo2d } from "@/app/mau-thiep-cuoi/dong-ho-2d/meta";
+import { meta as comic2d } from "@/app/mau-thiep-cuoi/comic-2d/meta";
 import { meta as editorial2d } from "@/app/mau-thiep-cuoi/editorial-2d/meta";
 import { meta as film2d } from "@/app/mau-thiep-cuoi/film-2d/meta";
 import { meta as firefly3d } from "@/app/mau-thiep-cuoi/firefly-3d/meta";
 import { meta as galaxy3d } from "@/app/mau-thiep-cuoi/galaxy-3d/meta";
+import { meta as gatsby2d } from "@/app/mau-thiep-cuoi/gatsby-2d/meta";
 import { meta as letter2d } from "@/app/mau-thiep-cuoi/letter-2d/meta";
 import { meta as lotus3d } from "@/app/mau-thiep-cuoi/lotus-3d/meta";
 import { meta as marble2d } from "@/app/mau-thiep-cuoi/marble-2d/meta";
 import { meta as neon2d } from "@/app/mau-thiep-cuoi/neon-2d/meta";
+import { meta as picnic2d } from "@/app/mau-thiep-cuoi/picnic-2d/meta";
 import { meta as polaroid2d } from "@/app/mau-thiep-cuoi/polaroid-2d/meta";
 import { meta as routeMap2d } from "@/app/mau-thiep-cuoi/route-map-2d/meta";
 import { meta as rustic2d } from "@/app/mau-thiep-cuoi/rustic-2d/meta";
@@ -24,6 +27,8 @@ import { meta as sonMai2d } from "@/app/mau-thiep-cuoi/son-mai-2d/meta";
 import { meta as songHy2d } from "@/app/mau-thiep-cuoi/song-hy-2d/meta";
 import { meta as starry2d } from "@/app/mau-thiep-cuoi/starry-2d/meta";
 import { meta as swiss2d } from "@/app/mau-thiep-cuoi/swiss-2d/meta";
+import { meta as tropical2d } from "@/app/mau-thiep-cuoi/tropical-2d/meta";
+import { meta as vinyl2d } from "@/app/mau-thiep-cuoi/vinyl-2d/meta";
 import type { TemplateMeta } from "@/wedding/types";
 
 // Thêm template mới: import meta.ts của nó và thêm vào mảng.
@@ -54,6 +59,11 @@ export const templates: TemplateMeta[] = [
   marble2d,
   crayon2d,
   starry2d,
+  picnic2d,
+  tropical2d,
+  gatsby2d,
+  vinyl2d,
+  comic2d,
 ];
 
 // Mẫu hiện trên trang chủ. 3D đang làm lại nên tạm ẩn; route vẫn mở được qua link trực tiếp.

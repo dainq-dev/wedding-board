@@ -1,5 +1,9 @@
 # 2D-12 · `picnic-2d` · Tiệc Vườn Picnic
 
+> **Design Read:** Đọc là thiệp cưới online cho cặp đôi trẻ yêu dã ngoại, ngôn ngữ khăn caro đỏ trắng, thẻ menu và ảnh dán ngẫu hứng, nghiêng về mỹ học folk-playful vui tươi nhưng thân mật.
+>
+> **Dials:** `DESIGN_VARIANCE 7/10` · `MOTION_INTENSITY 6/10` · `VISUAL_DENSITY 3/10`.
+
 > Spec chi tiết của mẫu. Mã card (C…), animation (A…) và chuyển cảnh (T…) xem trong [todo-list-wedding-page.md §2](../todo-list-wedding-page.md).
 > Tuân thủ [template-spec.md](../template-spec.md).
 
