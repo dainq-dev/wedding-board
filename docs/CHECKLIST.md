@@ -33,11 +33,11 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | [ ] | 2D-03 | **Sổ Polaroid** `polaroid-2d` | [spec](./templates/polaroid-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (cb70eb9/b9cf1be) | chờ duyệt visual-quality §6 |
 | [ ] | 2D-04 | **Thước Phim** `film-2d` | [spec](./templates/film-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (cb70eb9/b9cf1be) | chờ duyệt visual-quality §6 |
 | [ ] | 2D-05 | **Tạp Chí Cưới** `editorial-2d` | [spec](./templates/editorial-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (cb70eb9/b9cf1be) | chờ duyệt visual-quality §6 |
-| [ ] | 2D-06 | **Song Hỷ** `song-hy-2d` | [spec](./templates/song-hy-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
-| [ ] | 2D-07 | **Áo Dài Tím Huế** `ao-dai-2d` | [spec](./templates/ao-dai-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
-| [ ] | 2D-08 | **Swiss Mono** `swiss-2d` | [spec](./templates/swiss-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
-| [ ] | 2D-09 | **Vườn Màu Nước** `botanical-2d` | [spec](./templates/botanical-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
-| [ ] | 2D-10 | **Boho Đất Nung** `boho-2d` | [spec](./templates/boho-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
+| [ ] | 2D-06 | **Song Hỷ** `song-hy-2d` | [spec](./templates/song-hy-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
+| [ ] | 2D-07 | **Áo Dài Tím Huế** `ao-dai-2d` | [spec](./templates/ao-dai-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
+| [ ] | 2D-08 | **Swiss Mono** `swiss-2d` | [spec](./templates/swiss-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
+| [ ] | 2D-09 | **Vườn Màu Nước** `botanical-2d` | [spec](./templates/botanical-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
+| [ ] | 2D-10 | **Boho Đất Nung** `boho-2d` | [spec](./templates/boho-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
 | [ ] | 2D-11 | **Biển Nhiệt Đới** `tropical-2d` | [spec](./templates/tropical-2d.md) | ⬜ Chưa làm | | | |
 
 ## P3 — 3D đợt A
