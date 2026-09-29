@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <rect width="600" height="800" fill="#FFF9E6" />
+  <g fill="rgba(17,17,17,0.16)">
+    <circle cx="40" cy="40" r="4" /><circle cx="80" cy="40" r="4" /><circle cx="120" cy="40" r="4" /><circle cx="160" cy="40" r="4" /><circle cx="200" cy="40" r="4" />
+    <circle cx="400" cy="760" r="4" /><circle cx="440" cy="760" r="4" /><circle cx="480" cy="760" r="4" /><circle cx="520" cy="760" r="4" /><circle cx="560" cy="760" r="4" />
+  </g>
+
+  <rect x="40" y="40" width="520" height="720" fill="#FFFFFF" stroke="#111" stroke-width="10" />
+
+  <g transform="rotate(-3 300 250)">
+    <rect x="70" y="120" width="460" height="240" fill="#FFD60A" stroke="#111" stroke-width="6" />
+    <rect x="70" y="120" width="460" height="52" fill="#E63946" stroke="#111" stroke-width="6" />
+    <circle cx="180" cy="290" r="66" fill="#1D3557" stroke="#111" stroke-width="5" />
+    <circle cx="330" cy="300" r="60" fill="#E63946" stroke="#111" stroke-width="5" />
+    <path d="M247 330c22-30 40-40 58-44" fill="none" stroke="#111" stroke-width="6" />
+  </g>
+
+  <polygon
+    points="460,180 430,166 446,196 418,192 438,216 410,216 420,240 392,236 412,258 388,262 412,280 392,296 422,300 410,326 442,314 442,340 464,320 472,346 486,320 504,342 506,312 532,320 516,294 544,286 518,270 542,250 512,246 528,220 500,226 504,196 476,206"
+    fill="#FFD60A" stroke="#111" stroke-width="6" />
+
+  <g stroke="#111" stroke-width="6" fill="none">
+    <path d="M90 430h420M90 470h300M90 510h420M90 550h220" />
+  </g>
+
+  <rect x="90" y="590" width="420" height="120" fill="#1D3557" stroke="#111" stroke-width="6" />
+  <path d="M150 710v-46h300v46" fill="#FFFFFF" stroke="#111" stroke-width="6" />
+</svg>

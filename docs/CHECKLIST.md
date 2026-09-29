@@ -56,7 +56,7 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | [ ] | 2D-12 | **Tiệc Vườn Picnic** `picnic-2d` | [spec](./templates/picnic-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | agent chết ở skeleton → orchestrator implement toàn bộ (gate khăn caro, couple, menu lịch trình, album); verify DOM chốt ở batch integration |
 | [ ] | 2D-13 | **Gatsby** `gatsby-2d` | [spec](./templates/gatsby-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | agent chết ở skeleton → orchestrator implement (rèm nhung, Deco, showtime, champagne); chờ owner duyệt §6 |
 | [ ] | 2D-14 | **Đĩa Than 70s** `vinyl-2d` | [spec](./templates/vinyl-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | đĩa góc trái quay theo nhạc (đặc trưng spec); chờ owner duyệt §6 |
-| [ ] | 2D-15 | **Truyện Tranh** `comic-2d` | [spec](./templates/comic-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-2 | master | |
+| [ ] | 2D-15 | **Truyện Tranh** `comic-2d` | [spec](./templates/comic-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | bìa POW! + panel + bong bóng thoại; chờ owner duyệt §6 |
 | [ ] | 2D-16 | **Nhiệm Vụ 8-bit** `pixel-2d` | [spec](./templates/pixel-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
 | [ ] | 2D-17 | **Thẻ Lên Máy Bay** `boarding-2d` | [spec](./templates/boarding-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ, phóng sau khi batch-2 xong |
 | [ ] | 2D-18 | **Lịch Bloc** `lich-to-2d` | [spec](./templates/lich-to-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-3 | master | giữ chỗ; C11 âm lịch cần `src/kit/lunar.ts` (thuật toán Hồ Ngọc Đức + test) |
