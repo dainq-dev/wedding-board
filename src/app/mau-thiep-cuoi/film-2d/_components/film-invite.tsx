@@ -84,7 +84,7 @@ export function FilmInvite() {
           playing={opened}
           action={
             <button type="button" className={`mt-2 ${t.btn}`}>
-              ▶ Bấm máy
+              Bấm máy
             </button>
           }
         />
