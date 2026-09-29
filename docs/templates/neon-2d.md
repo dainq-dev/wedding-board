@@ -5,6 +5,19 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi trẻ thành phố; ngôn ngữ *đêm mưa Sài Gòn, biển hiệu ống neon, vũng nước phản chiếu*; nghiêng về *điện ảnh về đêm, tương phản cao, trẻ trung*.
+**Dial:** VARIANCE 7 · MOTION 7 · DENSITY 3.
+
+- **Font:** **Unbounded** (chữ biển hiệu) + **Epilogue** (nội dung). Không dùng Be Vietnam Pro (font dashboard).
+- **Màu:** hai màu ống neon hồng `#FF3CAC` và xanh `#2BD2FF` là chính chủ đề (không coi là "AI glow": nền đêm ấm tím, không gradient tím xanh trên chữ); cam `#FFB547` chỉ dùng cho ngày cưới.
+- **Chuyển cảnh:** mỗi biển bật sáng kiểu chập chờn khi vào khung hình (≤ 3 lần sáng / giây), thay cho kỹ thuật ghim chồng section "cúp điện" (dễ kẹt khi cuộn ngược, khó đọc trên điện thoại).
+- **Video:** bộ dữ liệu mẫu không có video nên bỏ C9 màn LED, `media.videos = 0`.
+- **Ảnh:** "ảnh sau cửa kính đọng hơi nước" chứa **toàn bộ** `data.images` (template-spec §2.2), lưới masonry 2 cột (desktop 3), hơi nước được lau theo cuộn; có "Xem trọn album".
+- **Mừng cưới:** `<GiftButton>` chung thay 2 "biển ATM" QR mẫu. Bỏ C16 cassette (trùng `MusicToggle`).
+- Không emoji / ♥ trong chữ; không dấu `—`.
+
 ## 1. Concept
 
 **Một câu:** Một đêm mưa trên con hẻm Sài Gòn: tấm biển neon "ĐANG MỞ CỬA" chập chờn rồi bật sáng, và mỗi thông tin đám cưới là **một tấm biển hiệu neon khác nhau** treo dọc con hẻm, phản chiếu xuống mặt đường ướt.

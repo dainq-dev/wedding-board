@@ -5,6 +5,18 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi trọng truyền thống nhưng tinh tế, gia đình có nhiều người lớn tuổi; ngôn ngữ *tranh sơn mài then đen, vàng lá, son đỏ, bình phong gỗ*; nghiêng về *heritage luxury, bảo tàng, chậm rãi*.
+**Dial:** VARIANCE 6 · MOTION 4 · DENSITY 2.
+
+- **Font:** **Petrona** (tiêu đề, tên, số lớn) + **Spectral** (nội dung). Không dùng Noto Serif Display (đã có ở song-hy, lotus).
+- **Hoạ tiết:** không tự vẽ hạc / sen bằng SVG nguệch ngoạc; vàng lá thể hiện bằng gradient + khung chỉ vàng hai lớp + viền "vỏ trứng khảm" bằng gradient hình học. Ký tự 囍 không dùng.
+- **Chuyện tình C4:** bộ ba tấm tranh (triptych) thay cho cuộn ngang ghim, để khác các mẫu khác trong đợt.
+- **Ảnh:** "album khung khảm" chứa **toàn bộ** `data.images`, lưới nhịp lớn nhỏ xen kẽ, có "Xem trọn album".
+- **Mừng cưới:** `<GiftButton>` chung thay QR mẫu; nhạc chung, bỏ C16 hộp sơn mài.
+- Không emoji; không dấu `—` trong chữ hiển thị.
+
 ## 1. Concept
 
 **Một câu:** Khách đứng trước một **bức bình phong sơn mài bốn tấm** đen bóng; bấm vào, người thợ "mài" lớp sơn và vàng lá hiện dần, rồi bình phong mở ra dẫn vào một chuỗi **tấm tranh sơn mài** kể chuyện đám cưới.

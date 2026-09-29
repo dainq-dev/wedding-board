@@ -5,6 +5,17 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi mê xê dịch, hai quê khác nhau; ngôn ngữ *bản đồ giấy cũ, nét mực xanh navy, dấu ✕ đỏ, tem thư*; nghiêng về *editorial phiêu lưu, đồ hoạ phẳng có chiều sâu giấy*.
+**Dial:** VARIANCE 8 · MOTION 5 · DENSITY 3.
+
+- **Font:** **Alegreya** (tiêu đề kiểu bản đồ cổ) + **Work Sans** (nội dung). Không dùng Fraunces (bị taste-skill cấm làm mặc định) / Nunito.
+- **Đường đi:** thay vì một path khổng lồ phải đo lại theo layout, mỗi chặng giữa hai điểm dừng là một đoạn SVG nét đứt nối liền điểm cuối chặng trước (trái 25% ↔ phải 75%), vẽ dần theo cuộn; nhìn liền một đường suốt trang và không lệch khi đổi kích thước.
+- **Minh hoạ:** không vẽ tay núi / sóng / nhà; giấy bản đồ = lưới kinh vĩ tuyến + vết ố; hoa gió bằng gradient hình học.
+- **Ảnh:** "bưu thiếp" chứa **toàn bộ** `data.images` (template-spec §2.2), khung tem, có "Xem trọn album". **Mừng cưới:** `<GiftButton>` chung. Nhạc chung, bỏ radio C16.
+- Không emoji; không dấu `—` trong chữ hiển thị.
+
 ## 1. Concept
 
 **Một câu:** Thiệp là một tấm bản đồ kho báu vẽ tay: một đường nét đứt xuất phát từ nhà chú rể, đi qua các mốc chuyện tình, ghé nhà cô dâu và kết thúc ở dấu ✕ đỏ — nhà hàng tiệc cưới. Người xem cuộn tới đâu, đường được vẽ tới đó, và chiếc la bàn chạy theo.

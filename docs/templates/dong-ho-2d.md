@@ -5,6 +5,18 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi yêu văn hoá dân gian, vui tính; ngôn ngữ *tranh khắc gỗ Đông Hồ in trên giấy dó, màu thực vật in lệch bản*; nghiêng về *dân gian đương đại, đồ hoạ phẳng, chữ đậm*.
+**Dial:** VARIANCE 7 · MOTION 6 · DENSITY 3.
+
+- **Font:** **Vollkorn** (đậm, như chữ khắc gỗ) + **Arima** (nội dung, nét mềm). Không dùng Noto Serif Display.
+- **Minh hoạ:** không tự vẽ chuột / gà / lợn bằng SVG (dễ thô, trái §9 taste-skill). Tinh thần Đông Hồ đến từ **kỹ thuật in 4 bản màu** (vàng hoè, xanh chàm, đỏ son, nét đen; mảng màu lệch bản 2px) áp lên khung tranh, băng chữ, hoạ tiết hình học (hạt thóc, sóng, hoa thị) và chữ.
+- **Chuyển cảnh "ép bản khắc":** khi tờ tranh vào khung hình, một bản gỗ hạ xuống / nhấc lên theo `steps()`, mỗi lần để lại một lớp màu; chữ (lớp đen) hiện ngay ở lần ép đầu để không chặn đọc.
+- **Ảnh:** "xấp tranh tờ rời" chứa **toàn bộ** `data.images` (template-spec §2.2), khung 3:4 viền đen + băng màu luân phiên; có "Xem trọn album".
+- **Mừng cưới:** `<GiftButton>` chung. Nhạc chung, bỏ C16 gánh hát.
+- Không emoji / ✹ / ♥ trong chữ; không dấu `—`.
+
 ## 1. Concept
 
 **Một câu:** Thiệp cưới là **một xấp tranh Đông Hồ vừa in xong**: đoàn rước "Đám cưới chuột" đi ngang màn hình mở đầu, rồi mỗi thông tin được **"in" lên giấy dó theo từng bản khắc màu** — đen nét trước, rồi đỏ, xanh, vàng — đúng cách làm tranh dân gian.

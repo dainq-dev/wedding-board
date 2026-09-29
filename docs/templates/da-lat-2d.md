@@ -5,6 +5,18 @@
 
 ---
 
+## 0. Design Read + điều chỉnh v2 (29/09/2026), ưu tiên hơn các mục bên dưới khi mâu thuẫn
+
+**Design Read:** thiệp cưới online cho khách mời của một cặp đôi yêu Đà Lạt, cưới sân vườn thân mật; ngôn ngữ *đồi thông 5 giờ sáng, sương sữa, kính mờ, ảnh film lạnh*; nghiêng về *tĩnh lặng, thoáng, cảnh quan liên tục*.
+**Dial:** VARIANCE 6 · MOTION 4 · DENSITY 2.
+
+- **Font:** **Crimson Pro** (italic light cho tên, số lớn, trích dẫn) + **Mulish** (nội dung). Không dùng Cormorant Garamond / Manrope (đã có mẫu khác dùng).
+- **Đồi thông:** 4 lớp rặng thông sinh bằng thuật toán có seed (`hills.ts`, có test), không vẽ tay; nhà gỗ, khói, icon tự vẽ bị bỏ để tránh đồ hoạ thô.
+- **Sương:** một lớp cố định mỏng dần theo tiến độ cuộn toàn trang (bình minh → nắng lên); các "dải sương" giữa section là khoảng thở ≤ 40svh.
+- **Ảnh:** "album cửa sổ kính" chứa **toàn bộ** `data.images` (template-spec §2.2), ảnh hiện từ mờ sương sang rõ khi vào khung hình; có "Xem trọn album".
+- **Mừng cưới:** `<GiftButton>` chung. Nhạc chung.
+- Không emoji; không dấu `—` trong chữ hiển thị.
+
 ## 1. Concept
 
 **Một câu:** Khách đứng trên một con dốc Đà Lạt lúc 5 giờ sáng. Sương phủ kín đồi thông; càng cuộn xuống, sương càng mỏng, từng tấm thiệp kính mờ hiện ra sau màn sương, và ở cuối trang mặt trời lên, sương tan hẳn.
