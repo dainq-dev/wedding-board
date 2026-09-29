@@ -23,16 +23,16 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | ✓ | # | Mẫu | Spec | Trạng thái | Người làm | Branch / PR | Ghi chú |
 |---|---|---|---|---|---|---|---|
 | [ ] | 3D-01 | **Hai Vì Sao** `galaxy-3d` | [spec](./templates/galaxy-3d.md) | 🔁 Làm lại | Claude agent | | Không đạt [visual-quality](./visual-quality.md) (29/09): hình khối thô, vật liệu mặc định, ánh sáng phẳng, ảnh là plane trần |
-| [ ] | 2D-01 | **Sakura (làm lại)** `sakura-2d` | [spec](./templates/sakura-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | commit theo mẫu, không tách branch (working tree đang shared với phiên 3D) |
-| [ ] | 2D-02 | **Phong Thư Sáp** `letter-2d` | [spec](./templates/letter-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
+| [ ] | 2D-01 | **Sakura (làm lại)** `sakura-2d` | [spec](./templates/sakura-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (cb70eb9/b9cf1be) | chờ chủ dự án duyệt mắt theo visual-quality §6 |
+| [ ] | 2D-02 | **Phong Thư Sáp** `letter-2d` | [spec](./templates/letter-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (cb70eb9/b9cf1be) | chờ duyệt visual-quality §6 |
 
 ## P2 — 2D đợt A
 
 | ✓ | # | Mẫu | Spec | Trạng thái | Người làm | Branch / PR | Ghi chú |
 |---|---|---|---|---|---|---|---|
-| [ ] | 2D-03 | **Sổ Polaroid** `polaroid-2d` | [spec](./templates/polaroid-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
-| [ ] | 2D-04 | **Thước Phim** `film-2d` | [spec](./templates/film-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
-| [ ] | 2D-05 | **Tạp Chí Cưới** `editorial-2d` | [spec](./templates/editorial-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
+| [ ] | 2D-03 | **Sổ Polaroid** `polaroid-2d` | [spec](./templates/polaroid-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (cb70eb9/b9cf1be) | chờ duyệt visual-quality §6 |
+| [ ] | 2D-04 | **Thước Phim** `film-2d` | [spec](./templates/film-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (cb70eb9/b9cf1be) | chờ duyệt visual-quality §6 |
+| [ ] | 2D-05 | **Tạp Chí Cưới** `editorial-2d` | [spec](./templates/editorial-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (cb70eb9/b9cf1be) | chờ duyệt visual-quality §6 |
 | [ ] | 2D-06 | **Song Hỷ** `song-hy-2d` | [spec](./templates/song-hy-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
 | [ ] | 2D-07 | **Áo Dài Tím Huế** `ao-dai-2d` | [spec](./templates/ao-dai-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
 | [ ] | 2D-08 | **Swiss Mono** `swiss-2d` | [spec](./templates/swiss-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
