@@ -254,7 +254,8 @@ export function FireflyInvite() {
   );
 
   return (
-    <main ref={root} className={`${t.root} relative min-h-screen`}>
+    // isolate: canvas `fixed -z-10` phải nằm trên nền của main, không bị che.
+    <main ref={root} className={`${t.root} relative isolate min-h-screen`}>
       <ForestCanvas
         fallback={<ForestFallback />}
         progress={progress}
@@ -377,7 +378,7 @@ export function FireflyInvite() {
           )}
           {(showAll || !three) && (
             <div className="mt-6 grid w-full max-w-[640px] grid-cols-2 gap-3">
-              {images.slice(0, 8).map((src, i) => (
+              {images.map((src, i) => (
                 <button
                   key={src}
                   type="button"

@@ -1,6 +1,28 @@
 import { expect, test } from "bun:test";
 import { CatmullRomCurve3, Vector3 } from "three";
-import { bloomAt, cardVisible, easeRemap, PATH } from "./pond";
+import {
+  bloomAt,
+  cardVisible,
+  easeRemap,
+  PATH,
+  reflectionIndex,
+  reflectionSlot,
+} from "./pond";
+
+test("reflectionIndex dùng mọi ảnh sau chân dung, bìa ở cuối", () => {
+  expect(reflectionIndex(0)).toEqual([]);
+  expect(reflectionIndex(3)).toEqual([0]);
+  expect(reflectionIndex(6)).toEqual([3, 4, 5, 0]);
+  expect(reflectionIndex(24)).toHaveLength(22);
+});
+
+test("reflectionSlot chừa lối giữa cho camera, không lấn vào đình", () => {
+  for (let i = 0; i < 40; i++) {
+    const { pos } = reflectionSlot(i);
+    expect(Math.abs(pos[0])).toBeGreaterThanOrEqual(1.6);
+    if (i < 24) expect(pos[2]).toBeGreaterThan(-57 + 3);
+  }
+});
 
 test("bloomAt", () => {
   expect(bloomAt("L0", 0.05)).toBe(0);

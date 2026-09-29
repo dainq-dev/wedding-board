@@ -4,6 +4,7 @@ import { meta } from "./meta";
 
 const hand = Patrick_Hand({
   subsets: ["vietnamese"],
+  weight: "400",
   variable: "--font-hand",
 });
 const body = Nunito({

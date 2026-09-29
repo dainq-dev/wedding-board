@@ -128,12 +128,14 @@ function Photo({
   url,
   onClick,
   scale = 3,
+  max = 1024,
 }: {
   url?: string;
   onClick?: (e: ThreeEvent<MouseEvent>) => void;
   scale?: number;
+  max?: number;
 }) {
-  const tex = useSafeTexture(url);
+  const tex = useSafeTexture(url, max);
   if (!tex) return null;
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: object3D của R3F, không phải DOM
@@ -348,32 +350,61 @@ function Constellations({
   );
 }
 
+// Đường hầm ký ức: MỌI ảnh (trừ bìa + 2 chân dung) xếp xoắn ốc quanh trục z,
+// camera bay xuyên qua ở đoạn 0.45 → 0.62. Ảnh luôn quay về phía camera.
+const TUNNEL_FROM = 6;
+const TUNNEL_TO = -56;
+
 function AlbumSpiral({
+  progress,
   images,
   onPick,
+  mobile,
 }: {
+  progress: RefObject<number>;
   images: string[];
   onPick: (i: number) => void;
+  mobile: boolean;
 }) {
+  const root = useRef<Group>(null);
   const refs = useRef<(Group | null)[]>([]);
-  useFrame(({ camera }) => {
-    for (const o of refs.current) o?.lookAt(camera.position);
+  const list = images.map((url, idx) => ({ url, idx })).slice(3);
+  const n = Math.max(1, list.length);
+  const r = mobile ? 4.2 : 5.5;
+  useFrame(({ camera, clock }) => {
+    // Chỉ hiện quanh chương album (0.36 → 0.66): không lộ ra ở màn mở / va chạm.
+    const p = progress.current;
+    const k = range(p, 0.36, 0.44) * (1 - range(p, 0.62, 0.66));
+    if (root.current) {
+      root.current.visible = k > 0.001;
+      root.current.scale.setScalar(Math.max(0.001, k));
+    }
+    if (k <= 0.001) return;
+    refs.current.forEach((o, i) => {
+      if (!o) return;
+      o.lookAt(camera.position);
+      // Lơ lửng nhẹ quanh vị trí gốc trên đường xoắn.
+      o.position.y =
+        Math.sin(i * 2.4) * r + Math.sin(clock.elapsedTime * 0.6 + i) * 0.15;
+    });
   });
   return (
-    <>
-      {[3, 4, 5, 6].map((idx, i) => {
-        const a = i * (Math.PI / 1.5);
+    <group ref={root} visible={false}>
+      {list.map(({ url, idx }, i) => {
+        const a = i * 2.4;
+        const z = TUNNEL_FROM + ((TUNNEL_TO - TUNNEL_FROM) * i) / n;
         return (
           <group
-            key={idx}
+            key={`${idx}-${url}`}
             ref={(o) => {
               refs.current[i] = o;
             }}
-            position={[Math.cos(a) * 4, Math.sin(a) * 4, -20 - i * (40 / 3)]}
+            position={[Math.cos(a) * r, Math.sin(a) * r, z]}
           >
             <Photo
-              url={images[idx]}
-              scale={4}
+              url={url}
+              scale={mobile ? 2.2 : 2.8}
+              max={512}
               onClick={(e) => {
                 e.stopPropagation();
                 onPick(idx);
@@ -382,7 +413,7 @@ function AlbumSpiral({
           </group>
         );
       })}
-    </>
+    </group>
   );
 }
 
@@ -621,7 +652,12 @@ function Inner({
       )}
       <TwinStars progress={progress} images={images} glow={glow} />
       <Constellations progress={progress} images={images} />
-      <AlbumSpiral images={images} onPick={onPick} />
+      <AlbumSpiral
+        progress={progress}
+        images={images}
+        onPick={onPick}
+        mobile={mobile}
+      />
       <Collision progress={progress} glow={glow} count={mobile ? 150 : 300} />
       <MergedStar progress={progress} glow={glow} />
       <Planet progress={progress} />

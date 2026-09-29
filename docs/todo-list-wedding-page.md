@@ -30,7 +30,8 @@
 | Đường nét SVG | DrawSVG | Vẽ dần hoạ tiết, đường đi |
 | 3D | `three` + `@react-three/fiber` + `@react-three/drei` | Viết dạng component React; drei có sẵn `Stars`, `Sparkles`, `Cloud`, `Float`, `useTexture`… |
 | Điều khiển 3D khi cuộn | ScrollTrigger cập nhật `progress` (0→1) vào một ref, và `useFrame` nội suy vị trí camera theo keyframe | Chữ vẫn là HTML thật (tốt cho SEO và accessibility); canvas nằm cố định phía sau |
-| Post-processing (bloom…) | **Không dùng ở MVP** | Nặng trên mobile. Dùng vật liệu emissive + additive blending để giả ánh sáng |
+| Post-processing (bloom…) | **Bắt buộc** `@react-three/postprocessing`: bloom chọn lọc + vignette + SMAA; DOF cho hero shot (desktop) | Không hậu kỳ thì cảnh 3D trông như bản lỗi (đánh giá 29/09). Mobile hạ tầng bằng `PerformanceMonitor`, không tắt hẳn. Xem [visual-quality.md §3.3](./visual-quality.md) |
+| Ánh sáng / chất liệu | HDRI 1k local (CC0) + key light + bóng mềm (`ContactShadows`); vật thể hero là `.glb` tối ưu hoặc procedural đạt chất lượng model | Primitive thô + `ambientLight` = không đạt chuẩn |
 | Nhạc | `<audio>` HTML với `loop`, âm lượng tăng dần trong 1.5 giây | Không cần Web Audio API |
 
 Lưu ý với ScrollSmoother: nội dung phải nằm trong `#smooth-wrapper > #smooth-content`. Các thành phần `position: fixed` (nút Quay lại, Dùng thử, Nhạc) **phải đặt ngoài wrapper**. Hiện layout chung đã đặt chúng ngoài nên không có vấn đề. Bên trong wrapper **không dùng `position: sticky`**, muốn ghim card thì dùng `pin` của ScrollTrigger.

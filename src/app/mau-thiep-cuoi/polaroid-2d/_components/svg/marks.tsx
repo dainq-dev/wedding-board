@@ -25,7 +25,8 @@ export function Washi({
 
 export function SpiralSpine({ className = "" }: { className?: string }) {
   let d = "";
-  for (let y = 6; y <= 378; y += 20) d += `M1 ${y} C14 ${y + 4}, 14 ${y + 16}, 1 ${y + 20} `;
+  for (let y = 6; y <= 378; y += 20)
+    d += `M1 ${y} C14 ${y + 4}, 14 ${y + 16}, 1 ${y + 20} `;
   return (
     <svg
       viewBox="0 0 16 400"

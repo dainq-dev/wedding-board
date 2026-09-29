@@ -5,7 +5,7 @@ export const meta: TemplateMeta = {
   name: "Tạp Chí Cưới",
   description:
     "Thiệp tạp chí thời trang: bìa lật, phỏng vấn Q&A, trang ảnh lớn và lịch sự kiện.",
-  thumbnail: "/templates/editorial-2d/thumb.webp",
+  thumbnail: "/templates/editorial-2d/thumb.png",
   tech: "2d",
   styles: ["modern", "luxury"],
   colors: ["white", "black"],

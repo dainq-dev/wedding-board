@@ -34,7 +34,8 @@ import {
   LOTUS_POS,
   lookAt,
   PATH,
-  REFLECTION_INDEX,
+  reflectionIndex,
+  reflectionSlot,
   type Vec3,
 } from "./pond";
 
@@ -228,6 +229,8 @@ function Photo({
     >
       <planeGeometry args={[size, size * (4 / 3)]} />
       <meshBasicMaterial
+        // key: material tạo khi map=null không tự recompile shader khi texture về.
+        key={tex?.uuid ?? "none"}
         map={tex}
         color={tex ? "#FFFFFF" : "#E8DDD2"}
         side={DoubleSide}
@@ -333,14 +336,15 @@ function Dragonfly({ progress }: SceneProps) {
 function Reflections({ images, onPhoto }: SceneProps) {
   return (
     <>
-      {REFLECTION_INDEX.map((idx, i) => {
-        const x = (i - 2.5) * 1.7;
+      {reflectionIndex(images.length).map((idx, i) => {
+        const { pos, rotY } = reflectionSlot(i);
         return (
           <Photo
-            key={idx}
+            key={`${idx}-${images[idx]}`}
             src={images[idx]}
-            position={[x, 0.8, -40 - Math.abs(x) * 0.4]}
-            rotation={[0, -x * 0.06, 0]}
+            position={pos}
+            rotation={[0, rotY, 0]}
+            size={1.1}
             onClick={() => onPhoto(idx)}
           />
         );

@@ -14,41 +14,23 @@ export function useMusic(src: string = DEFAULT_MUSIC, maxVolume = 0.6) {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(maxVolume);
   const [muted, setMuted] = useState(false);
-  const [levels, setLevels] = useState<number[]>(() =>
-    Array.from({ length: 18 }, () => 0.15),
-  );
-
-  // Web Audio
-  const audioContext = useRef<AudioContext | null>(null);
-  const analyser = useRef<AnalyserNode | null>(null);
-  const sourceNode = useRef<MediaElementAudioSourceNode | null>(null);
-  const animationFrame = useRef<number | null>(null);
+  const fade = useRef(0);
 
   useEffect(() => {
     const a = new Audio(src);
-
     a.loop = true;
     a.volume = 0;
-
     a.onplay = () => setPlaying(true);
     a.onpause = () => setPlaying(false);
-
     a.onerror = () => {
       if (a.src.endsWith(DEFAULT_MUSIC)) return;
-
-      const resume = !a.paused || a.dataset.wantPlay === "1";
-
+      const resume = a.dataset.wantPlay === "1";
       a.src = DEFAULT_MUSIC;
-
-      if (resume) {
-        a.play().catch(() => {});
-      }
+      if (resume) a.play().catch(() => {});
     };
-
     audio.current = a;
 
     let hiddenPaused = false;
-
     const onVis = () => {
       if (document.hidden && !a.paused) {
         hiddenPaused = true;
@@ -58,265 +40,78 @@ export function useMusic(src: string = DEFAULT_MUSIC, maxVolume = 0.6) {
         a.play().catch(() => {});
       }
     };
-
     document.addEventListener("visibilitychange", onVis);
-
     return () => {
       document.removeEventListener("visibilitychange", onVis);
-
-      if (animationFrame.current) {
-        cancelAnimationFrame(animationFrame.current);
-      }
-
+      cancelAnimationFrame(fade.current);
       a.pause();
-
-      if (audioContext.current) {
-        audioContext.current.close().catch(() => {});
-      }
-
-      audioContext.current = null;
-      analyser.current = null;
-      sourceNode.current = null;
       audio.current = null;
     };
   }, [src]);
 
-  /* ------------------------------------------------------------------------ */
-  /* Fade                                                                     */
-  /* ------------------------------------------------------------------------ */
-
-  const fade = useRef(0);
-
-  const fadeTo = useCallback((targetVolume: number, ms = 1500) => {
+  const fadeTo = useCallback((target: number, ms = 1500) => {
     const a = audio.current;
-
     if (!a) return;
-
     cancelAnimationFrame(fade.current);
-
     const from = a.volume;
-    const to = clamp01(targetVolume);
+    const to = clamp01(target);
     const start = performance.now();
-
     const step = (now: number) => {
       const k = clamp01((now - start) / ms);
-
       a.volume = clamp01(from + (to - from) * k);
-
-      if (k < 1) {
-        fade.current = requestAnimationFrame(step);
-      }
+      if (k < 1) fade.current = requestAnimationFrame(step);
     };
-
     fade.current = requestAnimationFrame(step);
   }, []);
-
-  /* ------------------------------------------------------------------------ */
-  /* Web Audio Visualizer                                                     */
-  /* ------------------------------------------------------------------------ */
-
-  const setupAnalyser = useCallback(() => {
-    const a = audio.current;
-
-    if (!a || sourceNode.current) return;
-
-    try {
-      const AudioContextClass =
-        window.AudioContext ||
-        // @ts-expect-error Safari
-        window.webkitAudioContext;
-
-      if (!AudioContextClass) return;
-
-      const context = new AudioContextClass();
-
-      const analyserNode = context.createAnalyser();
-
-      analyserNode.fftSize = 128;
-      analyserNode.smoothingTimeConstant = 0.82;
-
-      const source = context.createMediaElementSource(a);
-
-      source.connect(analyserNode);
-      analyserNode.connect(context.destination);
-
-      audioContext.current = context;
-      analyser.current = analyserNode;
-      sourceNode.current = source;
-    } catch {
-      // Web Audio không khả dụng → music vẫn hoạt động bình thường.
-    }
-  }, []);
-
-  const startVisualizer = useCallback(() => {
-    const analyserNode = analyser.current;
-
-    if (!analyserNode) return;
-
-    if (animationFrame.current) {
-      cancelAnimationFrame(animationFrame.current);
-    }
-
-    const data = new Uint8Array(analyserNode.frequencyBinCount);
-
-    const update = () => {
-      analyserNode.getByteFrequencyData(data);
-
-      const barCount = 18;
-      const nextLevels: number[] = [];
-
-      for (let i = 0; i < barCount; i++) {
-        const start = Math.floor((i / barCount) * data.length);
-        const end = Math.max(
-          start + 1,
-          Math.floor(((i + 1) / barCount) * data.length),
-        );
-
-        let sum = 0;
-
-        for (let j = start; j < end; j++) {
-          sum += data[j];
-        }
-
-        const average = sum / (end - start);
-
-        // Boost nhẹ để visualizer có chuyển động rõ hơn
-        const normalized = clamp01((average / 255) * 1.45);
-
-        nextLevels.push(normalized);
-      }
-
-      setLevels(nextLevels);
-
-      animationFrame.current = requestAnimationFrame(update);
-    };
-
-    animationFrame.current = requestAnimationFrame(update);
-  }, []);
-
-  const stopVisualizer = useCallback(() => {
-    if (animationFrame.current) {
-      cancelAnimationFrame(animationFrame.current);
-      animationFrame.current = null;
-    }
-
-    // Không reset ngay về 0 để animation fade-out tự nhiên
-    setLevels((current) => current.map((value) => value * 0.65));
-  }, []);
-
-  /* ------------------------------------------------------------------------ */
-  /* Play / Pause                                                             */
-  /* ------------------------------------------------------------------------ */
 
   const play = useCallback(
     async (fadeMs = 1500) => {
       const a = audio.current;
-
       if (!a) return;
-
       a.dataset.wantPlay = "1";
-
-      setupAnalyser();
-
-      if (audioContext.current?.state === "suspended") {
-        await audioContext.current.resume().catch(() => {});
-      }
-
       try {
         await a.play();
-
         fadeTo(muted ? 0 : volume, fadeMs);
-
-        startVisualizer();
       } catch {
-        // Browser autoplay policy có thể chặn play().
-        // Lần click tiếp theo sẽ play bình thường.
+        // Autoplay bị chặn → lần bấm sau sẽ phát.
       }
     },
-    [
-      fadeTo,
-      muted,
-      setupAnalyser,
-      startVisualizer,
-      volume,
-    ],
+    [fadeTo, muted, volume],
   );
 
   const pause = useCallback(() => {
     const a = audio.current;
-
     if (!a) return;
-
     a.dataset.wantPlay = "0";
-
     fadeTo(0, 250);
-
     window.setTimeout(() => {
-      if (a.dataset.wantPlay === "0") {
-        a.pause();
-      }
+      if (a.dataset.wantPlay === "0") a.pause();
     }, 260);
-
-    stopVisualizer();
-  }, [fadeTo, stopVisualizer]);
+  }, [fadeTo]);
 
   const toggle = useCallback(() => {
-    if (playing) {
-      pause();
-    } else {
-      play(400);
-    }
+    if (playing) pause();
+    else play(400);
   }, [pause, play, playing]);
 
-  /* ------------------------------------------------------------------------ */
-  /* Volume                                                                   */
-  /* ------------------------------------------------------------------------ */
-
   const changeVolume = useCallback(
-    (nextVolume: number) => {
+    (next: number) => {
+      const v = clamp01(next);
+      setVolume(v);
+      setMuted(v === 0);
       const a = audio.current;
-      const next = clamp01(nextVolume);
-
-      setVolume(next);
-
-      if (next > 0) {
-        setMuted(false);
-      }
-
       if (!a) return;
-
-      if (playing) {
-        fadeTo(next, 180);
-      } else {
-        a.volume = next;
-      }
+      if (playing) fadeTo(v, 150);
+      else a.volume = v;
     },
     [fadeTo, playing],
   );
 
   const toggleMute = useCallback(() => {
-    const a = audio.current;
-
-    if (!a) return;
-
-    if (muted) {
-      setMuted(false);
-
-      if (playing) {
-        fadeTo(volume, 180);
-      } else {
-        a.volume = volume;
-      }
-    } else {
-      setMuted(true);
-
-      fadeTo(0, 180);
-    }
+    const next = !muted;
+    setMuted(next);
+    if (playing) fadeTo(next ? 0 : volume, 180);
   }, [fadeTo, muted, playing, volume]);
-
-  /* ------------------------------------------------------------------------ */
-  /* Return                                                                   */
-  /* ------------------------------------------------------------------------ */
 
   return {
     audio,
@@ -325,21 +120,19 @@ export function useMusic(src: string = DEFAULT_MUSIC, maxVolume = 0.6) {
     pause,
     toggle,
     fadeTo,
-
-    // Extended API
     volume,
     muted,
     changeVolume,
     toggleMute,
-    levels,
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/* Music Toggle                                                               */
-/* -------------------------------------------------------------------------- */
+export type Music = ReturnType<typeof useMusic>;
 
-// Nút nổi góc trên phải (góc trên trái = Quay lại, dưới phải = Dùng thử).
+const BARS = [0, 0.35, 0.15, 0.5] as const;
+
+// Thanh nhạc nổi góc trên phải (góc trên trái = Quay lại, dưới phải = Dùng thử).
+// `className` áp lên pill: mẫu truyền bg-/text- riêng thì thay tông mặc định.
 export function MusicToggle({
   music,
   className = "",
@@ -347,224 +140,101 @@ export function MusicToggle({
   music: Music;
   className?: string;
 }) {
-  const [expanded, setExpanded] = useState(false);
-
-  const {
-    playing,
-    muted,
-    volume,
-    levels,
-    toggle,
-    toggleMute,
-    changeVolume,
-  } = music;
-
-  const displayVolume = muted ? 0 : volume;
+  const [open, setOpen] = useState(false);
+  const { playing, muted, volume, toggle, toggleMute, changeVolume } = music;
+  const shown = muted ? 0 : volume;
+  const tone = [
+    /(^|\s)bg-/.test(className) ? "" : "bg-black/45",
+    /(^|\s)text-/.test(className) ? "" : "text-white",
+  ].join(" ");
+  // Popover chỉ lấy class màu của mẫu (bỏ pointer-events… để khi ẩn không bắt click).
+  const skin = className
+    .split(/\s+/)
+    .filter((c) => /^!?(bg|text)-/.test(c))
+    .join(" ");
 
   return (
     <div
-      className={`fixed top-4 right-4 z-40 flex items-center gap-2 ${className}`}
+      className={`fixed top-4 right-4 z-40 flex h-12 items-center gap-1 rounded-full border border-white/20 p-1 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] backdrop-blur-xl ${tone} ${className}`}
     >
-      {/* ------------------------------------------------------------------ */}
-      {/* Expanded controller                                                */}
-      {/* ------------------------------------------------------------------ */}
-
-      <div
-        className={[
-          "flex items-center gap-2 overflow-hidden rounded-full",
-          "border border-white/30 bg-white/80 backdrop-blur-xl",
-          "shadow-[0_8px_30px_rgba(0,0,0,0.12)]",
-          "transition-all duration-300 ease-out",
-          expanded
-            ? "pointer-events-auto max-w-[240px] translate-x-0 px-3 py-2 opacity-100"
-            : "pointer-events-none max-w-0 translate-x-2 px-0 py-2 opacity-0",
-        ].join(" ")}
-      >
-        {/* Mute */}
-        <button
-          type="button"
-          onClick={toggleMute}
-          aria-label={muted ? "Bật âm lượng" : "Tắt âm lượng"}
-          className="flex size-7 shrink-0 items-center justify-center rounded-full text-black/70 transition hover:bg-black/5 hover:text-black"
-        >
-          {muted || volume === 0 ? (
-            <svg
-              viewBox="0 0 24 24"
-              className="size-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-            >
-              <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-              <path d="m19 9-6 6" />
-              <path d="m13 9 6 6" />
-            </svg>
-          ) : volume < 0.5 ? (
-            <svg
-              viewBox="0 0 24 24"
-              className="size-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-            >
-              <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-              <path d="M15.5 9.5a4 4 0 0 1 0 5" />
-            </svg>
-          ) : (
-            <svg
-              viewBox="0 0 24 24"
-              className="size-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-            >
-              <path d="M11 5 6 9H3v6h3l5 4V5Z" />
-              <path d="M15.5 8.5a6 6 0 0 1 0 7" />
-              <path d="M18.5 6a10 10 0 0 1 0 12" />
-            </svg>
-          )}
-        </button>
-
-        {/* Volume slider */}
-        <div className="relative flex h-5 w-20 items-center">
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            value={displayVolume}
-            onChange={(event) =>
-              changeVolume(Number(event.target.value))
-            }
-            aria-label="Âm lượng"
-            className="music-volume-slider w-full cursor-pointer"
-          />
-        </div>
-
-        {/* Volume percentage */}
-        <span className="w-8 text-right text-[10px] font-medium tabular-nums text-black/50">
-          {Math.round(displayVolume * 100)}
-        </span>
-      </div>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* Main button                                                         */}
-      {/* ------------------------------------------------------------------ */}
-
       <button
         type="button"
         onClick={toggle}
-        onContextMenu={(event) => {
-          event.preventDefault();
-          setExpanded((value) => !value);
-        }}
-        onDoubleClick={() => setExpanded((value) => !value)}
         aria-label={playing ? "Tạm dừng nhạc" : "Phát nhạc"}
         aria-pressed={playing}
-        className={[
-          "group relative flex size-12 shrink-0 items-center justify-center",
-          "rounded-full border border-white/40",
-          "bg-white/85 backdrop-blur-xl",
-          "shadow-[0_8px_30px_rgba(0,0,0,0.14)]",
-          "transition-all duration-300",
-          "hover:scale-105 hover:bg-white",
-          "active:scale-95",
-        ].join(" ")}
+        className="flex h-10 items-center gap-2 rounded-full pr-3 pl-1 transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-current"
       >
-        {/* Outer pulse */}
-        {playing && (
-          <>
-            <span className="absolute inset-0 rounded-full border border-black/10 animate-[ping_2s_ease-out_infinite]" />
-
-            <span className="absolute -inset-1 rounded-full border border-black/[0.04]" />
-          </>
-        )}
-
-        {/* Visualizer */}
-        <span className="relative flex h-5 items-center justify-center gap-[2px]">
-          {levels.map((level, index) => {
-            // Chỉ hiển thị 9 bar giữa để tạo cảm giác gọn như waveform
-            if (index < 4 || index > 13) return null;
-
-            const height = playing
-              ? Math.max(3, 4 + level * 15)
-              : 3;
-
-            return (
-              <span
-                key={index}
-                className="w-[2px] rounded-full bg-black/70 transition-[height,opacity] duration-75"
-                style={{
-                  height,
-                  opacity: playing
-                    ? 0.45 + level * 0.55
-                    : 0.35,
-                }}
-              />
-            );
-          })}
+        {/* Đĩa than: xoay khi phát, dừng tại chỗ khi tạm dừng. */}
+        <span
+          aria-hidden="true"
+          className={`relative flex size-8 items-center justify-center rounded-full bg-[repeating-radial-gradient(circle,#1a1a1a_0_1.5px,#2b2b2b_1.5px_3px)] animate-[spin_4s_linear_infinite] motion-reduce:animate-none ${playing ? "" : "[animation-play-state:paused]"}`}
+        >
+          <span className="size-2.5 rounded-full bg-current ring-2 ring-black/60" />
+          <span className="absolute inset-0 rounded-full bg-[conic-gradient(from_30deg,transparent_0_15%,rgba(255,255,255,0.25)_20%,transparent_30%)]" />
         </span>
-
-        {/* Center play icon khi chưa phát */}
-        {!playing && (
-          <svg
-            viewBox="0 0 24 24"
-            className="absolute size-5 translate-x-[1px] text-black/75"
-            fill="currentColor"
-          >
-            <path d="M8 5.5v13a1 1 0 0 0 1.53.848l9.5-6.5a1 1 0 0 0 0-1.696l-9.5-6.5A1 1 0 0 0 8 5.5Z" />
-          </svg>
-        )}
-
-        {/* Pause icon */}
-        {playing && (
-          <span className="absolute flex items-center gap-[3px]">
-            <span className="h-4 w-[2px] rounded-full bg-black/70" />
-            <span className="h-4 w-[2px] rounded-full bg-black/70" />
-          </span>
-        )}
+        <span aria-hidden="true" className="flex h-4 items-end gap-[3px]">
+          {BARS.map((delay) => (
+            <span
+              key={delay}
+              className={`w-[3px] origin-bottom rounded-full bg-current ${playing ? "h-4 animate-kit-music-eq motion-reduce:animate-none" : "h-1 opacity-60"}`}
+              style={playing ? { animationDelay: `-${delay}s` } : undefined}
+            />
+          ))}
+        </span>
       </button>
 
-      {/* ------------------------------------------------------------------ */}
-      {/* Range slider styles                                                */}
-      {/* ------------------------------------------------------------------ */}
-
-      <style jsx>{`
-        .music-volume-slider {
-          appearance: none;
-          -webkit-appearance: none;
-          height: 3px;
-          border-radius: 999px;
-          background: rgba(0, 0, 0, 0.12);
-          outline: none;
-        }
-
-        .music-volume-slider::-webkit-slider-thumb {
-          appearance: none;
-          -webkit-appearance: none;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background: rgba(0, 0, 0, 0.7);
-          cursor: pointer;
-          transition: transform 150ms ease;
-        }
-
-        .music-volume-slider::-webkit-slider-thumb:hover {
-          transform: scale(1.25);
-        }
-
-        .music-volume-slider::-moz-range-thumb {
-          width: 10px;
-          height: 10px;
-          border: 0;
-          border-radius: 50%;
-          background: rgba(0, 0, 0, 0.7);
-          cursor: pointer;
-        }
-      `}</style>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? "Ẩn âm lượng" : "Chỉnh âm lượng"}
+        aria-expanded={open}
+        className="flex size-10 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-current"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          className={`size-4 fill-none stroke-current stroke-2 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+      {/* Popover âm lượng thả xuống — không kéo dài pill (tránh đè nút Quay lại ở 360px). */}
+      <div
+        className={`absolute top-[calc(100%+8px)] right-0 flex items-center gap-1 rounded-full border border-white/20 p-1 pr-4 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-[opacity,transform] duration-200 ${tone} ${skin} ${open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0"}`}
+        aria-hidden={!open}
+      >
+        <button
+          type="button"
+          onClick={toggleMute}
+          tabIndex={open ? 0 : -1}
+          aria-label={muted ? "Bật tiếng" : "Tắt tiếng"}
+          className="flex size-9 shrink-0 items-center justify-center rounded-full hover:bg-white/10"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="size-4 fill-none stroke-current stroke-[1.8]"
+          >
+            <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+            {shown === 0 ? (
+              <path d="m16 9 6 6m0-6-6 6" />
+            ) : (
+              <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" />
+            )}
+          </svg>
+        </button>
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step={0.01}
+          value={shown}
+          tabIndex={open ? 0 : -1}
+          onChange={(e) => changeVolume(Number(e.target.value))}
+          aria-label="Âm lượng"
+          className="h-1 w-24 cursor-pointer accent-current"
+        />
+      </div>
     </div>
   );
 }
-
-export type Music = ReturnType<typeof useMusic>;

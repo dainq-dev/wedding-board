@@ -5,7 +5,7 @@ export const meta: TemplateMeta = {
   name: "Sổ Polaroid",
   description:
     "Sổ scrapbook bìa vải: polaroid dán washi, sticker, chữ viết tay, ảnh kéo thả và dấu mộc.",
-  thumbnail: "/templates/polaroid-2d/thumb.webp",
+  thumbnail: "/templates/polaroid-2d/thumb.png",
   tech: "2d",
   styles: ["playful", "vintage"],
   colors: ["beige", "white"],

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/kit/gsap";
+import { useGSAP } from "@/kit/gsap";
 import { horizontalTrack } from "@/kit/presets";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
 import type { WeddingData } from "@/wedding/types";
@@ -9,10 +9,26 @@ import { t } from "../tokens";
 
 const FRAMES = [
   { label: "Chuyện tình · 5 khung hình", caption: "Cuộn 01 — 35mm", year: "" },
-  { label: "Lần đầu gặp", caption: "Một quán cà phê, một cái cúi nhầm bàn", year: "2019" },
-  { label: "Buổi hẹn đầu tiên", caption: "Đi hết một vòng hồ lúc nửa đêm", year: "2021" },
-  { label: "Lời cầu hôn", caption: "Cùng một chiếc bàn, hai câu trả lời", year: "2023" },
-  { label: "Và phần tiếp theo…", caption: "Chương cuối của bộ phim này", year: "2026" },
+  {
+    label: "Lần đầu gặp",
+    caption: "Một quán cà phê, một cái cúi nhầm bàn",
+    year: "2019",
+  },
+  {
+    label: "Buổi hẹn đầu tiên",
+    caption: "Đi hết một vòng hồ lúc nửa đêm",
+    year: "2021",
+  },
+  {
+    label: "Lời cầu hôn",
+    caption: "Cùng một chiếc bàn, hai câu trả lời",
+    year: "2023",
+  },
+  {
+    label: "Và phần tiếp theo…",
+    caption: "Chương cuối của bộ phim này",
+    year: "2026",
+  },
 ];
 
 const SPROCKETS =
@@ -35,7 +51,9 @@ export function FilmStrip({ data }: { data: WeddingData }) {
       const st = tween.scrollTrigger;
       if (!st) return;
       st.vars.onUpdate = (s: ScrollTrigger) => {
-        const dist = track.current ? track.current.scrollWidth - window.innerWidth : 0;
+        const dist = track.current
+          ? track.current.scrollWidth - window.innerWidth
+          : 0;
         const x = -dist * s.progress;
         // Lỗ răng cưa trượt nhanh hơn 1.1× — cảm giác cuộn phim (spec §5 C4).
         const bg = `${x * 1.1}px 50%`;
@@ -47,9 +65,9 @@ export function FilmStrip({ data }: { data: WeddingData }) {
         );
         if (counter.current)
           counter.current.textContent = `${idx + 1}/${FRAMES.length}`;
-        blocks.current.forEach((b, i) =>
-          b.classList.toggle("bg-[#C9A227]", i <= idx),
-        );
+        blocks.current.forEach((b, i) => {
+          b.classList.toggle("bg-[#C9A227]", i <= idx);
+        });
       };
     },
     { dependencies: [reduced] },
@@ -58,15 +76,14 @@ export function FilmStrip({ data }: { data: WeddingData }) {
   const cell = (f: (typeof FRAMES)[number], i: number) => {
     const img = i === 0 ? undefined : data.images[2 + i];
     return (
-      <div
-        key={f.label}
-        className="flex w-[min(80vw,520px)] shrink-0 flex-col"
-      >
+      <div key={f.label} className="flex w-[min(80vw,520px)] shrink-0 flex-col">
         {i === 0 ? (
           <div
             className={`flex aspect-4/3 items-center justify-center p-6 text-center ${t.frame}`}
           >
-            <p className={`${t.heading} text-[20px] lg:text-[28px]`}>{f.label}</p>
+            <p className={`${t.heading} text-[20px] lg:text-[28px]`}>
+              {f.label}
+            </p>
           </div>
         ) : img ? (
           <div className={t.frame}>
@@ -115,7 +132,10 @@ export function FilmStrip({ data }: { data: WeddingData }) {
     >
       <div ref={top} className={SPROCKETS} aria-hidden />
       <div className="relative overflow-hidden py-4">
-        <div ref={track} className="flex w-max gap-6 px-6 will-change-transform">
+        <div
+          ref={track}
+          className="flex w-max gap-6 px-6 will-change-transform"
+        >
           {FRAMES.map((f, i) => cell(f, i))}
         </div>
       </div>
