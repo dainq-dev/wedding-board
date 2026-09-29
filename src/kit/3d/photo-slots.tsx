@@ -28,6 +28,7 @@ type Slot = {
   el: HTMLElement;
   url: string;
   radius: number;
+  arch: boolean;
   matte: number;
   matteColor: string;
 };
@@ -85,6 +86,7 @@ export function PhotoSlot({
   alt,
   className = "",
   radius = 18,
+  arch = false,
   matte = 0,
   matteColor = "#FFFFFF",
   onClick,
@@ -94,6 +96,8 @@ export function PhotoSlot({
   className?: string;
   /** bo góc (px) */
   radius?: number;
+  /** khung vòm cửa: nửa tròn phía trên, `radius` cho 2 góc dưới */
+  arch?: boolean;
   /** viền giấy (px) */
   matte?: number;
   matteColor?: string;
@@ -106,9 +110,9 @@ export function PhotoSlot({
 
   useLayoutEffect(() => {
     if (!reg || !ref.current) return;
-    reg.set(id, { el: ref.current, url, radius, matte, matteColor });
+    reg.set(id, { el: ref.current, url, radius, arch, matte, matteColor });
     return () => reg.delete(id);
-  }, [reg, id, url, radius, matte, matteColor]);
+  }, [reg, id, url, radius, arch, matte, matteColor]);
 
   const gl = reg?.active ?? false;
   return (
@@ -118,7 +122,9 @@ export function PhotoSlot({
       onClick={onClick}
       aria-label={`Xem lớn: ${alt}`}
       className={`group relative block cursor-zoom-in overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${className}`}
-      style={{ borderRadius: radius }}
+      style={{
+        borderRadius: arch ? `9999px 9999px ${radius}px ${radius}px` : radius,
+      }}
     >
       {/* biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử" */}
       <img
@@ -150,6 +156,7 @@ uniform float uHasMap;
 uniform float uImgAspect;
 uniform float uAspect;
 uniform float uRadius;
+uniform float uArch;
 uniform float uMatte;
 uniform vec3 uMatteColor;
 uniform vec3 uBase;
@@ -158,20 +165,28 @@ uniform float uHover;
 uniform float uParallax;
 varying vec2 vUv;
 
-float sdRound(vec2 p, vec2 b, float r) {
-  vec2 q = abs(p) - b + r;
-  return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
+// Hộp bo 4 góc riêng (iq): r = (trên-phải, dưới-phải, trên-trái, dưới-trái).
+float sdRound(vec2 p, vec2 b, vec4 r) {
+  r.xy = (p.x > 0.0) ? r.xy : r.zw;
+  r.x = (p.y > 0.0) ? r.x : r.y;
+  vec2 q = abs(p) - b + r.x;
+  return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
+}
+vec4 radii(vec2 halfSize, float r) {
+  // Vòm: 2 góc trên = nửa bề rộng → nửa hình tròn.
+  float top = uArch > 0.5 ? halfSize.x : r;
+  return vec4(top, r, top, r);
 }
 
 void main() {
   vec2 halfSize = vec2(uAspect, 1.0) * 0.5;
   vec2 p = (vUv - 0.5) * vec2(uAspect, 1.0);
-  float d = sdRound(p, halfSize, uRadius);
+  float d = sdRound(p, halfSize, radii(halfSize, uRadius));
   float aa = fwidth(d) * 1.1;
   float alpha = 1.0 - smoothstep(-aa, aa, d);
 
   vec2 innerHalf = halfSize - uMatte;
-  float di = sdRound(p, innerHalf, max(uRadius - uMatte, 0.0));
+  float di = sdRound(p, innerHalf, radii(innerHalf, max(uRadius - uMatte, 0.0)));
   float inPhoto = 1.0 - smoothstep(-aa, aa, di);
 
   vec2 uv = p / (innerHalf * 2.0) + 0.5;
@@ -222,6 +237,7 @@ function SlotMesh({
           uImgAspect: { value: 2 / 3 },
           uAspect: { value: 2 / 3 },
           uRadius: { value: 0 },
+          uArch: { value: slot.arch ? 1 : 0 },
           uMatte: { value: 0 },
           uMatteColor: { value: new Color(slot.matteColor) },
           uBase: { value: new Color(baseColor) },
@@ -231,7 +247,7 @@ function SlotMesh({
           uSkew: { value: 0 },
         },
       }),
-    [slot.matteColor, baseColor],
+    [slot.matteColor, slot.arch, baseColor],
   );
   useEffect(() => () => mat.dispose(), [mat]);
   useEffect(() => {

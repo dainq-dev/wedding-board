@@ -5,7 +5,6 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { type RefObject, useEffect, useMemo, useRef } from "react";
 import {
   AdditiveBlending,
-  BackSide,
   BufferGeometry,
   CanvasTexture,
   Color,
@@ -26,6 +25,7 @@ import { damp } from "@/kit/3d/keyframes";
 import { Photo3D } from "@/kit/3d/photo";
 import { PhotoLayer } from "@/kit/3d/photo-slots";
 import { isMobile, SceneCanvas } from "@/kit/3d/scene-canvas";
+import { createSkyMaterial } from "@/kit/3d/sky-material";
 import { nightness, skyAt, sunElevation } from "./sky";
 
 export type SceneProps = {
@@ -39,53 +39,8 @@ export type SceneProps = {
 const ALTITUDE = 118; // độ cao camera ở cuối trang (đơn vị thế giới)
 
 // ---------------------------------------------------------------- Bầu trời
-const SKY_VERT = /* glsl */ `
-varying vec3 vDir;
-void main() {
-  vDir = normalize((modelMatrix * vec4(position, 0.0)).xyz);
-  vec4 p = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  gl_Position = p.xyww;
-}`;
-const SKY_FRAG = /* glsl */ `
-uniform vec3 uTop;
-uniform vec3 uHorizon;
-uniform vec3 uSun;
-uniform vec3 uSunDir;
-uniform float uNight;
-varying vec3 vDir;
-float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
-void main() {
-  vec3 d = normalize(vDir);
-  float h = d.y;
-  vec3 col = mix(uHorizon, uTop, pow(clamp(h + 0.04, 0.0, 1.0), 0.32));
-  col = mix(col, uHorizon * 0.82, smoothstep(0.0, -0.35, h));
-  float s = max(dot(d, normalize(uSunDir)), 0.0);
-  // Quầng sáng rộng + đĩa mặt trời HDR (>1) để bloom bắt.
-  col += uSun * (pow(s, 6.0) * 0.35 + pow(s, 60.0) * 0.6) * (1.0 - uNight * 0.7);
-  col += uSun * smoothstep(0.9993, 0.9997, s) * 3.5 * (1.0 - uNight);
-  col += (hash(gl_FragCoord.xy) - 0.5) / 255.0; // dither chống banding
-  gl_FragColor = vec4(col, 1.0);
-  #include <colorspace_fragment>
-}`;
-
 function Sky({ progress }: { progress: RefObject<number> }) {
-  const mat = useMemo(
-    () =>
-      new ShaderMaterial({
-        vertexShader: SKY_VERT,
-        fragmentShader: SKY_FRAG,
-        side: BackSide,
-        depthWrite: false,
-        uniforms: {
-          uTop: { value: new Color() },
-          uHorizon: { value: new Color() },
-          uSun: { value: new Color() },
-          uSunDir: { value: new Vector3() },
-          uNight: { value: 0 },
-        },
-      }),
-    [],
-  );
+  const mat = useMemo(() => createSkyMaterial(), []);
   const hemi = useRef<HemisphereLight>(null);
   const sun = useRef<DirectionalLight>(null);
   const scene = useThree((s) => s.scene);
