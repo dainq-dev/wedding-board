@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FF9E5E" />
+      <stop offset="0.55" stop-color="#FFD9A0" />
+      <stop offset="1" stop-color="#BDF1E6" />
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2BB3A3" />
+      <stop offset="1" stop-color="#1F7F74" />
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="800" fill="url(#sky)" />
+  <circle cx="300" cy="300" r="95" fill="#FFB45E" />
+  <circle cx="300" cy="300" r="118" fill="none" stroke="#FFB45E" stroke-opacity="0.5" stroke-width="5" />
+
+  <rect y="520" width="600" height="280" fill="url(#sea)" />
+  <path d="M0 520c75-26 150-26 225 0s150 26 225 0 105-18 150-8v-14c-75-26-150-26-225 0s-150 26-225 0-105 18-150 8z" fill="#BDF1E6" opacity="0.7" />
+
+  <g fill="#123A45" opacity="0.9">
+    <path d="M92 520c-2-40 4-78 16-112 8 40 8 78 2 112z" />
+    <path d="M108 408c-26-24-58-30-84-22 26 6 50 18 68 36zM108 408c24-26 56-34 84-26-28 4-52 16-70 34zM108 408c-6-30-26-52-54-60 18 18 32 38 42 64zM108 408c14-26 38-42 66-44-20 14-38 30-52 52z" />
+  </g>
+
+  <g fill="#FFFDF7">
+    <rect x="360" y="600" width="150" height="96" rx="10" transform="rotate(-4 435 648)" />
+    <rect x="378" y="616" width="114" height="52" rx="6" transform="rotate(-4 435 642)" fill="#2BB3A3" opacity="0.35" />
+  </g>
+
+  <text x="300" y="150" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="44" fill="#FFFDF7">Biển</text>
+</svg>

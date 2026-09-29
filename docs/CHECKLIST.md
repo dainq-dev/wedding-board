@@ -38,7 +38,7 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | [ ] | 2D-08 | **Swiss Mono** `swiss-2d` | [spec](./templates/swiss-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
 | [ ] | 2D-09 | **Vườn Màu Nước** `botanical-2d` | [spec](./templates/botanical-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
 | [ ] | 2D-10 | **Boho Đất Nung** `boho-2d` | [spec](./templates/boho-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-1 | master (PR #6) | code đã merge; cần owner duyệt mắt visual-quality §6 |
-| [ ] | 2D-11 | **Biển Nhiệt Đới** `tropical-2d` | [spec](./templates/tropical-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-2 | master | |
+| [ ] | 2D-11 | **Biển Nhiệt Đới** `tropical-2d` | [spec](./templates/tropical-2d.md) | 🔵 Chờ review | Qwen · 2D-batch-2 (tiếp quản) | master | agent chết giữa skeleton → orchestrator implement (gate hoàng hôn+sóng, couple, lịch trình schedule.ts, album, QR); chờ owner duyệt mắt §6 |
 
 ## P3 — 3D đợt A
 
