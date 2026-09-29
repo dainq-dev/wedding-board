@@ -131,7 +131,7 @@ export function WhenSection({
                   <span className={t.label}>{m.course}</span>
                   <span className="block font-bold">{m.title}</span>
                 </span>
-                <span className={`${t.title} shrink-0 text-[24px]`}>
+                <span className={`${t.title} shrink-0 !text-[24px]`}>
                   {m.time}
                 </span>
               </li>
