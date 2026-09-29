@@ -228,21 +228,24 @@ export function SeasonsInvite() {
       <div ref={chapters}>
         {/* C2 + C3 · Xuân */}
         <section id="spring" className="min-h-[210svh] px-4">
-          <div className="flex min-h-svh flex-col items-center justify-end pb-[10svh] text-center">
-            <span aria-hidden className="text-2xl text-[#16A34A]">
-              ❀
-            </span>
-            <p className={`${t.label} mt-2`}>Mùa xuân · Gặp nhau</p>
-            <p className="mt-3 text-sm text-[#4B5563]">Trân trọng kính mời</p>
-            <h1 data-chars className="mt-3 max-w-full">
-              <span className={`${t.name} ${nameSize(groom.name)} block`}>
-                {groom.name}
+          {/* Nền kính mờ: tên nằm trước thân cây 3D nên cần lớp đệm để đọc được. */}
+          <div className="mx-auto flex min-h-svh w-fit max-w-full flex-col items-center justify-end pb-[10svh] text-center">
+            <div className="flex flex-col items-center rounded-[2rem] bg-white/55 px-6 py-6 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)] backdrop-blur-md sm:px-10">
+              <span aria-hidden className="text-2xl text-[#16A34A]">
+                ❀
               </span>
-              <span className={`${t.name} block text-[32px]`}>&amp;</span>
-              <span className={`${t.name} ${nameSize(bride.name)} block`}>
-                {bride.name}
-              </span>
-            </h1>
+              <p className={`${t.label} mt-2`}>Mùa xuân · Gặp nhau</p>
+              <p className="mt-3 text-sm text-[#4B5563]">Trân trọng kính mời</p>
+              <h1 data-chars className="mt-3 max-w-full">
+                <span className={`${t.name} ${nameSize(groom.name)} block`}>
+                  {groom.name}
+                </span>
+                <span className={`${t.name} block text-[32px]`}>&amp;</span>
+                <span className={`${t.name} ${nameSize(bride.name)} block`}>
+                  {bride.name}
+                </span>
+              </h1>
+            </div>
           </div>
           <div className="mx-auto grid max-w-[820px] grid-cols-2 gap-3 pt-[60svh] sm:gap-6">
             {[
@@ -328,7 +331,7 @@ export function SeasonsInvite() {
               <div
                 className={`${t.card} grid max-w-none grid-cols-2 gap-3 p-3`}
               >
-                {images.slice(3, 9).map((src, i) => (
+                {images.slice(3).map((src, i) => (
                   <button
                     key={src}
                     type="button"

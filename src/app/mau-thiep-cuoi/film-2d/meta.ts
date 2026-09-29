@@ -5,7 +5,7 @@ export const meta: TemplateMeta = {
   name: "Thước Phim",
   description:
     "Thiệp cưới noir đen trắng: đếm ngược 3-2-1, thước phim 35mm, khép lại bằng credits.",
-  thumbnail: "/templates/film-2d/thumb.webp",
+  thumbnail: "/templates/film-2d/thumb.png",
   tech: "2d",
   styles: ["cinematic"],
   colors: ["black", "white"],

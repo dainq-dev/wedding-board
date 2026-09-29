@@ -297,14 +297,19 @@ function CloudLayer({ mobile, url }: { mobile: boolean; url: string }) {
   );
 }
 
-const FLOTILLA: [number, number, number][] = [
-  [-9, 222, -8],
-  [8, 225, -12],
-  [-4, 218, -20],
-  [12, 219, -3],
-  [-14, 226, -18],
-  [3, 229, -26],
-];
+// Đội khinh khí cầu mang ảnh: mỗi ảnh một chiếc, xoắn quanh đường bay
+// ở độ cao 205 → 320 (khớp dải hiển thị 0.42 → 0.75). Deterministic theo index.
+function flotilla(n: number): [number, number, number][] {
+  return Array.from({ length: n }, (_, i) => {
+    const a = i * 2.2;
+    const r = 9 + (i % 3) * 3.5;
+    return [
+      Math.cos(a) * r,
+      205 + (115 * i) / Math.max(1, n - 1),
+      -6 - Math.abs(Math.sin(a)) * 16,
+    ];
+  });
+}
 
 function SmallBalloon({
   url,
@@ -351,14 +356,17 @@ function SmallBalloon({
       }}
     >
       <Balloon geo={geo} toon={toon} />
-      <mesh position-y={-1.3}>
-        <planeGeometry args={[1.5, 2]} />
-        {tex ? (
-          <meshBasicMaterial map={tex} side={DoubleSide} toneMapped={false} />
-        ) : (
-          <meshBasicMaterial color="#FFFFFF" side={DoubleSide} />
-        )}
+      {/* Khung polaroid: viền trắng + ảnh 3:4 treo dưới giỏ. */}
+      <mesh position={[0, -2.1, -0.01]}>
+        <planeGeometry args={[2.2, 3.1]} />
+        <meshBasicMaterial color="#FFFFFF" side={DoubleSide} />
       </mesh>
+      {tex && (
+        <mesh position={[0, -1.95, 0]}>
+          <planeGeometry args={[1.95, 2.6]} />
+          <meshBasicMaterial map={tex} side={DoubleSide} toneMapped={false} />
+        </mesh>
+      )}
     </group>
   );
 }
@@ -447,6 +455,9 @@ function Rig({
   const flotillaOn = useBand(progress, 0.42, 0.75);
   const starsOn = useBand(progress, 0.75, 2);
   const invalidate = useThree((s) => s.invalidate);
+  // Album = mọi ảnh sau 2 chân dung, rồi tới ảnh bìa.
+  const album = [...images.keys()].slice(3).concat(images.length ? [0] : []);
+  const fleet = useMemo(() => flotilla(album.length), [album.length]);
 
   const burst = () => {
     fx.current.burst = performance.now();
@@ -513,21 +524,17 @@ function Rig({
       <Birds progress={progress} />
       {cloudsOn && <CloudLayer mobile={mobile} url={glow.url} />}
       {flotillaOn &&
-        FLOTILLA.map((p, i) => {
-          // 5 chiếc đầu mang images[3..7], chiếc thứ 6 mang images[0].
-          const idx = i < 5 ? 3 + i : 0;
-          return (
-            <SmallBalloon
-              key={p.join()}
-              url={images[idx]}
-              pos={p}
-              phase={i * 1.3}
-              geo={geo}
-              toon={toon}
-              onPick={() => onPick(idx)}
-            />
-          );
-        })}
+        album.map((idx, i) => (
+          <SmallBalloon
+            key={`${idx}-${images[idx]}`}
+            url={images[idx]}
+            pos={fleet[i]}
+            phase={i * 1.3}
+            geo={geo}
+            toon={toon}
+            onPick={() => onPick(idx)}
+          />
+        ))}
       <Sun progress={progress} tex={glow.tex} />
       {starsOn && <Stars radius={300} count={mobile ? 1200 : 3000} fade />}
     </>

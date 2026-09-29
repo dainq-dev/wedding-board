@@ -5,7 +5,7 @@ export const meta: TemplateMeta = {
   name: "Phong Thư Sáp",
   description:
     "Phong bì niêm dấu sáp: mở thư, từng tấm thiệp giấy được rút ra khỏi chồng.",
-  thumbnail: "/templates/letter-2d/thumb.webp",
+  thumbnail: "/templates/letter-2d/thumb.png",
   tech: "2d",
   styles: ["vintage"],
   colors: ["beige", "red"],

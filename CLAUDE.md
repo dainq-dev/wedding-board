@@ -65,6 +65,15 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
 
 
+### Đẹp và có gu là điều kiện tiên quyết (bắt buộc)
+
+Đầu ra là thiệp cưới cho khách mời thật của một đám cưới thật. **Giao diện đẹp mắt và có gu là điều kiện tiên quyết**, đứng trên tính năng, số lượng và tiến độ. Không bao giờ nộp một giao diện "cho có". Trước khi thiết kế, code hoặc báo "xong" một trang/mẫu:
+- Đọc `.claude/skills/taste-skill/taste-skill/SKILL.md`, `.claude/skills/taste-skill/soft-skill/SKILL.md` và [`docs/visual-quality.md`](docs/visual-quality.md) (đặc biệt §8 Gu thiết kế). Viết Design Read + 3 dial trước khi code.
+- Đọc và tuân thủ [`docs/visual-quality.md`](docs/visual-quality.md). Vi phạm bất kỳ điều kiện chặn nào ở §2 = chưa xong, dù build/lint/test pass.
+- Đạt checklist mà vẫn rập khuôn, vô hồn = chưa xong. Phép thử cuối: *"Cô dâu chú rể có dám gửi thiệp này cho ông bà và sếp của họ không?"*
+- Luôn tự chụp screenshot bằng trình duyệt thật (390 / 768 / 1440px) và **tự nhìn** trước khi báo kết quả; tự chấm rubric §5.
+- Không tự đánh `✅ Xong`; tối đa `🔵 Chờ review` kèm screenshot. Không đạt thì nói thẳng phần nào chưa đạt.
+
 ### Quy ước tách logic và UI (bắt buộc)
 
 Mỗi feature có interactive UI phải bắt đầu bằng hai file cùng cấp:

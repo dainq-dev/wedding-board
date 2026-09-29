@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { type Remaining, useCountdown } from "./countdown";
 import { gsap } from "@/kit/gsap";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
+import { type Remaining, useCountdown } from "./countdown";
 
 const UNITS = [
   { key: "days", label: "Ngày" },

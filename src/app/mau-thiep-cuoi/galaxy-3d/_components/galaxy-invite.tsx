@@ -159,7 +159,9 @@ export function GalaxyInvite() {
   return (
     <main
       ref={root}
-      className="relative bg-[#07061A] font-(family-name:--font-sans) font-light text-[#EEEAFF]"
+      // isolate: tạo stacking context để canvas `fixed -z-10` nằm TRÊN nền của main
+      // (thiếu nó, nền đặc che mất toàn bộ cảnh 3D).
+      className="relative isolate bg-[#07061A] font-(family-name:--font-sans) font-light text-[#EEEAFF]"
     >
       {three ? (
         <GalaxyCanvas
@@ -167,7 +169,8 @@ export function GalaxyInvite() {
           openedAt={openedAt}
           tilt={tilt}
           images={images}
-          onPick={(i) => setBox({ kind: "img", i })}
+          // Chưa mở thiệp: click "Mở thiệp" không được xuyên xuống raycast ảnh.
+          onPick={(i) => opened && setBox({ kind: "img", i })}
           opened={opened}
         />
       ) : (
@@ -212,7 +215,9 @@ export function GalaxyInvite() {
 
       {/* C2 · Tên */}
       <section id="names" className="h-[108svh]">
-        <div className="sticky top-0 flex h-svh flex-col items-center justify-center px-4 text-center">
+        <div
+          className={`sticky top-0 flex h-svh flex-col items-center justify-center px-4 text-center transition-opacity duration-700 ${opened ? "" : "opacity-0"}`}
+        >
           <p className="text-sm text-[#A9A4C9]">Hai tâm hồn, một định mệnh</p>
           <h2 className="gx-names mt-4 max-w-full break-words font-(family-name:--font-serif) text-5xl leading-tight italic sm:text-[88px]">
             <span className="block text-[#F4D58D]">{groom.name}</span>
@@ -298,7 +303,7 @@ export function GalaxyInvite() {
           </h2>
           {fallback ? (
             <div className="mt-8 grid w-full max-w-xl grid-cols-2 gap-3">
-              {images.slice(3, 7).map((src, j) => (
+              {images.slice(3).map((src, j) => (
                 <button
                   key={src}
                   type="button"
@@ -315,7 +320,8 @@ export function GalaxyInvite() {
             </div>
           ) : (
             <p className="mt-3 text-sm text-[#A9A4C9]">
-              Chạm vào ảnh giữa các vì sao
+              {Math.max(0, images.length - 3)} khoảnh khắc giữa các vì sao ·
+              chạm để xem
             </p>
           )}
           <button
@@ -456,7 +462,7 @@ export function GalaxyInvite() {
           )}
           {box.kind === "grid" && (
             <div className="grid w-full max-w-3xl grid-cols-2 gap-3 sm:grid-cols-3">
-              {images.slice(0, 8).map((src, i) => (
+              {images.map((src, i) => (
                 <button
                   key={src}
                   type="button"

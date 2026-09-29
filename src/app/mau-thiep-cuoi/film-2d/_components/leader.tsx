@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type RefObject } from "react";
+import { type RefObject, useRef } from "react";
 import { gsap, useGSAP } from "@/kit/gsap";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
 
@@ -62,8 +62,14 @@ export function Leader({
           aria-hidden
           className="absolute inset-[12%] rounded-full border border-white/15"
         />
-        <span aria-hidden className="absolute inset-y-0 left-1/2 w-px bg-white/10" />
-        <span aria-hidden className="absolute inset-x-0 top-1/2 h-px bg-white/10" />
+        <span
+          aria-hidden
+          className="absolute inset-y-0 left-1/2 w-px bg-white/10"
+        />
+        <span
+          aria-hidden
+          className="absolute inset-x-0 top-1/2 h-px bg-white/10"
+        />
         <div
           aria-hidden
           ref={needle}

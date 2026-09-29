@@ -22,5 +22,7 @@ export const metadata: Metadata = {
 export default function FilmLayout({
   children,
 }: LayoutProps<"/mau-thiep-cuoi/film-2d">) {
-  return <div className={`${display.variable} ${mono.variable}`}>{children}</div>;
+  return (
+    <div className={`${display.variable} ${mono.variable}`}>{children}</div>
+  );
 }

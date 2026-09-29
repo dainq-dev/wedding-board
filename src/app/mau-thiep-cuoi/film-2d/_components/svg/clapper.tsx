@@ -1,5 +1,9 @@
 // Clapperboard nhỏ đầu nhãn "CẢNH …" — hình học đơn giản, stroke theo currentColor.
-export function Clapper({ className = "size-4 shrink-0" }: { className?: string }) {
+export function Clapper({
+  className = "size-4 shrink-0",
+}: {
+  className?: string;
+}) {
   return (
     <svg
       viewBox="0 0 24 24"

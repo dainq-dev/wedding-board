@@ -144,6 +144,7 @@ type TemplateMeta = {
 - [ ] "Dùng thử": form validate đủ, bắt buộc đủ ảnh/video, bản đồ nhúng đúng toạ độ.
 - [ ] Dữ liệu dùng thử hiển thị đúng sau submit và reload; tự mất sau 6 giờ.
 - [ ] `bun run build` và `bun run lint` pass.
+- [ ] **Mọi trang đạt [visual-quality.md](./visual-quality.md)**: đẹp, hiện đại, xứng tầm một đám cưới — được chủ dự án duyệt bằng mắt trên điện thoại thật. Pass build/test mà trông thô là **chưa xong**.
 
 ## 9. Câu hỏi mở (cần chốt)
 

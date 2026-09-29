@@ -4,10 +4,10 @@
 > 1. **Nhận việc trước khi code**: điền tên vào cột *Người làm*, đổi *Trạng thái* thành `🟡 Đang làm`, commit + push file này ngay.
 > 2. Mỗi mẫu 1 branch `tpl/<slug>`. Chỉ sửa trong `src/app/mau-thiep-cuoi/<slug>/`, `public/templates/<slug>/` và 1 dòng trong `src/templates/registry.ts`.
 > 3. Cần sửa `@/kit`, `@/wedding`, `globals.css` → làm PR riêng, ghi vào mục *Thay đổi dùng chung* bên dưới.
-> 4. Xong: tick `[x]`, đổi thành `✅ Xong`, ghi link PR. Tiêu chí “xong” = checklist §12 trong [template-spec.md](./template-spec.md) + tiêu chí nghiệm thu trong spec của mẫu.
+> 4. Xong: tick `[x]`, đổi thành `✅ Xong`, ghi link PR. Tiêu chí “xong” = checklist §12 trong [template-spec.md](./template-spec.md) + tiêu chí nghiệm thu trong spec của mẫu + **đạt [visual-quality.md](./visual-quality.md) và được chủ dự án duyệt bằng mắt**. Người làm chỉ tự đặt tối đa `🔵 Chờ review` (kèm bộ screenshot); **chỉ chủ dự án** chuyển sang `✅ Xong`.
 > 5. Chỉ bắt đầu P2 trở đi khi P0 + P1 đã ✅.
 
-Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `✅ Xong` · `⛔ Bị chặn`
+Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `✅ Xong` · `⛔ Bị chặn` · `🔁 Làm lại` (không đạt chuẩn thẩm mỹ)
 
 **Tiến độ: 0/40 mẫu** (cập nhật tay)
 
@@ -22,7 +22,7 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 
 | ✓ | # | Mẫu | Spec | Trạng thái | Người làm | Branch / PR | Ghi chú |
 |---|---|---|---|---|---|---|---|
-| [ ] | 3D-01 | **Hai Vì Sao** `galaxy-3d` | [spec](./templates/galaxy-3d.md) | 🔵 Chờ review | Claude agent | | |
+| [ ] | 3D-01 | **Hai Vì Sao** `galaxy-3d` | [spec](./templates/galaxy-3d.md) | 🔁 Làm lại | Claude agent | | Không đạt [visual-quality](./visual-quality.md) (29/09): hình khối thô, vật liệu mặc định, ánh sáng phẳng, ảnh là plane trần |
 | [ ] | 2D-01 | **Sakura (làm lại)** `sakura-2d` | [spec](./templates/sakura-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | commit theo mẫu, không tách branch (working tree đang shared với phiên 3D) |
 | [ ] | 2D-02 | **Phong Thư Sáp** `letter-2d` | [spec](./templates/letter-2d.md) | 🟡 Đang làm | Qwen · 2D-batch-1 | feat/3d-templates | |
 
@@ -47,7 +47,7 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | [ ] | 3D-02 | **Thư Trong Chai** `ocean-3d` | [spec](./templates/ocean-3d.md) | ⬜ Chưa làm | | | |
 | [ ] | 3D-03 | **Phố Hội Đèn Lồng** `lantern-3d` | [spec](./templates/lantern-3d.md) | ⬜ Chưa làm | | | |
 | [ ] | 3D-04 | **Ngàn Hạc Giấy** `paper-crane-3d` | [spec](./templates/paper-crane-3d.md) | ⬜ Chưa làm | | | |
-| [ ] | 3D-05 | **Rừng Đom Đóm** `firefly-3d` | [spec](./templates/firefly-3d.md) | 🔵 Chờ review | Claude agent | | |
+| [ ] | 3D-05 | **Rừng Đom Đóm** `firefly-3d` | [spec](./templates/firefly-3d.md) | 🔁 Làm lại | Claude agent | | Không đạt [visual-quality](./visual-quality.md) (29/09): hình khối thô, vật liệu mặc định, ánh sáng phẳng, ảnh là plane trần |
 
 ## P4 — 2D đợt B
 
@@ -69,10 +69,10 @@ Trạng thái: `⬜ Chưa làm` · `🟡 Đang làm` · `🔵 Chờ review` · `
 | ✓ | # | Mẫu | Spec | Trạng thái | Người làm | Branch / PR | Ghi chú |
 |---|---|---|---|---|---|---|---|
 | [ ] | 3D-06 | **Chuyến Tàu Thống Nhất** `train-3d` | [spec](./templates/train-3d.md) | ⬜ Chưa làm | | | |
-| [ ] | 3D-07 | **Bốn Mùa Yêu** `seasons-3d` | [spec](./templates/seasons-3d.md) | 🔵 Chờ review | Claude agent | | |
+| [ ] | 3D-07 | **Bốn Mùa Yêu** `seasons-3d` | [spec](./templates/seasons-3d.md) | 🔁 Làm lại | Claude agent | | Không đạt [visual-quality](./visual-quality.md) (29/09): hình khối thô, vật liệu mặc định, ánh sáng phẳng, ảnh là plane trần |
 | [ ] | 3D-08 | **Bảo Tàng Kỷ Niệm** `museum-3d` | [spec](./templates/museum-3d.md) | ⬜ Chưa làm | | | |
-| [ ] | 3D-09 | **Khinh Khí Cầu** `balloon-3d` | [spec](./templates/balloon-3d.md) | 🔵 Chờ review | Claude agent | | |
-| [ ] | 3D-10 | **Đầm Sen** `lotus-3d` | [spec](./templates/lotus-3d.md) | 🔵 Chờ review | Claude agent | | |
+| [ ] | 3D-09 | **Khinh Khí Cầu** `balloon-3d` | [spec](./templates/balloon-3d.md) | 🔁 Làm lại | Claude agent | | Không đạt [visual-quality](./visual-quality.md) (29/09): hình khối thô, vật liệu mặc định, ánh sáng phẳng, ảnh là plane trần |
+| [ ] | 3D-10 | **Đầm Sen** `lotus-3d` | [spec](./templates/lotus-3d.md) | 🔁 Làm lại | Claude agent | | Không đạt [visual-quality](./visual-quality.md) (29/09): hình khối thô, vật liệu mặc định, ánh sáng phẳng, ảnh là plane trần |
 
 ## P6 — 2D đợt C
 

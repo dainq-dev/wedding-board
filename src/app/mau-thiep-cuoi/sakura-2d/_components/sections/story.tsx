@@ -3,8 +3,8 @@ import { gsap, useGSAP } from "@/kit/gsap";
 import { clipReveal, fadeUp } from "@/kit/presets";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
 import { onceEnter } from "../reveal";
-import { t } from "../tokens";
 import { Flower } from "../svg/decor";
+import { t } from "../tokens";
 
 // Lời + năm viết sẵn trong mẫu (spec §5 C4) — không lấy từ data.
 const MILESTONES = [
@@ -29,11 +29,7 @@ const MILESTONES = [
 ] as const;
 
 // C4 · Chuyện tình: timeline dọc bám cành cây, hoa là điểm mốc, zig-zag ảnh/trái phải.
-export function StorySection({
-  images,
-}: {
-  images: (string | undefined)[];
-}) {
+export function StorySection({ images }: { images: (string | undefined)[] }) {
   const section = useRef<HTMLElement>(null);
   const flowers = useRef<(HTMLSpanElement | null)[]>([]);
   const reduced = useReducedMotion();
@@ -89,13 +85,12 @@ export function StorySection({
                   className={`-ml-10 flex shrink-0 items-center gap-2 lg:-ml-14 ${flipped ? "lg:order-2" : ""}`}
                 >
                   <Flower size={26} />
-                  <span
-                    aria-hidden="true"
-                    className="h-px w-6 bg-[#F4B6C2]"
-                  />
+                  <span aria-hidden="true" className="h-px w-6 bg-[#F4B6C2]" />
                 </span>
 
-                <div className={`w-full lg:w-[55%] ${flipped ? "lg:order-1" : ""}`}>
+                <div
+                  className={`w-full lg:w-[55%] ${flipped ? "lg:order-1" : ""}`}
+                >
                   {img ? (
                     // biome-ignore lint/performance/noImgElement: ảnh có thể là blob: URL từ "Dùng thử"
                     <img

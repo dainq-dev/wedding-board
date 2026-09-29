@@ -20,7 +20,6 @@ export function Flower({
     >
       <g fill="#F4B6C2">
         {[0, 72, 144, 216, 288].map((a) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: 5 cánh cố định
           <path
             key={a}
             d="M20 20 C13 12 15 3 20 1 C25 3 27 12 20 20Z"
@@ -109,20 +108,11 @@ export function HeartRing({ className = "" }: { className?: string }) {
 }
 
 // Bông hoa vẽ trong cùng hệ toạ độ SVG (đặt bằng translate/scale để GSAP scale-in từng bông).
-function BlossomGlyph({
-  x,
-  y,
-  s = 1,
-}: {
-  x: number;
-  y: number;
-  s?: number;
-}) {
+function BlossomGlyph({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
   return (
     <g className="gate-blossom" transform={`translate(${x} ${y}) scale(${s})`}>
       <g fill="#F4B6C2">
         {[0, 72, 144, 216, 288].map((a) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: 5 cánh cố định
           <path
             key={a}
             d="M0 0 C-6 -7 -5 -15 0 -17 C5 -15 6 -7 0 0Z"

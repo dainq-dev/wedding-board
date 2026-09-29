@@ -8,3 +8,16 @@ body {
   background: #fff;
   color: #171717;
 }
+
+/* Keyframe dùng chung của @/kit (tiền tố kit-): sóng nhạc MusicToggle. */
+@theme {
+  --animate-kit-music-eq: kit-music-eq 0.9s ease-in-out infinite alternate;
+  @keyframes kit-music-eq {
+    0% {
+      transform: scaleY(0.25);
+    }
+    100% {
+      transform: scaleY(1);
+    }
+  }
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type RefObject } from "react";
+import { type RefObject, useRef } from "react";
 import { gsap, useGSAP } from "@/kit/gsap";
 import { useReducedMotion } from "@/kit/use-reduced-motion";
 

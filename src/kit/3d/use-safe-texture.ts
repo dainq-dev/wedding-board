@@ -14,13 +14,13 @@ export function useSafeTexture(url: string | undefined, max = 1024) {
     img.crossOrigin = "anonymous";
     img.onload = () => {
       if (!alive) return;
-      const s = Math.min(
-        1,
-        max / Math.max(img.naturalWidth, img.naturalHeight),
-      );
+      // SVG không khai báo width/height → natural = 0; mặc định khổ 3:4 thay vì canvas 1×1.
+      const w = img.naturalWidth || 600;
+      const h = img.naturalHeight || 800;
+      const s = Math.min(1, max / Math.max(w, h));
       const c = document.createElement("canvas");
-      c.width = Math.round(img.naturalWidth * s) || 1;
-      c.height = Math.round(img.naturalHeight * s) || 1;
+      c.width = Math.round(w * s);
+      c.height = Math.round(h * s);
       c.getContext("2d")?.drawImage(img, 0, 0, c.width, c.height);
       made = new CanvasTexture(c);
       made.colorSpace = SRGBColorSpace;
