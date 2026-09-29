@@ -60,7 +60,7 @@ export function GalaxyInvite() {
   const { groom, bride, venue, images, videos } = data;
   const date = weddingDate(data);
   const left = useCountdown(date);
-  const music = useMusic(0.5);
+  const music = useMusic();
   const three = useThree();
 
   const [opened, setOpened] = useState(false);

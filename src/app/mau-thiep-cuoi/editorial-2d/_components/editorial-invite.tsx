@@ -83,7 +83,7 @@ export function EditorialInvite() {
   const { groom, bride, images, venue } = data;
   const date = weddingDate(data);
   const left = useCountdown(date);
-  const music = useMusic(0.5);
+  const music = useMusic();
   const reduced = useReducedMotion();
   const [opened, setOpened] = useState(false);
   const [zoom, setZoom] = useState<string | null>(null);

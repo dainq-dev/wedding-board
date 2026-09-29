@@ -78,6 +78,104 @@ const ROW_CLASS: Record<Row["kind"], string[]> = {
 const pad = (n: number) => String(n).padStart(2, "0");
 
 export function BalloonInvite() {
+  const { data } = useWedding();
+  const { groom, bride, venue, images } = data;
+  const music = useMusic();
+  const reduced = useReducedMotion();
+  const [opened, setOpened] = useState(false);
+  const [intro, setIntro] = useState<gsap.core.Timeline | null>(null);
+  const [skip, setSkip] = useState(false);
+  const [shown, setShown] = useState<number | "all" | null>(null);
+  const [fallback, setFallback] = useState(false);
+  const onFallback = useCallback(() => setFallback(true), []);
+  useScrollLock(!opened);
+
+  const main = useRef<HTMLElement>(null);
+  const gate = useRef<HTMLDivElement>(null);
+  const flash = useRef<HTMLDivElement>(null);
+  const altText = useRef<HTMLSpanElement>(null);
+  const altDot = useRef<HTMLSpanElement>(null);
+  const progress = useScrollProgress(main);
+  const fx = useRef<Fx>({ burst: -1e9, intro: 0, opened: false });
+
+  const date = weddingDate(data);
+  const left = useCountdown(date);
+  const d = useMemo(
+    () =>
+      new Intl.DateTimeFormat("vi-VN", {
+        timeZone: "Asia/Ho_Chi_Minh",
+        day: "numeric",
+        month: "numeric",
+        year: "numeric",
+      }).formatToParts(date),
+    [date],
+  );
+  const part = (k: string) => d.find((x) => x.type === k)?.value;
+
+  // Đồng hồ độ cao + nền phần tử gốc theo độ cao + giảm nhạc khi vào trời sao.
+  useGSAP(() => {
+    const cols = skyColors(0);
+    let night = false;
+    ScrollTrigger.create({
+      trigger: main.current,
+      start: "top top",
+      end: "bottom bottom",
+      onUpdate: (s) => {
+        const p = s.progress;
+        if (altText.current) altText.current.textContent = altitudeLabel(p);
+        if (altDot.current)
+          altDot.current.style.transform = `translateY(${(1 - p) * 112}px)`;
+        skyColors(p, cols);
+        if (main.current)
+          main.current.style.background = `linear-gradient(#${cols.top.getHexString()}, #${cols.horizon.getHexString()})`;
+        if (p >= 0.85 !== night) {
+          night = p >= 0.85;
+          if (music.audio.current && !music.audio.current.paused)
+            music.fadeTo(night ? 0.35 : 0.6, 2000);
+        }
+      },
+    });
+  });
+
+  const burner = () => {
+    const a = new Audio(`${ASSETS}/burner.mp3`);
+    a.volume = 0.4;
+    a.play().catch(() => {});
+    fx.current.burst = performance.now();
+  };
+
+  const finish = () => {
+    fx.current.intro = 8;
+    fx.current.opened = true;
+    setOpened(true);
+    setIntro(null);
+  };
+
+  const takeOff = () => {
+    music.play();
+    burner();
+    fx.current.opened = true;
+    if (reduced) return finish();
+    const tl = gsap.timeline({ onComplete: finish });
+    tl.to(flash.current, { opacity: 0.6, duration: 0.15 })
+      .to(flash.current, { opacity: 0, duration: 0.15 })
+      .to(fx.current, { intro: 8, duration: 1.6, ease: "sine.inOut" }, 0.6)
+      .to(gate.current, { y: 20, opacity: 0, duration: 0.6 }, 1.0);
+    setIntro(tl);
+    setTimeout(() => setSkip(true), 500);
+  };
+
+  useEffect(() => {
+    if (shown === null) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setShown(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [shown]);
+
+  const couple = `${groom.name} & ${bride.name}`;
+  const hasDate = !!data.date;
+  const past = left?.done;
+
   return (
     <PhotoSlotsProvider>
       <Invite />

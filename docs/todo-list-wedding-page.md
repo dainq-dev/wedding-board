@@ -88,7 +88,7 @@ Mỗi thiệp là một chuỗi card. Card có mã **C** để phần kịch b�
 | **T8** | 3D: camera di chuyển tới cảnh kế tiếp (chỉ dùng cho mẫu 3D) |
 
 ### 2.4 Nhạc
-- File `public/templates/<slug>/music.mp3`, MP3 **96–128 kbps**, **≤ 3MB**, dài 2–3 phút, tìm trên Pixabay theo từ khoá ghi trong từng mẫu.
+- Mọi mẫu dùng chung `public/music-wedding.mp3` qua `useMusic()` **không truyền `src`**. Chỉ thay bằng nhạc riêng khi chủ dự án yêu cầu sau.
 - Nút bật/tắt đặt ở **góc trên phải** (góc trên trái là nút Quay lại, góc dưới phải là Dùng thử).
 - Khi mở thiệp: âm lượng tăng 0 → 0.6 trong 1.5 giây. Khi tab bị ẩn: tạm dừng. Khi `prefers-reduced-motion`: vẫn phát nhạc, chỉ tắt chuyển động.
 

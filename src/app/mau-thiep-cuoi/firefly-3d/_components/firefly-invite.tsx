@@ -150,7 +150,7 @@ function ForestFallback() {
 export function FireflyInvite() {
   const { data } = useWedding();
   const { groom, bride, venue, images, videos } = data;
-  const music = useMusic(0.5);
+  const music = useMusic();
   const reduced = useReducedMotion();
   const [opened, setOpened] = useState(false);
   const [unlocked, setUnlocked] = useState(false);

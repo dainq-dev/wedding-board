@@ -186,7 +186,7 @@ Thiệp chủ yếu được mở trên điện thoại.
 - **PHẢI** material có `map` tải bất đồng bộ được tạo lại khi texture về (`key={tex?.uuid}`), nếu không shader không bật map → khối trắng/đen.
 - **NÊN** texture ≤ 2048px, định dạng nén (`.webp` / `.ktx2`); model `.glb` ≤ 2MB, nén Draco/Meshopt bằng `gltf-transform`.
 
-## 8. Âm thanh — **BẮT BUỘC CÓ NHẠC** (theo [todo-list §2.4](./todo-list-wedding-page.md))
+## 8. Âm thanh — **BẮT BUỘC DÙNG NHẠC MẶC ĐỊNH**
 
 - **Mọi trang dùng chung một bài: `public/music-wedding.mp3`** (quyết định của chủ dự án). **KHÔNG** thêm file nhạc / hiệu ứng âm thanh riêng cho từng mẫu.
 - **PHẢI** dùng `useMusic()` + `<MusicToggle>` từ `@/kit/music` (hook đã cố định bài nhạc chung) — không tự chế `<audio>` riêng.
